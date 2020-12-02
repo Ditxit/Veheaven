@@ -1,0 +1,15 @@
+DROP DATABASE IF EXISTS veheaven;
+
+CREATE DATABASE veheaven;
+
+CREATE TABLE admin (
+    id INT(11) NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    fullname VARCHAR(100) NOT NULL,
+    lastseen DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+	
+
+
+
