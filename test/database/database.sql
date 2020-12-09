@@ -217,3 +217,17 @@ CREATE TABLE `vehicle` (
     --user_vehicle
 */
 
+
+/* user_type */
+INSERT INTO user_type (type) VALUES ('admin');
+INSERT INTO user_type (type) VALUES ('buyer');
+INSERT INTO user_type (type) VALUES ('seller');
+
+/* user */
+INSERT INTO 
+    user (first_name,last_name,email,password,phone,created_date,last_login,user_type_id) 
+    VALUES ('Manish','Gautam','gau.manish77@gmail.com','password','9063689659','2020-07-23 13:10:11','2020-07-23 13:10:11',1);
+
+
+
+
