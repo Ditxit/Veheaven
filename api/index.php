@@ -3,32 +3,56 @@
 
     include 'doodle/doodle.php';
 
-    // https://localhost/Veheaven/api/user/sudin
-    Api::get('/user'.Api::STRING,function($username){
+    /* Token Debug*/
+    Api::get('/token/verify'.API::STRING,function($token){
+        Api::send(Token::verify($token));
+    });
 
-        $sql = "SELECT * FROM test WHERE username = ?";
-        $data = Database::query($sql,$username);
+    /*General Token*/
+    Api::get('/visitor/token/create',function(){
+        Api::send(Token::create([
+            'user_type' => 'visitor'
+        ]));
+    });
+    
+    /*Admin Login*/
+    Api::post('/admin/login',function(){
+
+        $admin_type_id = Database::query("SELECT id FROM user_type WHERE type='admin';");
+
+        if(empty($admin_type_id)){
+            Api::send([
+                'success' => FALSE,
+                'message' => 'Admin user-type is not found.'
+            ]);
+        }
+
+        $sql = "SELECT id, first_name, last_name, email FROM user WHERE user_type_id=? AND email=? AND password=?;";
+        $data = Database::query($sql,$admin_type_id[0]['id'],$_POST['email'],$_POST['password']);
+
+        if(!empty($data)){
+            $data = $data[0]; 
+            $data['user_type'] = 'admin'; 
+
+            $data['token'] = Token::create($data);
+        }
 
         Api::send($data);
     });
 
-    Api::get('/user/create'.Api::STRING.Api::STRING,function($username,$password){
-
-        $sql = "INSERT INTO test (username,password) VALUES(?,?)";
-        $response = Database::query($sql,$username,$password);
-
-        Api::send($response);
+    Api::get(Api::DEFAULT,function(){
+        Api::send([
+            'success' => FALSE,
+            'message' => 'This API end-point does not exist.'
+        ]);
     });
 
-    Api::get('/user/delete'.Api::STRING, function($username){
-
-        $sql = "DELETE FROM test WHERE username = ?";
-        $response = Database::query($sql,$username);
-
-        Api::send($response);
-
+    Api::post(Api::DEFAULT,function(){
+        Api::send([
+            'success' => FALSE,
+            'message' => 'This API end-point does not exist.'
+        ]);
     });
-
 
 ?>
 
