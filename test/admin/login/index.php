@@ -1,6 +1,5 @@
 <?php
     include '../include/redirection.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -13,10 +12,30 @@
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/script.js"></script>
 </head>
-<body class="is-blue-10">
+<body class="is-white-95">
+
+    <!-- Navbar -- start -->
+    <div class="outer-container is-white-100 shadow-15">
+        <div class="inner-container">
+            <div class="float-left">
+                <a href="">
+                    <!--<img src="" alt="LOGO" class="padding-15"/>-->
+                    <p class="h3 bold padding-15">Veheaven</p>
+                </a>
+            </div>
+            <div class="float-right">
+                <a href="" class="button padding-15" on-hover="text-deep-purple">Explore</a>
+                <a href="" class="button padding-15" on-hover="text-deep-purple">Be a seller</a>
+                <a href="" class="button padding-15" on-hover="text-deep-purple">Join us</a>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar -- end -->
+
+    <!-- Login Form -- start -->
     <div class="outer-container">
         <div class="inner-container">
-            <div class="card width-40 float-center margin-top-100 padding-20 is-white radius-10 shadow-10">
+            <div class="card width-40 float-center margin-top-100 padding-20 is-white radius-5 shadow-15" on-hover="shadow-50">
 
                 <p class="h4 margin-y-40">Admin Login</p>
 
@@ -39,7 +58,12 @@
                     <!-- Forgot Password Row -->
                     <div class="row">
                         <div class="col">
-                            <a href="../recovery"></a>
+                            <div class="margin-bottom-10">
+                                <span>
+                                    Forgot password? 
+                                    <a href="../recovery">recover</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
 

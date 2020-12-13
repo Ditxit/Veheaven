@@ -14,6 +14,20 @@
             'user_type' => 'visitor'
         ]));
     });
+
+    Api::get('/test'.Api::STRING, function($str){
+        Api::send($str);
+    });
+
+    /*User Email Verify*/
+    Api::get('/exist/user/email'.Api::STRING, function($email){
+        $data = Database::query("SELECT id FROM user WHERE email = ?;",$email);
+        if($data){
+            Api::send(TRUE);
+        }else{
+            Api::send(FALSE);
+        }
+    });
     
     /*Admin Login*/
     Api::post('/admin/login',function(){
