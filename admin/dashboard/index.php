@@ -1,5 +1,5 @@
 <?php
-    include '../include/verification.php';
+    include '../../include/verification.php';
 
     echo "Admin Dashboard";
 
@@ -13,6 +13,6 @@
     <title>Admin | Dashboard</title>
 </head>
 <body>
-    <a href="../controller/logout.php">Logout</a>
+    <a href="../../controller/logout.php">Logout</a>
 </body>
 </html>

@@ -8,15 +8,27 @@
         Api::send(Token::verify($token));
     });
 
+     /* General Login API */
+     Api::post('/login',function(){
+
+        $sql = "SELECT user.id, user.first_name, user.last_name, user.email, user_type.type AS user_type FROM user INNER JOIN user_type ON user.user_type_id = user_type.id WHERE user.email=? AND user.password=?;";
+
+        $data = Database::query($sql, $_POST['email'], $_POST['password']);
+
+        if($data){
+            $data = $data[0];
+            $data['token'] = Token::create($data);
+        }
+
+        Api::send($data);
+
+    });
+
     /*General Token*/
     Api::get('/visitor/token/create',function(){
         Api::send(Token::create([
             'user_type' => 'visitor'
         ]));
-    });
-
-    Api::get('/test'.Api::STRING, function($str){
-        Api::send($str);
     });
 
     /*User Email Verify*/
@@ -27,31 +39,6 @@
         }else{
             Api::send(FALSE);
         }
-    });
-    
-    /*Admin Login*/
-    Api::post('/admin/login',function(){
-
-        $admin_type_id = Database::query("SELECT id FROM user_type WHERE type='admin';");
-
-        if(empty($admin_type_id)){
-            Api::send([
-                'success' => FALSE,
-                'message' => 'Admin user-type is not found.'
-            ]);
-        }
-
-        $sql = "SELECT id, first_name, last_name, email FROM user WHERE user_type_id=? AND email=? AND password=?;";
-        $data = Database::query($sql,$admin_type_id[0]['id'],$_POST['email'],$_POST['password']);
-
-        if(!empty($data)){
-            $data = $data[0]; 
-            $data['user_type'] = 'admin'; 
-
-            $data['token'] = Token::create($data);
-        }
-
-        Api::send($data);
     });
 
     Api::get(Api::DEFAULT,function(){
