@@ -1,6 +1,9 @@
 <?php
 
-    $cURLConnection = curl_init('http://localhost/Veheaven/api/login');
+    // Including global constants
+    include '../include/config.php';
+
+    $cURLConnection = curl_init(API_ENDPOINT.'/login');
     curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $_POST);
     curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
     

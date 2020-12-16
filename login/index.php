@@ -12,7 +12,7 @@
 
 <head> <?php include '../include/header.ui.php';?> </head>
 
-<body class="is-white-95">  
+<body class="is-white-95" style="overflow-y: scroll;">  
 
     <!-- Navigation Bar -- start -->
     <?php 
@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-50 is-blue-5" phone="col-100">
                         <div class=" margin-y-100 margin-x-40">
-                            <img src="../assets/account-login.svg" alt="Login Illustration Image">
+                            <img src="../assets/backgrounds/account-login.svg" alt="Login Illustration Image">
                         </div>
                     </div>
                     <div class="col-50 padding-20" phone="col-100">

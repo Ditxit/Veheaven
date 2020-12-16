@@ -12,18 +12,24 @@
             <?php
 
                 // Including global constants
-                include 'config.php';
+                include_once 'config.php';
 
                 // Checking user exist or not
                 if (isset($_COOKIE['token'])) {
-                    
-                    $token = file_get_contents(API_ENDPOINT.'/token/verify/'.$_COOKIE['token']);
+                    $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
+                    $token = json_decode($token,TRUE);
+                    if(isset($token) && $token['success']){
 
-                    //if($token)
+                        $payload = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
+                        $payload = json_decode($payload,TRUE);
 
+                        if(isset($payload) && $payload['success']){   
+                            $USER = [];
+                            $USER['id'] = $payload['payload']['id'];
+                            $USER['name'] = $payload['payload']['first_name'];
+                        }
+                    }
                 }
-
-                //var_dump($accesstoken);
 
                 $CURRENT_PAGE = isset($PAGE_NAME) ? $PAGE_NAME : "";
 
@@ -33,19 +39,21 @@
                     echo '<a href="../explore" class="button padding-15" on-hover="text-deep-purple">Explore</a>';
                 }
 
-                if($PAGE_NAME == "Login"){
-                    echo '<a class="button padding-15 text-deep-purple">Login</a>';
-                }else{
-                    echo '<a href="../login" class="button padding-15" on-hover="text-deep-purple">Login</a>';
+                if(!isset($USER)){
+                    if($PAGE_NAME == "Login"){
+                        echo '<a class="button padding-15 text-deep-purple">Login</a>';
+                    }else{
+                        echo '<a href="../login" class="button padding-15" on-hover="text-deep-purple">Login</a>';
+                    }
                 }
 
-                if($PAGE_NAME == "Profile"){
-                    echo '<a class="button padding-15 text-deep-purple">Logout</a>';
-                }else{
+                if(isset($USER)){
+                    echo '<a href="../profile" class="button padding-15" on-hover="text-deep-purple">'.$USER['name'].'</a>';
                     echo '<a href="../controller/logout.php" class="button padding-15" on-hover="text-deep-purple">Logout</a>';
                 }
 
                 unset($CURRENT_PAGE);
+                unset($USER);
                 
             ?>
 

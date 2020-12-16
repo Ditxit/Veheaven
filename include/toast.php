@@ -41,16 +41,12 @@
                 }
             </style>
         
-            <div id='toast-container' style='height: 100vh; width:100vw; position:fixed; top:0;'>
-                <div class='toast'>
+            <div class='toast'>
             ";
 
         echo $_COOKIE['toast_message'];
 
-        echo "
-                </div>
-            </div>
-        ";
+        echo "</div>";
 
         unset($_COOKIE['toast_message']); 
         setcookie('toast_message', null, -1, '/'); 

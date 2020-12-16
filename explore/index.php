@@ -4,9 +4,6 @@
 
     include '../include/header.ui.php'; 
 
-    // Display Cookie Message (if any)
-    include '../include/toast.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -16,20 +13,24 @@
 
 <body class="is-white-100">  
 
+    <!-- Cookie Message -- start -->
+    <?php include '../include/toast.php'; ?>
+    <!-- Cookie Message -- end -->
+
     <!-- Navigation Bar -- start -->
     <?php include '../include/navbar.ui.php';?>
     <!-- Navigation Bar -- end -->
 
     <!-- Search Section -- start -->
-	<div class="outer-container padding-top-50 padding-bottom-100 shadow-100 is-light-blue-10">
-		<div class="inner-container">
-			<div class="row has-gap-100">
-				<div class="col-45">
+	<div class="outer-container padding-y-90 display-block is-deep-purple">
+		<div class="inner-container shadow-100 radius-20" on-hover="-shadow-100 shadow-50">
+			<div class="row">
+				<div class="col-50">
 					
-					<div class="card is-white radius-20 shadow-100 padding-25 margin-top-40" on-hover="-shadow-100 shadow-50">
+					<div class="card is-white padding-40">
 						<form>
-                            <p class="h4 margin-top-20 margin-bottom-5">Enter vehicle details</p>
-                            <p class="small margin-bottom-30">Tinker with options and hit find.</p>
+                            <p class="h4 margin-top-20 margin-bottom-5">Find Your Next Vehicle at Veheaven</p>
+                            <p class="small margin-bottom-30">Tinker with the options and hit find.</p>
 							<div class="row has-gap-15">
 								<div class="col-50">
                                     <label class="small" for="vehicle-condition">Condition</label>
@@ -114,9 +115,9 @@
 					</div>
 
 				</div>
-				<div class="col-55">
+				<div class="col-50 is-blue-5">
 					
-					<img src="../assets/backgrounds/search-illustration.svg" class="padding-100 margin-top-30">
+					<img src="../assets/backgrounds/search-illustration.svg" class="padding-100 margin-y-40">
 
 				</div>
 			</div>
@@ -124,17 +125,60 @@
 	</div>
     <!-- Search Section -- end -->
     
-    <!-- Be A Seller Section -- start -->
-    <div class="outer-container is-white-95">
-        <div class="inner-container padding-y-100">
-            <div class="row">
-                <div class="col-50">
-                    <img src="../assets/backgrounds/vehicle-explore-illustration.svg" class="padding-100 margin-top-30">
+    <!-- Be A Seller Or Login Section -- start -->
+    <div class="outer-container is-white">
+        <div class="inner-container padding-y-20">
+            <div class="card">
+                <div class="row">
+                    <div class="col-50">
+                        <div class="padding-40 margin-x-5 margin-y-60 radius-20 cursor-pointer" on-hover="is-white-95">
+                            <div class="is-blue-5 radius-20 padding-50 padding-y-90 margin-bottom-25 shadow-15" on-hover="shadow-20">
+                                <img src="../assets/backgrounds/vehicle-explore-illustration.svg">
+                            </div>
+                            <p class="h4">Want to Sell Your Vehicle?</p>
+                            <p class="small">Register an account for free and list your vehicle</p>
+                            <a href="" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-40" on-hover="is-deep-purple-60">Be a Seller</a>
+                        </div>
+                    </div>
+                    <div class="col-50">
+                    <div class="padding-40 margin-x-5 margin-y-60 radius-20 cursor-pointer" on-hover="is-white-95">
+                            <div class="is-blue-5 radius-20 padding-50 margin-bottom-25 shadow-15" on-hover="shadow-20">
+                                <img src="../assets/backgrounds/account-login.svg">
+                            </div>
+                            <p class="h4">Already have an account?</p>
+                            <p class="small">Login to your account to see the vehicles you listed</p>
+                            <a href="../login" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-40" on-hover="is-deep-purple-60">Login to Account</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-50"></div>
             </div>
         </div>
     </div>
+    <!-- Be A Seller Or Login Section -- end -->
+
+    <!-- Footer -- start -->
+    <div class="outer-container is-deep-purple">
+        <div class="inner-container padding-y-40">
+            <div class="row">
+                <div class="col">
+                    <p class="h6">OVERVIEW</p>
+                    <p><a href="">About Us</a></p>
+                    <p><a href="">FAQs</a></p>
+                    <p><a href="">Privacy Policies</a></p>
+                    <p><a href="">Terms & Conditions</a></p>
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+    <div class="outer-container is-deep-purple-70">
+        <div class="inner-container padding-y-30">
+            <p class="h6">&copy; Manish Gautam</p>
+        </div>
+    </div>
+    <!-- Footer -- end -->
+
     
 </body>
 </html>

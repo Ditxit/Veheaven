@@ -1,35 +1,36 @@
 <?php
 
+    /*
+    * This code checks if the user-token is still valid or not
+    * If the user-token is missing, empty, invalid or tampered, it redirects user to the 'login' page
+    * If the user is logged in and token is valid... it does not affect the flow i.e. it allows users to continue
+    */
+
     if(isset($_COOKIE['token'])){
 
-        $accesstoken = file_get_contents('http://localhost/Veheaven/api/token/verify/'.$_COOKIE['token']);
+        // Including global constants
+        include_once 'config.php';
 
-        $accesstoken = json_decode($accesstoken,TRUE);
+        $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
 
-        if($accesstoken != FALSE){
+        $token = json_decode($token,TRUE);
 
-            if(isset($accesstoken['user_type'])){
+        if(!isset($token['success'])){
 
-                if($accesstoken['user_type'] != 'admin'){
-                    setcookie('toast_message', "Token user is not admin", time()+60*60, "/");
-                    header('Location: ../login/');
-                    exit;
-                }
-    
-            }else{
-                setcookie('toast_message', "Token does not have user type", time()+60*60, "/");
-                header('Location: ../login/');
-                exit;
-            }
-
-        }else{
-            setcookie('toast_message', "Token is invalid or expired", time()+60*60, "/");
+            setcookie('toast_message', "Fatal error in API", time()+60*60, "/");
             header('Location: ../login/');
             exit;
-        }
+
+        }else if($token['success'] == FALSE){
+
+            setcookie('toast_message', $token['message'], time()+60*60, "/");
+            header('Location: ../login/');
+            exit;
+
+        }else{ /* ignore */ } 
 
     }else{
-        setcookie('toast_message', "Token not found in the cookie", time()+60*60, "/");
+        setcookie('toast_message', "Login required", time()+60*60, "/");
         header('Location: ../login/');
         exit;
     }

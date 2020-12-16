@@ -4,8 +4,59 @@
     include 'doodle/doodle.php';
 
     /* Token Debug*/
-    Api::get('/token/verify'.API::STRING,function($token){
-        Api::send(Token::verify($token));
+    Api::get('/user-token/verify'.API::STRING,function($token){
+
+        if(Token::isEmpty($token)){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was empty"
+            ]);
+        }else if(Token::isInvalid($token)){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was invalid"
+            ]);
+        }else if(Token::isExpired($token)){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was expired"
+            ]);
+        }else if(Token::isTampered($token)){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was tampered"
+            ]);
+        } else { /* ignore */ }
+        
+        $payload = Token::getPayload($token);
+
+        if(!isset($payload['user_type'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was not user token"
+            ]);
+        }else{
+            Api::send([
+                "success" => TRUE
+            ]);
+        }
+        
+    });
+
+    Api::get('/token/payload'.API::STRING,function($token){
+
+        if(Token::isTampered($token)){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was tampered"
+            ]);
+        } else {
+            Api::send([
+                "success" => TRUE,
+                "payload" => Token::getPayload($token)
+            ]);
+        }
+        
     });
 
      /* General Login API */
