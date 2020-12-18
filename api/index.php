@@ -62,7 +62,17 @@
      /* General Login API */
      Api::post('/login',function(){
 
-        $sql = "SELECT user.id, user.first_name, user.last_name, user.email, user_type.type AS user_type FROM user INNER JOIN user_type ON user.user_type_id = user_type.id WHERE user.email=? AND user.password=?;";
+        $sql = "SELECT 
+                user.id, 
+                user.first_name, 
+                user.last_name, 
+                user.email, 
+                user.phone, 
+                user_type.type AS user_type 
+                FROM user 
+                INNER JOIN user_type 
+                    ON user.user_type_id = user_type.id 
+                WHERE user.email=? AND user.password=?;";
 
         $data = Database::query($sql, $_POST['email'], $_POST['password']);
 
@@ -73,6 +83,30 @@
 
         Api::send($data);
 
+    });
+
+    /* Count User Vehicles */
+    Api::get(Api::INTEGER.'/vehicles',function($user_id){
+        $sql = "SELECT 
+                user_vehicle.vehicle_id, 
+                user_vehicle.added_date,
+                user_vehicle.last_updated,
+                vehicle.name,
+                vehicle.price,
+                vehicle.mileage,
+                vehicle.engine,
+                vehicle.bhp,
+                vehicle.turn_radius,
+                vehicle.seat,
+                vehicle.top_speed
+                FROM user_vehicle
+                INNER JOIN vehicle
+                    ON user_vehicle.vehicle_id = vehicle.id
+                WHERE user_vehicle.user_id=?;
+                ";
+        
+        $data = Database::query($sql,$user_id);
+        Api::send($data);
     });
 
     /*General Token*/

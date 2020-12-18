@@ -45,11 +45,12 @@
                     }else{
                         echo '<a href="../login" class="button padding-15" on-hover="text-deep-purple">Login</a>';
                     }
-                }
-
-                if(isset($USER)){
-                    echo '<a href="../profile" class="button padding-15" on-hover="text-deep-purple">'.$USER['name'].'</a>';
-                    echo '<a href="../controller/logout.php" class="button padding-15" on-hover="text-deep-purple">Logout</a>';
+                }else{
+                    if($PAGE_NAME == "Profile"){
+                        echo '<a href="../profile" class="button padding-15 text-deep-purple">'.$USER['name'].'</a>';
+                    }else{
+                        echo '<a href="../profile" class="button padding-15" on-hover="text-deep-purple">'.$USER['name'].'</a>';
+                    }
                 }
 
                 unset($CURRENT_PAGE);
