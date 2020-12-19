@@ -1272,8 +1272,10 @@ img{
 	top: 0;
 	left:0;
 	z-index: 1000;
-	background-color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(153, 129, 129, 0.97);
+	background-color: rgba(103, 58, 183, 0.95);
 	overflow: auto;
+	transition: fade-in;
 }
 .modal .close{ cursor: pointer; }
 /* MODAL CSS -- ENDS */
