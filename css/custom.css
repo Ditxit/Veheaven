@@ -1,0 +1,37 @@
+.custom-radio [type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-radio [type=radio] + .custom-radio-option:hover {
+    cursor: pointer;
+    background-color: #eeeeff;
+    transition: 0.15s ease-in-out;
+}
+
+.custom-radio [type=radio]:checked + .custom-radio-option {
+    background-color: #ddddff;
+}
+
+.custom-border{
+    border: 1.5px solid #ddd;
+}
+
+.custom-border-top{
+    border-top: 1.5px solid #ddd;
+}
+
+.custom-border-bottom{
+    border-bottom: 1.5px solid #ddd;
+}
+
+.custom-border-left{
+    border-left: 1.5px solid #ddd;
+}
+
+.custom-border-right{
+    border-right: 1.5px solid #ddd;
+}
+

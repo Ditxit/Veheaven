@@ -3,4 +3,5 @@
 <title><?php if(isset($PAGE_NAME)) echo $PAGE_NAME." - "; ?>Veheaven</title>
 
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/custom.css">
 <script type="text/javascript" src="../js/script.js"></script>
