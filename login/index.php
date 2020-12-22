@@ -48,7 +48,7 @@
                                     Email Address
                                     <span id="emailStatus" class="float-right"></span>
                                 </label>
-                                <input id="email" type="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-35 is-white-95" autofocus required/>
+                                <input id="email" type="email" auto-complete="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-35 is-white-95" autofocus required/>
                             </div>
                         </div>
 
@@ -61,7 +61,7 @@
                                 </label>
                                 <div id="passwordContainer" class="row radius-10 is-white-95" style="border: 1.2px solid #e7e7e7;">
                                     <div class="col-85">
-                                        <input id="password" type="password" placeholder="Password" name="password" class="radius-0 padding-20 margin-bottom-0 is-transparent" style="border: none;" minlength="8" autocomplete="off" required/>
+                                        <input id="password" type="password" auto-complete="current-password" placeholder="Password" name="password" class="radius-0 padding-20 margin-bottom-0 is-transparent" style="border: none;" minlength="8" required/>
                                     </div>
                                     <div id="togglePassword" class="col-15 text-gray padding-20 cursor-pointer" title="Toggle visibility">
                                         <img id="showPassword" src="../assets/icons/show.svg" height="18" alt="show" style="display:block;" />

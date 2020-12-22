@@ -110,8 +110,8 @@
                                         <div class="card float-center width-60 is-white radius-20 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70">
 
                                             <!-- Card Header -- start -->
-                                            <div id="card-header" class="padding-x-10 padding-top-10 padding-bottom-0 shadow-10 sticky top">
-                                                <div class="row">
+                                            <div id="card-header" class="shadow-10 sticky top">
+                                                <div class="row padding-x-10 padding-top-10 padding-bottom-0">
                                                     <div class="col-25">
                                                         <div class="float-left" style="display:none;">
                                                         <a class="button text-deep-purple radius-10 padding" on-hover="is-white-95">Save Draft</a>
@@ -128,15 +128,20 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-100" id="card-error-panel">
+                                                        <!-- content will be added in javascript -->
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!-- Card Header -- end -->
 
                                             <!-- Card Body -- start -->
-                                            <div class="row is-white-95">
+                                            <div class="row">
 
                                                 <!-- Card Body Content Container -- start -->
-                                                <div class="col-100 is-white-100" style="border-left: 1.2px solid #ddd;">
-                                                    <form action="" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
+                                                <div class="col-100">
+                                                    <form action="" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
                                                         
                                                         <!-- Vehicle Type Content -- start -->
                                                         <div id="type-tab" style="display:block;">
@@ -149,13 +154,13 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col-50">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-type" value="bike">
+                                                                                <input type="radio" name="vehicle-type" value="1">
                                                                                 <img class="custom-radio-option padding-x-50 padding-y-10" src="../assets/icons/vehicle/svg/005-motorbike.svg" alt="bike">
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-50 custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-type" value="car">
+                                                                                <input type="radio" name="vehicle-type" value="2">
                                                                                 <img class="custom-radio-option padding-x-50 padding-y-10" src="../assets/icons/vehicle/svg/002-car.svg" alt="car">
                                                                             </label>
                                                                         </div>
@@ -176,13 +181,13 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col-50">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-condition" value="new">
+                                                                                <input type="radio" name="vehicle-condition" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">New</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-50 custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-condition" value="used">
+                                                                                <input type="radio" name="vehicle-condition" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Used</p>
                                                                             </label>
                                                                         </div>
@@ -196,182 +201,475 @@
                                                         <div id="general-tab" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50">
-                                                                    <p class="h5">Enter name of vehicle</p>
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Enter name of vehicle</p>
                                                                     <p class="small">Try to enter the name that make sense</p>
                                                                 </div>
                                                                 <div class="col-50">
-                                                                    <input id="vehicle-name" type="text" placeholder="2020 Jaguar Diesel Prestige" class="padding-15 radius-20">
+                                                                    <input id="vehicle-name" name="vehicle-name" type="text" placeholder="2020 Jaguar Diesel Prestige" class="padding-20 radius-20">
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50">
-                                                                    <p class="h5">Enter selling price of vehicle</p>
-                                                                    <p class="small">The price should be in Nepalese Rupee (NRs.)</p>
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Enter selling price of vehicle</p>
+                                                                    <p class="small">Price should be in Nepalese Rupee (NRs.)</p>
                                                                 </div>
                                                                 <div class="col-50">
-                                                                    <input id="vehicle-price" type="number" placeholder="Nrs." class="padding-15 radius-20">
+                                                                    <input id="vehicle-price" name="vehicle-price" type="number" placeholder="Nrs." class="padding-20 radius-20">
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
+                                                        </div>
+                                                        <!-- General Tab Content -- end -->
+
+                                                        <!-- Manufacturer & Modal Tab Content -- start -->
+                                                        <div id="manufacturer-tab" style="display:none;">
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Manufacturer</p>
+                                                                    <p class="small">Select the manufacturer from the list</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-brand" name="vehicle-brand" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
                                                             <hr class="margin-y-30">
 
-                                                            <div class="row"> <!-- Third Row -- start -->
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Model</p>
+                                                                    <p class="small">Select the modal from the list</p>
+                                                                </div>
                                                                 <div class="col-50">
-                                                                    <p class="h5">Total number of owners</p>
-                                                                    <p class="small margin-bottom-15">Select an option between 1 to 5</p>
+                                                                    <select id="vehicle-model" name="vehicle-model" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+                                                        </div>
+                                                        <!-- Suspension Tab Content -- end -->
+
+                                                        <!-- Owner Detail Tab Content -- start -->
+                                                        <div id="owner-detail-tab" style="display:none;">
+
+                                                            <div class="row"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Total number of owners</p>
+                                                                    <p class="small">Do not forget to count yourself</p>
                                                                 </div>
                                                                 <div class="col-50">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="1">
-                                                                                <p class="custom-radio-option text-center padding-y-15">1</p>
+                                                                                <p class="custom-radio-option text-center padding-y-20">1</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="2">
-                                                                                <p class="custom-radio-option text-center padding-y-15">2</p>
+                                                                                <p class="custom-radio-option text-center padding-y-20">2</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="3">
-                                                                                <p class="custom-radio-option text-center padding-y-15">3</p>
+                                                                                <p class="custom-radio-option text-center padding-y-20">3</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="4">
-                                                                                <p class="custom-radio-option text-center padding-y-15">4</p>
+                                                                                <p class="custom-radio-option text-center padding-y-20">4</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="5">
-                                                                                <p class="custom-radio-option text-center padding-y-15">5</p>
+                                                                                <p class="custom-radio-option text-center padding-y-20">5</p>
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Vehicle Registration Date</p>
+                                                                    <p class="small">Try to enter correct registration date</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-registered-year" name="vehicle-registered-year" type="month" placeholder="YYYY" min="1900" max="2100" class="padding-20 radius-20 cursor-pointer">
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Third Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Vehicle Registred Province</p>
+                                                                    <p class="small">Select an provience from dropdown</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-province" name="vehicle-province" class="padding-20 radius-20 cursor-pointer">
+                                                                        <?php 
+                                                                            $provinces = file_get_contents(API_ENDPOINT.'/province');
+                                                                            $provinces = json_decode($provinces,TRUE);
+
+                                                                            foreach ($provinces as $province){
+                                                                                echo "<option value='".$province['id']."'>".$province['province']."</option>";
+                                                                            }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- Third Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Fourth Row -- start -->
+                                                                <div class="col-100 padding-y-10">
+                                                                    <p class="h6">Your Message</p>
+                                                                    <p class="small">Write a brief description about the vehicle</p>
+                                                                </div>
+                                                                <div class="col-100">
+                                                                    <textarea id="vehicle-owner-message" name="vehicle-owner-message" placeholder="Message..." class="padding-20 radius-20"></textarea>
+                                                                </div>
+                                                            </div> <!-- Fourth Row -- end -->
+
+                                                        </div>
+                                                        <!-- Owner Detail Tab Contnet -- end -->
+
+                                                        <!-- Body Tab Content -- start -->
+                                                        <div id="body-tab" style="display:none;">
+
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Vehicle body</p>
+                                                                    <p class="small">Body type of your vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-body" name="vehicle-body" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Total number of seats</p>
+                                                                    <p class="small">How many seats your vehicle have ?</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-seat" name="vehicle-seat" type="number" placeholder="1,2,3 ..." class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+                                        
+                                                        </div>
+                                                        <!-- Body Tab Content -- end -->
+
+                                                        <!-- Engine Tab Content -- start -->
+                                                        <div id="engine-tab" style="display:none;">
+
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Cubic capacity (CC)</p>
+                                                                    <p class="small">Enter the cubic capatity of engine</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-cc" name="vehicle-cc" type="number" placeholder="CC" class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Brake Horse Power (BHP)</p>
+                                                                    <p class="small">Enter the break horse power of engine</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-bhp" name="vehicle-bhp" type="number" placeholder="BHP" class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                        </div>
+                                                        <!-- Engine Tab Content -- end -->
+
+                                                        <!-- Fuel Tab Content -- start -->
+                                                        <div id="fuel-tab" style="display:none;">
+
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Fuel type</p>
+                                                                    <p class="small">Select the fuel used by vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-fuel" name="vehicle-fuel" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Fuel Capacity (Liter)</p>
+                                                                    <p class="small">Enter the fuel capacity of tank</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-fuel-capacity" name="vehicle-fuel-capacity" type="number" placeholder="liter" class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                        </div>
+                                                        <!-- Fuel Tab Content -- end -->
+
+                                                        <!-- Transmission Content -- start -->
+                                                        <div id="transmission-tab" style="display:none;">
+                                                            <div class="row">
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Vehicle transmission type</p>
+                                                                    <p class="small">Select the transmission type of vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <div class="row radius-20 custom-border">
+                                                                        <div class="col">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-transmission" value="automatic">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Automatic</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-transmission" value="manual">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Manual</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-transmission" value="other">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Other</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Transmission Content -- end -->
+
+                                                        <!-- Tyre Tab Content -- start -->
+                                                        <div id="tyre-tab" style="display:none;">
+
+                                                            <div class="row"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                <p class="h6">Front tyre</p>
+                                                                    <p class="small">Tyre type of the font wheel(s)</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <div class="row radius-20 custom-border">
+                                                                        <div class="col">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="tubed">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Tubed</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="tubeless">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="other">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Other</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Rear tyre</p>
+                                                                    <p class="small">Tyre type of the rear wheel(s)</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <div class="row radius-20 custom-border">
+                                                                        <div class="col">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="tubed">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Tubed</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="tubeless">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="other">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Other</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                        </div>
+                                                        <!-- Tyre Tab Content -- end -->
+
+                                                        <!-- Break Tab Content -- start -->
+                                                        <div id="break-tab" style="display:none;">
+
+                                                            <div class="row"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                <p class="h6">Front break</p>
+                                                                    <p class="small">Break type of the font wheel(s)</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <div class="row radius-20 custom-border">
+                                                                        <div class="col">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-break" value="disk">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Disk</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-break" value="drum">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Drum</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-front-break" value="other">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Other</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                <p class="h6">Rear break</p>
+                                                                    <p class="small">Break type of the rear wheel(s)</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <div class="row radius-20 custom-border">
+                                                                        <div class="col">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-break" value="disk">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Disk</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-break" value="drum">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Drum</p>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col custom-border-left">
+                                                                            <label class="custom-radio">
+                                                                                <input type="radio" name="vehicle-rear-break" value="other">
+                                                                                <p class="custom-radio-option text-center padding-y-20">Other</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                        </div>
+                                                        <!-- Break Tab Content -- end -->
+
+                                                        <!-- Suspension Tab Content -- start -->
+                                                        <div id="suspension-tab" style="display:none;">
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Front suspension</p>
+                                                                    <p class="small">Select the front wheel(s) suspension</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-front-suspension" name="vehicle-front-suspension" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Rear suspension</p>
+                                                                    <p class="small">Select the rear wheel(s) suspension</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <select id="vehicle-rear-suspension" name="vehicle-rear-suspension" class="padding-20 radius-20 cursor-pointer">
+                                                                        <!-- Options will be added in JS -->
+                                                                    </select>
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+                                                        </div>
+                                                        <!-- Suspension Tab Content -- end -->
+
+                                                        <!-- Performance Tab Content -- start -->
+                                                        <div id="performance-tab" style="display:none;">
+
+                                                            <div class="row has-gap-20"> <!-- First Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Mileage (Km/litre)</p>
+                                                                    <p class="small">Enter the mileage of the vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-mileage" name="vehicle-mileage" type="number" placeholder="kilometer" class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Second Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Top Speed (Km/hour)</p>
+                                                                    <p class="small">Enter the top speed of the vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-top-speed" name="vehicle-top-speed" type="number" placeholder="kilometer" class="padding-20 radius-20">
+                                                                </div>
+                                                            </div> <!-- Second Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Third Row -- start -->
+                                                                <div class="col-50 padding-y-10">
+                                                                    <p class="h6">Turn Radius (meter)</p>
+                                                                    <p class="small">Enter the turn radius of the vehicle</p>
+                                                                </div>
+                                                                <div class="col-50">
+                                                                    <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="number" placeholder="meter" class="padding-20 radius-20">
+                                                                </div>
                                                             </div> <!-- Third Row -- end -->
 
                                                         </div>
-                                                        <!-- General Tab Content -- end -->
+                                                        <!-- Performance Tab Content -- end -->
 
-                                                        <!-- Experience Tab Content -- start -->
-                                                        <div id="experience-tab" style="display:none;">
-
-                                                            <div class="row has-gap-15"> <!-- First Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-engine" class="small">Engine (cc)</label>
-                                                                    <input id="vehicle-engine" type="number" placeholder="Engine cc" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-mileage" class="small">Mileage (Km/ltr)</label>
-                                                                    <input id="vehicle-mileage" type="number" placeholder="Kilometer / Litre" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row has-gap-15"> <!-- Second Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-turn-radius" class="small">Turn Radius (meter)</label>
-                                                                    <input id="vehicle-turn-radius" type="number" placeholder="Enter vehicle name" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-top-speed" class="small">Top Speed (Km/hr)</label>
-                                                                    <input id="vehicle-top-speed" type="number" placeholder="Enter vehicle name" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row has-gap-15"> <!-- Third Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-bhp" class="small">Brake Horsepower (BHP)</label>
-                                                                    <input id="vehicle-bhp" type="number" placeholder="BHP" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label class="small" for="vehicle-fuel">Fuel Used</label>
-                                                                    <select name="vehile-fuel" id="vehicle-fuel" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="petrol">Petrol</option>
-                                                                        <option value="diesel">Diesel</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row has-gap-15"> <!-- Fourth Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-seat" class="small">Total Seats</label>
-                                                                    <input id="vehicle-seat" type="number" placeholder="Seat count" class="padding-15 margin-bottom-15 radius-5">
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label class="small" for="vehicle-transmission">Transmission Type</label>
-                                                                    <select name="vehile-transmission" id="vehicle-transmission" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="automatic">Automatic</option>
-                                                                        <option value="manual">Manual</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Experience Tab Content -- end -->
-
-                                                        <!-- Mechanics Tab Content -- start -->
-                                                        <div id="mechanics-tab" style="display:none;">
-                                                            <div class="row has-gap-15"> <!-- First Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-front-tyre" class="small">Front Tyre</label>
-                                                                    <select name="vehile-front-tyre" id="vehicle-front-tyre" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="tubeless">Tubeless</option>
-                                                                        <option value="tubed">Tubed</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-rear-tyre" class="small">Rear Tyre</label>
-                                                                    <select name="vehile-rear-tyre" id="vehicle-rear-tyre" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="tubeless">Tubeless</option>
-                                                                        <option value="tubed">Tubed</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row has-gap-15"> <!-- Second Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-front-break" class="small">Front Break</label>
-                                                                    <select name="vehile-front-break" id="vehicle-front-break" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="disk">Disk</option>
-                                                                        <option value="drum">Drum</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-rear-break" class="small">Rear Break</label>
-                                                                    <select name="vehile-rear-break" id="vehicle-rear-break" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="disk">Disk</option>
-                                                                        <option value="drum">Drum</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="row has-gap-15"> <!-- Third Row -->
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-front-suspension" class="small">Front Suspension</label>
-                                                                    <select name="vehile-front-suspension" id="vehicle-front-suspension" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="swing axle">Swing Axle</option>
-                                                                        <option value="sliding pillar">Sliding Pillar</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-50">
-                                                                    <label for="vehicle-rear-suspension" class="small">Rear Suspension</label>
-                                                                    <select name="vehile-rear-suspension" id="vehicle-rear-suspension" class="padding-15 margin-bottom-15 radius-5 cursor-pointer">
-                                                                        <option value="swing axle">Swing Axle</option>
-                                                                        <option value="sliding pillar">Sliding Pillar</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Mechanics Tab Content -- end -->
 
                                                     </form>
                                                 </div>
@@ -389,7 +687,7 @@
                                                 </div>
                                                 <div class="col-40 padding-10" style="margin-top:6px;">
                                                     <div id="card-progress-bar-container" class="row radius-10 is-white-70">
-                                                        <div id="card-progress-bar" class="is-deep-purple display-block padding-y-5"></div>
+                                                        <div id="card-progress-bar" class="is-deep-purple display-block padding-y-5 radius-10"></div>
                                                     </div>
                                                 </div>
                                                 <div class="col-30">
@@ -413,7 +711,10 @@
     <!-- JavaScript -- start -->
     <script type="text/javascript">
 
+        /* Js for making tabs work */
+
         var cardTitle = document.getElementById('card-title');
+        var cardErrorPanel = document.getElementById('card-error-panel');
         var previousButton = document.getElementById('card-previous-button');
         var nextButton = document.getElementById('card-next-button');
         var progressBar = document.getElementById('card-progress-bar');
@@ -422,16 +723,32 @@
             document.getElementById('type-tab'),
             document.getElementById('condition-tab'),
             document.getElementById('general-tab'),
-            document.getElementById('experience-tab'),
-            document.getElementById('mechanics-tab')
+            document.getElementById('manufacturer-tab'),
+            document.getElementById('owner-detail-tab'),
+            document.getElementById('body-tab'),
+            document.getElementById('engine-tab'),
+            document.getElementById('fuel-tab'),
+            document.getElementById('transmission-tab'),
+            document.getElementById('tyre-tab'),
+            document.getElementById('break-tab'),
+            document.getElementById('suspension-tab'),
+            document.getElementById('performance-tab')
             ];
 
         var tabsName = [
             'Bike or Car',
             'New or Used',
-            'General',
-            'Experience',
-            'Mechanics'
+            'General Details',
+            'Make and Modal',
+            'Owner Details',
+            'Body Details',
+            'Engine Details',
+            'Fuel Details',
+            'Transmission',
+            'Tyre',
+            'Break',
+            'Suspension',
+            'Performance'
         ]
 
         function getCurrentTabIndex(){
@@ -441,14 +758,151 @@
             return 0;
         }
 
+        /* Vaiables holding all the form input fields */
+        var radioVehicleType = document.getElementsByName('vehicle-type');
+        
+        var radioVehicleCondition = document.getElementsByName('vehicle-condition');
+
+        var textVehicleName = document.getElementById('vehicle-name');
+        var numberVehiclePrice = document.getElementById('vehicle-price');
+
+        var selectVehicleBrand = document.getElementById('vehicle-brand');
+        var selectVehicleModel = document.getElementById('vehicle-model');
+
+        var radioVehicleOwners = document.getElementsByName('vehicle-owners');
+        var dateVehicleRegistratedYear = document.getElementById('vehicle-registered-year');
+        var selectVehicleProvince = document.getElementById('vehicle-province');
+        var textareaOwnerMessage = document.getElementById('vehicle-owner-message');
+
+        var selectVehicleBody = document.getElementById('vehicle-body');
+        var numberVehicleSeat = document.getElementById('vehicle-seat');
+
+        var numberVehicleEngine = document.getElementById('vehicle-cc');
+        var numberVehicleBHP = document.getElementById('vehicle-BHP');
+
+        var selectVehicleFuel = document.getElementById('vehicle-fuel');
+        var numberVehicleFuelCapacity = document.getElementById('vehicle-fuel-capacity');
+
+        var radioVehicleTransmission = document.getElementsByName('vehicle-transmission');
+
+        var radioVehicleFrontTyre = document.getElementsByName('vehicle-front-tyre');
+        var radioVehicleRearTyre = document.getElementsByName('vehicle-rear-tyre');
+
+        var radioVehicleFrontBreak = document.getElementsByName('vehicle-front-break');
+        var radioVehicleRearBreak = document.getElementsByName('vehicle-rear-break');
+
+        var selectVehicleFrontSuspension = document.getElementById('vehicle-front-suspension');
+        var selectVehicleRearSuspension = document.getElementById('vehicle-rear-suspension')
+
+        var numberVehicleMileage = document.getElementById('vehicle-mileage');
+        var numberVehicleTopSpeed = document.getElementById('vehicle-top-speed');
+        var numberVehicleTurnRadius = document.getElementById('vehicle-turn-radius');
+
+        function getSelectedRadioValueOf(radioElementObject){
+            for(var i = 0; i < radioElementObject.length; i++){
+                if(radioElementObject[i].checked){
+                    return radioElementObject[i].value;
+                }
+            }
+            return null;
+        }
+
+        function validateVehicleType(){
+
+            if(getSelectedRadioValueOf(radioVehicleType) == null){
+
+                return {success: false, message : "Please select the type of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+        }
+
+        function validateVehicleCondition(){
+
+            if(getSelectedRadioValueOf(radioVehicleCondition) == null){
+
+                return {success: false, message : "Please select the condition of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleName(){
+
+            var name = textVehicleName.value.trim();
+
+            if(name == ""){
+
+                return {success: false, message : "Please enter the name of vehicle"};
+
+            }else if(name.length < 8){
+
+                return {success: false, message : "Vehicle name is too short, minimum 8 characters required"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehiclePrice(){
+
+            var price = numberVehiclePrice.value.trim();
+
+            if(price == ""){
+
+                return {success: false, message : "Please enter the price of vehicle"};
+
+            }else if(isNaN(parseFloat(price)) || !isFinite(price)){
+
+                return {success: false, message : "Please enter valid price"};
+            
+            }else if(parseFloat(price) <= 0){
+
+                return {success: false, message : "Price cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
         function updateButtonsState(){
             var index = getCurrentTabIndex(); 
+            cardTitle.innerText = tabsName[index];
             previousButton.style.display = (index == 0) ? 'none' : 'block';
             nextButton.innerText = (index == tabs.length-1) ? 'Post' : 'Next';
             progressBar.style.minWidth = ''+index/Math.max(1, tabs.length-1)*100+'%';
         }
 
+        function setErrorMessage(text=null){
+            if(text==null){
+                cardErrorPanel.innerText = '';
+            }else{
+                cardErrorPanel.innerHTML = '<div id="error-text" class="is-red-40 padding-10 width-100">'+text+'</div>';
+            }
+        }
+
+        function isNumeric(number) {
+            return !isNaN(parseFloat(number)) && isFinite(number);
+        }
+
         function nextTab(){
+
+            setErrorMessage();
+
+            /*            
             var index = getCurrentTabIndex(); 
             tabs[index].style.display = 'none';
 
@@ -456,6 +910,55 @@
             tabs[index].style.display = 'block';
             cardTitle.innerText = tabsName[index];
             updateButtonsState();
+            */
+
+            
+            var index = getCurrentTabIndex(); // Current Index
+
+            if(index == 0){
+
+                var validation = validateVehicleType();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 1){
+
+                var validation = validateVehicleCondition();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 2){
+
+                var validation = validateVehicleName();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehiclePrice();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }
+
+            if(tabs.length - 1 != index){ // if index is not last index
+
+                tabs[index].style.display = 'none';
+                tabs[index + 1].style.display = 'block';
+
+            }
+            updateButtonsState();
+
         }
 
         function previousTab(){
@@ -473,23 +976,164 @@
         updateButtonsState();
 
 
+        /* Js for fetching and applying appropriate data according to vehicle type (bike/car) */
+        function getSelectedVehicleTypeValue(){
+            for(var i = 0; i < radioVehicleType.length; i++){
+                if(radioVehicleType[i].checked){
+                    return radioVehicleType[i].value;
+                }
+            }
+            return null;
+        }
+
+        async function changeDataAccordingToVehicleType(){
+
+            var id = getSelectedVehicleTypeValue();
+
+            if(id != null){
+
+                // Vehicle body
+                await fetch('<?=API_ENDPOINT.'/body';?>'+'\/'+id)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleBody.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option = document.createElement("option");
+                        option.text = data[i].body;
+                        option.value = data[i].id;
+                        selectVehicleBody.append(option);
+                    }
+                
+                });
+
+                // Vehicle brand
+                await fetch('<?=API_ENDPOINT.'/brand';?>'+'\/'+id)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleBrand.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option = document.createElement("option");
+                        option.text = data[i].brand;
+                        option.value = data[i].id;
+                        selectVehicleBrand.append(option);
+                    }
+                
+                });
+
+                // Vehicle model
+                await fetch('<?=API_ENDPOINT.'/model';?>'+'\/'+id+'\/'+selectVehicleBrand.value)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleModel.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option = document.createElement("option");
+                        option.text = data[i].model;
+                        option.value = data[i].id;
+                        selectVehicleModel.append(option);
+                    }
+                });
+                
+                // Vehicle fuel
+                await fetch('<?=API_ENDPOINT.'/fuel';?>'+'\/'+id)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleFuel.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option = document.createElement("option");
+                        option.text = data[i].fuel;
+                        option.value = data[i].id;
+                        selectVehicleFuel.append(option);
+                    }
+                
+                });
+
+                // Vehicle suspension
+                await fetch('<?=API_ENDPOINT.'/suspension';?>'+'\/'+id)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleFrontSuspension.options.length = 0;
+                    selectVehicleRearSuspension.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option1 = document.createElement("option");
+                        var option2 = document.createElement("option");
+
+                        option1.text = option2.text = data[i].suspension;
+                        option1.value = option2.value = data[i].id;
+
+                        selectVehicleFrontSuspension.append(option1);
+                        selectVehicleRearSuspension.append(option2);
+                    }
+                
+                });
+            }
+
+        }
+
+        async function changeDataAccordingToVehicleBrand(){
+            var id = getSelectedVehicleTypeValue();
+
+            if(id != null){
+
+                // Vehicle model
+                await fetch('<?=API_ENDPOINT.'/model';?>'+'\/'+id+'\/'+selectVehicleBrand.value)
+                .then(response => response.json())
+                .then(data => {
+
+                    selectVehicleModel.options.length = 0;
+
+                    for(var i = 0; i<data.length; i++){
+                        var option = document.createElement("option");
+                        option.text = data[i].model;
+                        option.value = data[i].id;
+                        selectVehicleModel.append(option);
+                    }
+                });
+
+            }
+
+        }       
+
+        // Adding events
+        for(var i = 0; i < radioVehicleType.length; i++){
+            radioVehicleType[i].addEventListener("change", changeDataAccordingToVehicleType);
+        }
+        
+        selectVehicleBrand.addEventListener("click", changeDataAccordingToVehicleBrand);
+
+
+
 
     </script>
     
 </body>
 </html>
 <!--
+    0. Blue Book, Run_Distance, 
+
+
     1. Type
         1.1 Bike
         1.2 Car
     
-    2. Condition
+    2. Condition (Only for admin)
         2.1 New 
         2.2 Old
 
     3. General
         3.1 Name
         3.2 Price
+    
+    4. Owners Detail (Only for used vehicles)
         3.3 Number of previous owners (only for used vehicles)
         3.4 Owner Message (only for used vehicles)
         3.5 Registered Year (only for used vehicles)
@@ -507,14 +1151,17 @@
         3.2 BHP
 
     6. Fuel Type
-        3.1 Petrol
-        3.2 Diesel
-        3.3 Electric
-        3.4 CNG
+        Type
+            3.1 Petrol
+            3.2 Diesel
+            3.3 Electric
+            3.4 CNG
+        Capacity
     
     7. Transmission
         3.1 Automatic
         3.2 Manual
+        3.3 Others
 
     8. Tyre
         4.1 Front
@@ -550,37 +1197,5 @@
     12. Features
 
     13. Photos
-
--->
-
-<!--
-
-    1. Overview
-        1.1 Condition *
-        1.2 Type *
-        1.3 Name *
-        1.4 Price *
-        1.5 Body *
-
-    2. Experience
-        3.1 Engine *
-        3.2 Mileage *
-        3.3 Turn Radius *
-        3.4 Top Speed *
-        3.5 BHP *
-        3.6 Fuel *
-        3.7 Seat *
-        3.8 Transmission *
-
-    3. Mechanics
-        5.1 Front Tyre, Rear Tyre *
-        5.2 Front Break, Rear Break *
-        5.3 Front Suspension, Rear Suspension *
-
-    4. Photos *
-
-    5. Colors *
-
-    6. Features *
 
 -->

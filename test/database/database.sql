@@ -167,6 +167,13 @@ CREATE TABLE `vehicle_brand` (
     `brand` VARCHAR (100) NOT NULL
 );
 
+CREATE TABLE `vehicle_brand_for_type` (
+    `vehicle_brand_id` INT (11) NOT NULL,
+    `vehicle_type_id` INT (11) NOT NULL,
+    CONSTRAINT FOREIGN KEY (`vehicle_brand_id`) REFERENCES `vehicle_brand` (`id`),
+    CONSTRAINT FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_type` (`id`)
+);
+
 CREATE TABLE `vehicle_model` (
     `id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `model` VARCHAR (100) NOT NULL,
@@ -192,6 +199,7 @@ CREATE TABLE `vehicle` (
     `front_vehicle_tyre_id` INT (11) NOT NULL,
     `rear_vehicle_tyre_id` INT (11) NOT NULL,
     `vehicle_fuel_id` INT (11) NOT NULL,
+    `vehicle_fuel_capacity` DECIMAL(10,2) NOT NULL,
     `front_vehicle_break_id` INT (11) NOT NULL,
     `rear_vehicle_break_id` INT (11) NOT NULL,
     `front_vehicle_suspension_id` INT (11) NOT NULL,
@@ -490,9 +498,9 @@ INSERT INTO vehicle_body_for_type (vehicle_body_id,vehicle_type_id) VALUES (17,2
 
 /* vehicle transmission */
 INSERT INTO vehicle_transmission (transmission) VALUES ('Automatic');
-INSERT INTO vehicle_transmission (transmission) VALUES ('Semi-Automatic');
 INSERT INTO vehicle_transmission (transmission) VALUES ('Manual');
-INSERT INTO vehicle_transmission (transmission) VALUES ('Continuously Variable (CV)');
+INSERT INTO vehicle_transmission (transmission) VALUES ('Others');
+
 
 /* vehicle transmission for type */
 INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (1,1);
@@ -500,8 +508,8 @@ INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_
 INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (3,1);
 
 INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (1,2);
+INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (2,2);
 INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (3,2);
-INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_id) VALUES (4,2);
 
 /* vehicle tyre */
 INSERT INTO vehicle_tyre (tyre) VALUES ('Tubed');
@@ -519,7 +527,7 @@ INSERT INTO vehicle_fuel (`fuel`) VALUES ('Petrol');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Diesel');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Ethanol');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Electric');
-INSERT INTO vehicle_fuel (`fuel`) VALUES ('Compressed Natural Gas (CNG)');
+INSERT INTO vehicle_fuel (`fuel`) VALUES ('CNG');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Biodiesel');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Propane');
 INSERT INTO vehicle_fuel (`fuel`) VALUES ('Hydrogen');
@@ -551,6 +559,12 @@ INSERT INTO vehicle_break_for_type (vehicle_break_id,vehicle_type_id) VALUES (1,
 INSERT INTO vehicle_break_for_type (vehicle_break_id,vehicle_type_id) VALUES (2,2);
 
 /* vehicle suspension */
+INSERT INTO vehicle_suspension (`suspension`) VALUES ('Telescopic Forks');
+INSERT INTO vehicle_suspension (`suspension`) VALUES ('Shock absorbers');
+INSERT INTO vehicle_suspension (`suspension`) VALUES ('Hossack Fork');
+INSERT INTO vehicle_suspension (`suspension`) VALUES ('Single Sided');
+INSERT INTO vehicle_suspension (`suspension`) VALUES ('Hub-center Steering');
+
 INSERT INTO vehicle_suspension (`suspension`) VALUES ('Swing Axle');
 INSERT INTO vehicle_suspension (`suspension`) VALUES ('Sliding Pillar');
 INSERT INTO vehicle_suspension (`suspension`) VALUES ('MacPherson Strut');
@@ -560,14 +574,131 @@ INSERT INTO vehicle_suspension (`suspension`) VALUES ('Multi-link');
 INSERT INTO vehicle_suspension (`suspension`) VALUES ('Semi-trailing Arm');
 INSERT INTO vehicle_suspension (`suspension`) VALUES ('Swinging Arm');
 
-INSERT INTO vehicle_suspension (`suspension`) VALUES ('Telescopic Forks');
-INSERT INTO vehicle_suspension (`suspension`) VALUES ('Shock absorbers');
-INSERT INTO vehicle_suspension (`suspension`) VALUES ('Hossack Fork');
-INSERT INTO vehicle_suspension (`suspension`) VALUES ('Single Sided');
-INSERT INTO vehicle_suspension (`suspension`) VALUES ('Hub-center Steering');
-
 /* vehicle suspension for type */
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (1,1);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (2,1);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (3,1);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (4,1);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (5,1);
 
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (6,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (7,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (8,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (9,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (10,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (11,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (12,2);
+INSERT INTO vehicle_suspension_for_type (vehicle_suspension_id,vehicle_type_id) VALUES (13,2);
+
+/* vehicle brand */
+INSERT INTO vehicle_brand (`brand`) VALUES ('TVS');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Bajaj');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Ducati');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Harley-Davidson');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Hero');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Indian');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Kawasaki');
+INSERT INTO vehicle_brand (`brand`) VALUES ('KTM');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Vespa');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Yahama');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Aprilia');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Benelli');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Cafe Racer');
+INSERT INTO vehicle_brand (`brand`) VALUES ('CFMOTO');
+INSERT INTO vehicle_brand (`brand`) VALUES ('MV Augusta');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Royal Enfield');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Scomadi');
+
+INSERT INTO vehicle_brand (`brand`) VALUES ('BMW');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Suzuki');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Honda');
+
+INSERT INTO vehicle_brand (`brand`) VALUES ('Audi');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Ford');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Hyundai');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Kia');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Mazda');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Mercedes-Benz');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Mitsubishi');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Nishan');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Subaru');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Toyota');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Volkswagen');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Austin');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Chevrolet');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Datsun');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Fiat');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Isuzu');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Jaguar');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Jeep');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Land Rover');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Range Rover');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Mahindra');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Renault');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Scoda');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Tesla');
+INSERT INTO vehicle_brand (`brand`) VALUES ('TATA');
+INSERT INTO vehicle_brand (`brand`) VALUES ('Volvo');
+
+/* vehicle brand for type */
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (1,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (2,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (3,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (4,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (5,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (6,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (7,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (8,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (9,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (10,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (11,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (12,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (13,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (14,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (15,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (16,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (17,1);
+
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (18,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (19,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (20,1);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (18,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (19,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (20,2);
+
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (21,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (22,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (23,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (24,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (25,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (26,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (27,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (28,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (29,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (30,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (31,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (32,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (33,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (34,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (35,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (36,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (37,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (38,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (39,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (40,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (41,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (42,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (43,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (44,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (45,2);
+INSERT INTO vehicle_brand_for_type (vehicle_brand_id,vehicle_type_id) VALUES (46,2);
+
+/* vehicle modal */
+INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('RC 200','2011',11);
+INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('RC 200','2011',8);
+INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('Duke 200','2011',8);
+INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('RC 390','2012',8);
+INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('Duke 390','2012',8);
 
 /* user_type */
 INSERT INTO user_type (type) VALUES ('admin');

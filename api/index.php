@@ -85,7 +85,7 @@
 
     });
 
-    /* Count User Vehicles */
+    /* Get User Vehicles */
     Api::get(Api::INTEGER.'/vehicles',function($user_id){
         $sql = "SELECT 
                 user_vehicle.vehicle_id, 
@@ -107,6 +107,134 @@
         
         $data = Database::query($sql,$user_id);
         Api::send($data);
+    });
+
+    /* Get Provinces */
+    Api::get('/province',function(){
+        $sql = "SELECT `id`, `number`, `province` FROM `vehicle_province` ORDER BY `number` ASC;";
+        $data = Database::query($sql);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Body */
+    Api::get('/body'.Api::INTEGER,function($id){
+        $sql = "SELECT 
+                    vehicle_body.id AS id, 
+                    vehicle_body.body AS body 
+                FROM vehicle_body_for_type
+                INNER JOIN vehicle_body
+                    ON vehicle_body_for_type.vehicle_body_id = vehicle_body.id
+                WHERE vehicle_body_for_type.vehicle_type_id=?
+                ORDER BY vehicle_body.body ASC;
+                ";
+        $data = Database::query($sql,$id);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Brand */
+    Api::get('/brand'.Api::INTEGER,function($id){
+        $sql = "SELECT 
+                    vehicle_brand.id AS id, 
+                    vehicle_brand.brand AS brand 
+                FROM vehicle_brand_for_type
+                INNER JOIN vehicle_brand
+                    ON vehicle_brand_for_type.vehicle_brand_id = vehicle_brand.id
+                WHERE vehicle_brand_for_type.vehicle_type_id=? 
+                ORDER BY vehicle_brand.brand ASC;
+                ";
+        $data = Database::query($sql,$id);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Model */
+    Api::get('/model'.Api::INTEGER.Api::INTEGER,function($vehicle_type_id,$vehicle_brand_id){
+        $sql = "SELECT 
+                    vehicle_model.id AS id, 
+                    vehicle_model.model AS model 
+                FROM vehicle_model
+                INNER JOIN vehicle_brand
+                    ON vehicle_model.vehicle_brand_id = vehicle_brand.id
+                INNER JOIN vehicle_brand_for_type
+                    ON vehicle_brand.id = vehicle_brand_for_type.vehicle_brand_id
+                WHERE vehicle_brand_for_type.vehicle_type_id=? 
+                    AND vehicle_brand_for_type.vehicle_brand_id=?
+                ORDER BY vehicle_model.model ASC;
+                ";
+        $data = Database::query($sql,$vehicle_type_id,$vehicle_brand_id);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Fuel */
+    Api::get('/fuel'.Api::INTEGER,function($id){
+        $sql = "SELECT 
+                    vehicle_fuel.id AS id, 
+                    vehicle_fuel.fuel AS fuel 
+                FROM vehicle_fuel_for_type
+                INNER JOIN vehicle_fuel
+                    ON vehicle_fuel_for_type.vehicle_fuel_id = vehicle_fuel.id
+                WHERE vehicle_fuel_for_type.vehicle_type_id=?
+                ORDER BY vehicle_fuel.fuel ASC;
+                ";
+        $data = Database::query($sql,$id);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Suspension */
+    Api::get('/suspension'.Api::INTEGER,function($id){
+        $sql = "SELECT 
+                    vehicle_suspension.id AS id, 
+                    vehicle_suspension.suspension AS suspension 
+                FROM vehicle_suspension_for_type
+                INNER JOIN vehicle_suspension
+                    ON vehicle_suspension_for_type.vehicle_suspension_id = vehicle_suspension.id
+                WHERE vehicle_suspension_for_type.vehicle_type_id=?
+                ORDER BY vehicle_suspension.suspension ASC;
+                ";
+        $data = Database::query($sql,$id);
+        Api::send($data);
+    });
+
+    /* Post Vehicle */
+    Api::post('/vehicle/add',function(){
+        if(isset($_POST['token']) && !Token::isTampered($_POST['token']) && !Token::isExpired($_POST['token'])){
+            $payload = Token::getPayload($_POST['token']);
+
+            if($payload['user_type'] == 'seller'){
+                $_POST['vehicle-condition'] == '2';
+            }
+            
+            $sql = "INSERT INTO 
+                        vehicle (
+                            `name`,
+                            `price`,
+                            `mileage`,
+                            `engine`,
+                            `bhp`,
+                            `turn_radius`,
+                            `seat`,
+                            `top_speed`,
+                            `vehicle_condition_id`,
+                            `vehicle_type_id`,
+                            `vehicle_body_id`,
+                            `vehicle_transmission_id`,
+                            `front_vehicle_tyre_id`,
+                            `rear_vehicle_tyre_id`,
+                            `vehicle_fuel_id`,
+                            `vehicle_fuel_capacity`,
+                            `front_vehicle_break_id`,
+                            `rear_vehicle_break_id`,
+                            `front_vehicle_suspension_id`,
+                            `rear_vehicle_suspension_id`,
+                            `vehicle_model_id`
+                            )
+                        
+                        VALUES (
+                            ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+                        )";
+            
+
+
+        }
     });
 
     /*General Token*/
