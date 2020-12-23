@@ -186,7 +186,7 @@ CREATE TABLE `vehicle` (
     `id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR (255) NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
-    `mileage` INT (5) NOT NULL DEFAULT 0,
+    `mileage` DECIMAL(4,2) NOT NULL DEFAULT 0,
     `engine` INT (5) NOT NULL DEFAULT 0,
     `bhp` INT (5) NOT NULL DEFAULT 0,
     `turn_radius` DECIMAL(5,2) NOT NULL DEFAULT 0.00,
@@ -239,7 +239,7 @@ CREATE TABLE `used_vehicle` (
     `owners` VARCHAR (15) NOT NULL,
     `owners_message` TEXT NULL,
     `distance` INT (5) NOT NULL,
-    `registered_year` INT (4) NOT NULL,
+    `registered_date` DATETIME NULL,
     `vehicle_province_id` INT (11) NOT NULL,
     CONSTRAINT FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`id`),
     CONSTRAINT FOREIGN KEY (`vehicle_province_id`) REFERENCES `vehicle_province` (`id`)
@@ -499,7 +499,7 @@ INSERT INTO vehicle_body_for_type (vehicle_body_id,vehicle_type_id) VALUES (17,2
 /* vehicle transmission */
 INSERT INTO vehicle_transmission (transmission) VALUES ('Automatic');
 INSERT INTO vehicle_transmission (transmission) VALUES ('Manual');
-INSERT INTO vehicle_transmission (transmission) VALUES ('Others');
+INSERT INTO vehicle_transmission (transmission) VALUES ('Other');
 
 
 /* vehicle transmission for type */
@@ -514,6 +514,7 @@ INSERT INTO vehicle_transmission_for_type (vehicle_transmission_id,vehicle_type_
 /* vehicle tyre */
 INSERT INTO vehicle_tyre (tyre) VALUES ('Tubed');
 INSERT INTO vehicle_tyre (tyre) VALUES ('Tubeless');
+INSERT INTO vehicle_tyre (tyre) VALUES ('Other');
 
 /* vehicle tyre for type */
 INSERT INTO vehicle_tyre_for_type (vehicle_tyre_id,vehicle_type_id) VALUES (1,1);
@@ -550,6 +551,7 @@ INSERT INTO vehicle_fuel_for_type (vehicle_fuel_id,vehicle_type_id) VALUES (8,2)
 /* vehicle break */
 INSERT INTO vehicle_break (`break`) VALUES ('Disk');
 INSERT INTO vehicle_break (`break`) VALUES ('Drum');
+INSERT INTO vehicle_break (`break`) VALUES ('Other');
 
 /* vehicle break for type */
 INSERT INTO vehicle_break_for_type (vehicle_break_id,vehicle_type_id) VALUES (1,1);

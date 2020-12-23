@@ -1,7 +1,7 @@
 <?php
 
     // Including global constants
-    include '../include/config.php';
+    include_once '../include/config.php';
 
     $cURLConnection = curl_init(API_ENDPOINT.'/login');
     curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $_POST);

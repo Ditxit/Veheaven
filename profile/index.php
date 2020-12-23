@@ -107,7 +107,7 @@
                             <div class="modal" id="add_vehicle_modal">
                                 <div class="outer-container">
                                     <div class="inner-container">
-                                        <div class="card float-center width-60 is-white radius-20 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70">
+                                        <div class="card float-center width-60 is-white radius-20 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-20 radius-0">
 
                                             <!-- Card Header -- start -->
                                             <div id="card-header" class="shadow-10 sticky top">
@@ -141,7 +141,7 @@
 
                                                 <!-- Card Body Content Container -- start -->
                                                 <div class="col-100">
-                                                    <form action="" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
+                                                    <form action="../controller/vehicle.php" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
                                                         
                                                         <!-- Vehicle Type Content -- start -->
                                                         <div id="type-tab" style="display:block;">
@@ -446,19 +446,19 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-transmission" value="automatic">
+                                                                                <input type="radio" name="vehicle-transmission" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Automatic</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-transmission" value="manual">
+                                                                                <input type="radio" name="vehicle-transmission" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Manual</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-transmission" value="other">
+                                                                                <input type="radio" name="vehicle-transmission" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
@@ -480,19 +480,19 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-tyre" value="tubed">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubed</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-tyre" value="tubeless">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-tyre" value="other">
+                                                                                <input type="radio" name="vehicle-front-tyre" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
@@ -511,19 +511,19 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-tyre" value="tubed">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubed</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-tyre" value="tubeless">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-tyre" value="other">
+                                                                                <input type="radio" name="vehicle-rear-tyre" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
@@ -546,19 +546,19 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-break" value="disk">
+                                                                                <input type="radio" name="vehicle-front-break" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Disk</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-break" value="drum">
+                                                                                <input type="radio" name="vehicle-front-break" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Drum</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-front-break" value="other">
+                                                                                <input type="radio" name="vehicle-front-break" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
@@ -577,19 +577,19 @@
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-break" value="disk">
+                                                                                <input type="radio" name="vehicle-rear-break" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Disk</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-break" value="drum">
+                                                                                <input type="radio" name="vehicle-rear-break" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Drum</p>
                                                                             </label>
                                                                         </div>
                                                                         <div class="col custom-border-left">
                                                                             <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-rear-break" value="other">
+                                                                                <input type="radio" name="vehicle-rear-break" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
@@ -670,6 +670,28 @@
                                                         </div>
                                                         <!-- Performance Tab Content -- end -->
 
+                                                        <!-- Submit Tab Content -- start -->
+                                                        <div id="submit-tab" style="display:none;">
+                                                            <div class="row shadow-15 radius-20"> <!-- First Row -- start -->
+                                                                <div class="col padding-20">
+                                                                    <img src="../assets/backgrounds/vehicle-publish.svg" alt="Publish Vehicle">
+                                                                </div>
+                                                                <div class="col padding-20">
+                                                                        <div class="row">
+                                                                            <div class="col-100">
+                                                                                <p class="h6">Publish Now ?</p>
+                                                                                <p class="small">we reached the end of the form, click publish to post</p>
+                                                                            </div>
+                                                                            <div class="col-100">
+                                                                                <input type="hidden" name="token" value="<?=$_COOKIE['token'];?>">
+                                                                                <input id="vehicle-add" name="vehicle-add" type="submit" value="Publish" class="is-deep-purple-50 radius-10 padding-15 margin-y-15 width-60" on-hover="is-deep-purple-60">
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
+                                                            </div> <!-- First Row -- end -->
+
+                                                        </div>
+                                                        <!-- Submit Tab Content -- end -->
 
                                                     </form>
                                                 </div>
@@ -732,7 +754,8 @@
             document.getElementById('tyre-tab'),
             document.getElementById('break-tab'),
             document.getElementById('suspension-tab'),
-            document.getElementById('performance-tab')
+            document.getElementById('performance-tab'),
+            document.getElementById('submit-tab')
             ];
 
         var tabsName = [
@@ -748,7 +771,8 @@
             'Tyre',
             'Break',
             'Suspension',
-            'Performance'
+            'Performance',
+            'Publish'
         ]
 
         function getCurrentTabIndex(){
@@ -770,7 +794,7 @@
         var selectVehicleModel = document.getElementById('vehicle-model');
 
         var radioVehicleOwners = document.getElementsByName('vehicle-owners');
-        var dateVehicleRegistratedYear = document.getElementById('vehicle-registered-year');
+        var dateVehicleRegisteredYear = document.getElementById('vehicle-registered-year');
         var selectVehicleProvince = document.getElementById('vehicle-province');
         var textareaOwnerMessage = document.getElementById('vehicle-owner-message');
 
@@ -778,7 +802,7 @@
         var numberVehicleSeat = document.getElementById('vehicle-seat');
 
         var numberVehicleEngine = document.getElementById('vehicle-cc');
-        var numberVehicleBHP = document.getElementById('vehicle-BHP');
+        var numberVehicleBHP = document.getElementById('vehicle-bhp');
 
         var selectVehicleFuel = document.getElementById('vehicle-fuel');
         var numberVehicleFuelCapacity = document.getElementById('vehicle-fuel-capacity');
@@ -878,6 +902,274 @@
 
         }
 
+        function validateVehicleOwners(){
+
+            if(getSelectedRadioValueOf(radioVehicleOwners) == null){
+
+                return {success: false, message : "Please select number of owners of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleRegisteredYear(){
+
+            var date = dateVehicleRegisteredYear.value
+
+            if(date == ""){
+
+                return {success: false, message : "Please enter the registered date of vehicle"};
+
+            }else if((new Date(date) === "Invalid Date") || isNaN(new Date(date))){
+
+                return {success: false, message : "Please enter valid registered date of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleSeat(){
+
+            var seat = numberVehicleSeat.value.trim();
+
+            if(seat == ""){
+
+                return {success: false, message : "Please enter the number of seats of vehicle"};
+
+            }else if(isNaN(parseInt(seat)) || !isFinite(seat) || parseFloat(seat) !== parseInt(seat)){
+
+                return {success: false, message : "Value in seat count field is not a valid seat count"};
+            
+            }else if(parseInt(seat) <= 0){
+
+                return {success: false, message : "Vehicle seat count cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+        }
+
+        function validateVehicleEngine(){
+
+            var cc = numberVehicleEngine.value.trim();
+
+            if(cc == ""){
+
+                return {success: false, message : "Please enter cubic capicity of engine"};
+
+            }else if(isNaN(parseInt(cc)) || !isFinite(cc) || parseFloat(cc) !== parseInt(cc)){
+
+                return {success: false, message : "Value in cubic capacity field is not valid"};
+
+            }else if(parseInt(cc) <= 0){
+
+                return {success: false, message : "Cubic capacity cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+        }
+
+        function validateVehicleBHP(){
+            var BHP = numberVehicleBHP.value.trim();
+
+            if(BHP == ""){
+
+                return {success: false, message : "Please enter Break Horse Power of engine"};
+
+            }else if(isNaN(parseInt(BHP)) || !isFinite(BHP) || parseFloat(BHP) !== parseInt(BHP)){
+
+                return {success: false, message : "Value in Break Horse Power field is not valid"};
+
+            }else if(parseInt(BHP) <= 0){
+
+                return {success: false, message : "Break Horse Power cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+        }
+
+        function validateVehicleFuelCapacity(){
+
+            var capacity = numberVehicleFuelCapacity.value.trim();
+
+            if(capacity == ""){
+
+                return {success: false, message : "Please enter the fuel capacity of vehicle"};
+
+            }else if(isNaN(parseFloat(capacity)) || !isFinite(capacity)){
+
+                return {success: false, message : "Please enter valid fuel capacity"};
+            
+            }else if(parseFloat(capacity) <= 0){
+
+                return {success: false, message : "Fuel capacity cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleTransmission(){
+
+            if(getSelectedRadioValueOf(radioVehicleTransmission) == null){
+
+                return {success: false, message : "Please select the transmission of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleFrontTyre(){
+
+            if(getSelectedRadioValueOf(radioVehicleFrontTyre) == null){
+
+                return {success: false, message : "Please select the front tyre of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleRearTyre(){
+
+            if(getSelectedRadioValueOf(radioVehicleRearTyre) == null){
+
+                return {success: false, message : "Please select the rear tyre of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleFrontBreak(){
+
+            if(getSelectedRadioValueOf(radioVehicleFrontBreak) == null){
+
+                return {success: false, message : "Please select the front break of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleRearBreak(){
+
+            if(getSelectedRadioValueOf(radioVehicleRearBreak) == null){
+
+                return {success: false, message : "Please select the rear break of vehicle"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleMileage(){
+
+            var mileage = numberVehicleMileage.value.trim();
+
+            if(mileage == ""){
+
+                return {success: false, message : "Please enter the mileage of vehicle"};
+
+            }else if(isNaN(parseFloat(mileage)) || !isFinite(mileage)){
+
+                return {success: false, message : "Please enter valid mileage"};
+            
+            }else if(parseFloat(mileage) <= 0){
+
+                return {success: false, message : "Mileage cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleTopSpeed(){
+
+            var speed = numberVehicleTopSpeed.value.trim();
+
+            if(speed == ""){
+
+                return {success: false, message : "Please enter the top speed of vehicle"};
+
+            }else if(isNaN(parseFloat(speed)) || !isFinite(speed)){
+
+                return {success: false, message : "Please enter valid top speed"};
+
+            }else if(parseFloat(speed) <= 0){
+
+                return {success: false, message : "Top speed cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
+        function validateVehicleTurnRadius(){
+
+            var radius = numberVehicleTurnRadius.value.trim();
+
+            if(radius == ""){
+
+                return {success: false, message : "Please enter the turn radius of vehicle"};
+
+            }else if(isNaN(parseFloat(radius)) || !isFinite(radius)){
+
+                return {success: false, message : "Please enter valid turn radius"};
+
+            }else if(parseFloat(radius) <= 0){
+
+                return {success: false, message : "Turn radius cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
+
+        }
+
         function updateButtonsState(){
             var index = getCurrentTabIndex(); 
             cardTitle.innerText = tabsName[index];
@@ -894,25 +1186,10 @@
             }
         }
 
-        function isNumeric(number) {
-            return !isNaN(parseFloat(number)) && isFinite(number);
-        }
-
         function nextTab(){
 
-            setErrorMessage();
-
-            /*            
-            var index = getCurrentTabIndex(); 
-            tabs[index].style.display = 'none';
-
-            index = (tabs.length - 1 == index) ? index : index+1;
-            tabs[index].style.display = 'block';
-            cardTitle.innerText = tabsName[index];
-            updateButtonsState();
-            */
-
-            
+            setErrorMessage(); // set error message to null
+  
             var index = getCurrentTabIndex(); // Current Index
 
             if(index == 0){
@@ -949,6 +1226,122 @@
                     return;
                 }
 
+            }else if(index == 3){
+                // Ignore
+            }else if(index == 4){
+
+                var validation = validateVehicleOwners();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehicleRegisteredYear();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+                
+            }else if(index == 5){
+                var validation = validateVehicleSeat();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+            }else if(index == 6){
+
+                var validation = validateVehicleEngine();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehicleBHP();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 7){
+
+                var validation = validateVehicleFuelCapacity();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 8){
+
+                var validation = validateVehicleTransmission();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 9){
+
+                var validation = validateVehicleFrontTyre();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+                
+                validation = validateVehicleRearTyre();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 10){
+
+                var validation = validateVehicleFrontBreak();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehicleRearBreak();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(index == 11){
+                // Ignore
+            }else if(index == 12){
+
+                var validation = validateVehicleMileage();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehicleTopSpeed();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+                validation = validateVehicleTurnRadius();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
             }
 
             if(tabs.length - 1 != index){ // if index is not last index
@@ -962,13 +1355,18 @@
         }
 
         function previousTab(){
-            var index = getCurrentTabIndex(); 
-            tabs[index].style.display = 'none';
+            setErrorMessage(); // set error message to null
 
-            index = (index == 0) ? 0 : index-1;
-            tabs[index].style.display = 'block';
-            cardTitle.innerText = tabsName[index];
+            var index = getCurrentTabIndex(); 
+
+            if(index > 0){ // if index is not first index
+
+                tabs[index].style.display = 'none';
+                tabs[index - 1].style.display = 'block';
+
+            }
             updateButtonsState();
+
         }
 
         previousButton.addEventListener("click", previousTab);
@@ -1109,9 +1507,6 @@
         }
         
         selectVehicleBrand.addEventListener("click", changeDataAccordingToVehicleBrand);
-
-
-
 
     </script>
     

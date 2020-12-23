@@ -197,43 +197,46 @@
     /* Post Vehicle */
     Api::post('/vehicle/add',function(){
         if(isset($_POST['token']) && !Token::isTampered($_POST['token']) && !Token::isExpired($_POST['token'])){
+
             $payload = Token::getPayload($_POST['token']);
 
             if($payload['user_type'] == 'seller'){
-                $_POST['vehicle-condition'] == '2';
+                $_POST['vehicle-condition'] = '2';
             }
-            
-            $sql = "INSERT INTO 
-                        vehicle (
-                            `name`,
-                            `price`,
-                            `mileage`,
-                            `engine`,
-                            `bhp`,
-                            `turn_radius`,
-                            `seat`,
-                            `top_speed`,
-                            `vehicle_condition_id`,
-                            `vehicle_type_id`,
-                            `vehicle_body_id`,
-                            `vehicle_transmission_id`,
-                            `front_vehicle_tyre_id`,
-                            `rear_vehicle_tyre_id`,
-                            `vehicle_fuel_id`,
-                            `vehicle_fuel_capacity`,
-                            `front_vehicle_break_id`,
-                            `rear_vehicle_break_id`,
-                            `front_vehicle_suspension_id`,
-                            `rear_vehicle_suspension_id`,
-                            `vehicle_model_id`
-                            )
-                        
-                        VALUES (
-                            ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
-                        )";
-            
 
+            //Api::send($_POST);
 
+            $sql = "INSERT INTO `vehicle` (`name`, `price`, `mileage`, `engine`, `bhp`, `turn_radius`, `seat`, `top_speed`, `vehicle_condition_id`, `vehicle_type_id`, `vehicle_body_id`, `vehicle_transmission_id`, `front_vehicle_tyre_id`, `rear_vehicle_tyre_id`, `vehicle_fuel_id`, `vehicle_fuel_capacity`, `front_vehicle_break_id`, `rear_vehicle_break_id`, `front_vehicle_suspension_id`, `rear_vehicle_suspension_id`, `vehicle_model_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+            
+            $data = Database::query(
+                $sql,
+                $_POST['vehicle-name'],
+                $_POST['vehicle-price'],
+                $_POST['vehicle-mileage'],
+                $_POST['vehicle-cc'],
+                $_POST['vehicle-bhp'],
+                $_POST['vehicle-turn-radius'],
+                $_POST['vehicle-seat'],
+                $_POST['vehicle-top-speed'],
+                $_POST['vehicle-condition'],
+                $_POST['vehicle-type'],
+                $_POST['vehicle-body'],
+                $_POST['vehicle-transmission'],
+                $_POST['vehicle-front-tyre'],
+                $_POST['vehicle-rear-tyre'],
+                $_POST['vehicle-fuel'],
+                $_POST['vehicle-fuel-capacity'],
+                $_POST['vehicle-front-break'],
+                $_POST['vehicle-rear-break'],
+                $_POST['vehicle-front-suspension'],
+                $_POST['vehicle-rear-suspension'],
+                $_POST['vehicle-model']
+            );
+            
+            Api::send($data);
+                
+        }else{
+            Api::send(['Token Error']);
         }
     });
 
