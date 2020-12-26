@@ -1,7 +1,7 @@
 <?php 
     /*
     *   This includes must be kept at top
-    *   If not, this might result in security risk
+    *   If not, this might introduce a security risk
     */
 
     include_once '../include/verification.php';
@@ -12,20 +12,23 @@
     */
     $PAGE_NAME = "Profile";
 
+    // Bug
+    include_once '../include/header.ui.php'; 
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head> <?php include '../include/header.ui.php';?> </head>
+<head> <?php include_once '../include/header.ui.php';?> </head>
 <body class="is-white-95" style="overflow-y:scroll;">  
 
-    <!-- Cookie Message -- start -->
-    <?php include '../include/toast.php'; ?>
-    <!-- Cookie Message -- end -->
+    <?php
+        // Including navbar
+        include_once '../include/navbar.ui.php';
 
-    <!-- Navigation Bar -- start -->
-    <?php include '../include/navbar.ui.php';?>
-    <!-- Navigation Bar -- end -->
+        // Including toast
+        include_once '../include/toast.php';
+    ?>
 
     <?php
         /*
@@ -108,13 +111,12 @@
                                 <div class="outer-container">
                                     <div class="inner-container">
                                         <div class="card float-center width-60 is-white radius-20 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-20 radius-0">
-
                                             <!-- Card Header -- start -->
                                             <div id="card-header" class="shadow-10 sticky top">
-                                                <div class="row padding-x-10 padding-top-10 padding-bottom-0">
+                                                <div class="row padding-x-10 padding-y-10">
                                                     <div class="col-25">
                                                         <div class="float-left" style="display:none;">
-                                                        <a class="button text-deep-purple radius-10 padding" on-hover="is-white-95">Save Draft</a>
+                                                        <a class="button text-deep-purple radius-10" on-hover="is-white-95">Save Draft</a>
                                                         </div>
                                                     </div>
                                                     <div class="col-50">
@@ -140,11 +142,11 @@
                                             <div class="row">
 
                                                 <!-- Card Body Content Container -- start -->
-                                                <div class="col-100">
+                                                <div class="col-100" id="add-vehicle-form">
                                                     <form action="../controller/vehicle.php" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
-                                                        
+
                                                         <!-- Vehicle Type Content -- start -->
-                                                        <div id="type-tab" style="display:block;">
+                                                        <div id="type-tab" class="tab" title="Bike or Car" data-tab-index="0" style="display:block;">
                                                             <div class="row">
                                                                 <div class="col-60 padding-y-10">
                                                                     <p class="h6">What are you selling ?</p>
@@ -171,34 +173,40 @@
                                                         <!-- Vehicle Type Content -- end -->
 
                                                         <!-- Vehicle Condition Content -- start -->
-                                                        <div id="condition-tab" style="display:none;">
-                                                            <div class="row">
-                                                                <div class="col-60 padding-y-10">
-                                                                    <p class="h6">What is the vehicle condition ?</p>
-                                                                    <p class="small">Select an option between new and used</p>
-                                                                </div>
-                                                                <div class="col-40">
-                                                                    <div class="row radius-20 custom-border">
-                                                                        <div class="col-50">
-                                                                            <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-condition" value="1">
-                                                                                <p class="custom-radio-option text-center padding-y-20">New</p>
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="col-50 custom-border-left">
-                                                                            <label class="custom-radio">
-                                                                                <input type="radio" name="vehicle-condition" value="2">
-                                                                                <p class="custom-radio-option text-center padding-y-20">Used</p>
-                                                                            </label>
+                                                        <?php 
+                                                        if($payload['user_type'] == 'admin'){
+                                                            echo '
+                                                            <div id="condition-tab" class="tab" title="New or Used" data-tab-index="1" style="display:none;">
+                                                                <div class="row">
+                                                                    <div class="col-60 padding-y-10">
+                                                                        <p class="h6">What is the vehicle condition ?</p>
+                                                                        <p class="small">Select an option between new and used</p>
+                                                                    </div>
+                                                                    <div class="col-40">
+                                                                        <div class="row radius-20 custom-border">
+                                                                            <div class="col-50">
+                                                                                <label class="custom-radio">
+                                                                                    <input type="radio" name="vehicle-condition" value="1">
+                                                                                    <p class="custom-radio-option text-center padding-y-20">New</p>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-50 custom-border-left">
+                                                                                <label class="custom-radio">
+                                                                                    <input type="radio" name="vehicle-condition" value="2">
+                                                                                    <p class="custom-radio-option text-center padding-y-20">Used</p>
+                                                                                </label>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                            ';
+                                                        }
+                                                        ?>
                                                         <!-- Vehicle Condition Content -- end -->
 
                                                         <!-- General Tab Content -- start -->
-                                                        <div id="general-tab" style="display:none;">
+                                                        <div id="general-tab" class="tab" title="General Detail" data-tab-index="2" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -226,7 +234,7 @@
                                                         <!-- General Tab Content -- end -->
 
                                                         <!-- Manufacturer & Modal Tab Content -- start -->
-                                                        <div id="manufacturer-tab" style="display:none;">
+                                                        <div id="manufacturer-tab" class="tab" title="Make and Model" data-tab-index="3" style="display:none;">
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
                                                                     <p class="h6">Manufacturer</p>
@@ -256,7 +264,7 @@
                                                         <!-- Suspension Tab Content -- end -->
 
                                                         <!-- Owner Detail Tab Content -- start -->
-                                                        <div id="owner-detail-tab" style="display:none;">
+                                                        <div id="owner-detail-tab" class="tab" title="Owner Detail" data-tab-index="4" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -348,7 +356,7 @@
                                                         <!-- Owner Detail Tab Contnet -- end -->
 
                                                         <!-- Body Tab Content -- start -->
-                                                        <div id="body-tab" style="display:none;">
+                                                        <div id="body-tab" class="tab" title="Body Detail" data-tab-index="5" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -378,7 +386,7 @@
                                                         <!-- Body Tab Content -- end -->
 
                                                         <!-- Engine Tab Content -- start -->
-                                                        <div id="engine-tab" style="display:none;">
+                                                        <div id="engine-tab" class="tab" title="Engine Detail" data-tab-index="6" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -406,7 +414,7 @@
                                                         <!-- Engine Tab Content -- end -->
 
                                                         <!-- Fuel Tab Content -- start -->
-                                                        <div id="fuel-tab" style="display:none;">
+                                                        <div id="fuel-tab" class="tab" title="Fuel Detail" data-tab-index="7" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -436,7 +444,7 @@
                                                         <!-- Fuel Tab Content -- end -->
 
                                                         <!-- Transmission Content -- start -->
-                                                        <div id="transmission-tab" style="display:none;">
+                                                        <div id="transmission-tab" class="tab" title="Transmission" data-tab-index="8" style="display:none;">
                                                             <div class="row">
                                                                 <div class="col-50 padding-y-10">
                                                                     <p class="h6">Vehicle transmission type</p>
@@ -469,7 +477,7 @@
                                                         <!-- Transmission Content -- end -->
 
                                                         <!-- Tyre Tab Content -- start -->
-                                                        <div id="tyre-tab" style="display:none;">
+                                                        <div id="tyre-tab" class="tab" title="Tyres" data-tab-index="9" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -535,7 +543,7 @@
                                                         <!-- Tyre Tab Content -- end -->
 
                                                         <!-- Break Tab Content -- start -->
-                                                        <div id="break-tab" style="display:none;">
+                                                        <div id="break-tab" class="tab" title="Breaks" data-tab-index="10" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -601,7 +609,7 @@
                                                         <!-- Break Tab Content -- end -->
 
                                                         <!-- Suspension Tab Content -- start -->
-                                                        <div id="suspension-tab" style="display:none;">
+                                                        <div id="suspension-tab" class="tab" title="Suspensions" data-tab-index="11" style="display:none;">
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
                                                                     <p class="h6">Front suspension</p>
@@ -631,7 +639,7 @@
                                                         <!-- Suspension Tab Content -- end -->
 
                                                         <!-- Performance Tab Content -- start -->
-                                                        <div id="performance-tab" style="display:none;">
+                                                        <div id="performance-tab" class="tab" title="Performance" data-tab-index="12" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
                                                                 <div class="col-50 padding-y-10">
@@ -639,7 +647,7 @@
                                                                     <p class="small">Enter the mileage of the vehicle</p>
                                                                 </div>
                                                                 <div class="col-50">
-                                                                    <input id="vehicle-mileage" name="vehicle-mileage" type="number" placeholder="kilometer" class="padding-20 radius-20">
+                                                                    <input id="vehicle-mileage" name="vehicle-mileage" type="number" placeholder="kilometer" class="padding-20 radius-20"/>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
 
@@ -651,7 +659,7 @@
                                                                     <p class="small">Enter the top speed of the vehicle</p>
                                                                 </div>
                                                                 <div class="col-50">
-                                                                    <input id="vehicle-top-speed" name="vehicle-top-speed" type="number" placeholder="kilometer" class="padding-20 radius-20">
+                                                                    <input id="vehicle-top-speed" name="vehicle-top-speed" type="number" placeholder="kilometer" class="padding-20 radius-20"/>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
@@ -663,15 +671,50 @@
                                                                     <p class="small">Enter the turn radius of the vehicle</p>
                                                                 </div>
                                                                 <div class="col-50">
-                                                                    <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="number" placeholder="meter" class="padding-20 radius-20">
+                                                                    <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="number" placeholder="meter" class="padding-20 radius-20"/>
                                                                 </div>
                                                             </div> <!-- Third Row -- end -->
 
                                                         </div>
                                                         <!-- Performance Tab Content -- end -->
 
+                                                        <!-- Color Tab Content -- start -->
+                                                        <div id="color-tab" class="tab" title="Colors" data-tab-index="13" style="display:none;">
+                                                            <div class="row">
+                                                            <?php 
+                                                                function textColor($hexcolor){
+                                                                    return (hexdec($hexcolor) > 0xffffff/2) ? '#000000':'#FFFFFF';
+                                                                }
+                                                                $colors = file_get_contents(API_ENDPOINT.'/colors');
+                                                                $colors = json_decode($colors,TRUE);
+
+                                                                foreach ($colors as $color){
+                                                                    echo '
+                                                                        <div class="col-25">
+                                                                            <div class="custom-checkbox margin-5" title="'.$color['color'].'">
+                                                                                <input id="'.$color['color'].'-'.$color['id'].'" type="checkbox" name="vehicle-color[]" value="'.$color['id'].'">
+                                                                                <label for="'.$color['color'].'-'.$color['id'].'" class="padding-5 radius-100 cursor-pointer">
+                                                                                    <span class="padding-10 radius-100 width-100 text-center shadow-20" style="background-color:'.$color['hexcode'].'; color:'.textColor($color['hexcode']).'">'.$color['color'].'</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    ';
+                                                                }
+                                                            ?>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Color Tab Content -- end -->
+
+                                                        <!-- Feature Tab Content -- start -->
+                                                        <div id="feature-tab" class="tab" title="Features" data-tab-index="14" style="display:none;">
+                                                            <div id="vehicle-feature-row" class="row">
+                                                                <!-- Columns will be added in JS -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- Feature Tab Content -- end -->
+
                                                         <!-- Submit Tab Content -- start -->
-                                                        <div id="submit-tab" style="display:none;">
+                                                        <div id="submit-tab" class="tab" title="Publish" data-tab-index="15" style="display:none;">
                                                             <div class="row shadow-15 radius-20"> <!-- First Row -- start -->
                                                                 <div class="col padding-20">
                                                                     <img src="../assets/backgrounds/vehicle-publish.svg" alt="Publish Vehicle">
@@ -680,7 +723,7 @@
                                                                         <div class="row">
                                                                             <div class="col-100">
                                                                                 <p class="h6">Publish Now ?</p>
-                                                                                <p class="small">we reached the end of the form, click publish to post</p>
+                                                                                <p class="small">We reached the end of the form, click publish to post</p>
                                                                             </div>
                                                                             <div class="col-100">
                                                                                 <input type="hidden" name="token" value="<?=$_COOKIE['token'];?>">
@@ -689,7 +732,6 @@
                                                                         </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
-
                                                         </div>
                                                         <!-- Submit Tab Content -- end -->
 
@@ -701,7 +743,7 @@
                                             <!-- Card Body -- end -->
 
                                             <!-- Card Footer -- start -->
-                                            <div class="row card-footer padding-x-10 padding-top-10 padding-bottom-0 shadow-20">
+                                            <div class="row card-footer padding-x-10 padding-y-10 shadow-20">
                                                 <div class="col-30">
                                                     <div class="float-left">
                                                         <a id="card-previous-button" class="button text-deep-purple radius-10" on-hover="is-white-95">Prev</a>
@@ -734,46 +776,14 @@
     <script type="text/javascript">
 
         /* Js for making tabs work */
-
         var cardTitle = document.getElementById('card-title');
         var cardErrorPanel = document.getElementById('card-error-panel');
         var previousButton = document.getElementById('card-previous-button');
         var nextButton = document.getElementById('card-next-button');
         var progressBar = document.getElementById('card-progress-bar');
         
-        var tabs = [
-            document.getElementById('type-tab'),
-            document.getElementById('condition-tab'),
-            document.getElementById('general-tab'),
-            document.getElementById('manufacturer-tab'),
-            document.getElementById('owner-detail-tab'),
-            document.getElementById('body-tab'),
-            document.getElementById('engine-tab'),
-            document.getElementById('fuel-tab'),
-            document.getElementById('transmission-tab'),
-            document.getElementById('tyre-tab'),
-            document.getElementById('break-tab'),
-            document.getElementById('suspension-tab'),
-            document.getElementById('performance-tab'),
-            document.getElementById('submit-tab')
-            ];
-
-        var tabsName = [
-            'Bike or Car',
-            'New or Used',
-            'General Details',
-            'Make and Modal',
-            'Owner Details',
-            'Body Details',
-            'Engine Details',
-            'Fuel Details',
-            'Transmission',
-            'Tyre',
-            'Break',
-            'Suspension',
-            'Performance',
-            'Publish'
-        ]
+        // Selecting tabs 
+        var tabs = document.getElementById("add-vehicle-form").querySelectorAll(".tab");
 
         function getCurrentTabIndex(){
             for (var i = 0; i < tabs.length; i++) {
@@ -785,7 +795,11 @@
         /* Vaiables holding all the form input fields */
         var radioVehicleType = document.getElementsByName('vehicle-type');
         
-        var radioVehicleCondition = document.getElementsByName('vehicle-condition');
+        <?php
+            if($payload['user_type'] == 'admin'){
+                echo "var radioVehicleCondition = document.getElementsByName('vehicle-condition');";
+            }
+        ?>
 
         var textVehicleName = document.getElementById('vehicle-name');
         var numberVehiclePrice = document.getElementById('vehicle-price');
@@ -846,7 +860,21 @@
 
         function validateVehicleCondition(){
 
-            if(getSelectedRadioValueOf(radioVehicleCondition) == null){
+            var value = getSelectedRadioValueOf(radioVehicleCondition);
+
+            <?php
+                if($payload['user_type'] == 'admin'){
+                    echo '
+                        var ownerDetailTab = document.getElementById("owner-detail-tab");
+                        if(value == "1") {
+                            ownerDetailTab.classList.remove("tab");
+                            tabs = document.getElementById("add-vehicle-form").querySelectorAll(".tab");
+                        }
+                    ';
+                }
+            ?>
+
+            if(value == null){
 
                 return {success: false, message : "Please select the condition of vehicle"};
 
@@ -1172,7 +1200,7 @@
 
         function updateButtonsState(){
             var index = getCurrentTabIndex(); 
-            cardTitle.innerText = tabsName[index];
+            cardTitle.innerText = tabs[index].title;
             previousButton.style.display = (index == 0) ? 'none' : 'block';
             nextButton.innerText = (index == tabs.length-1) ? 'Post' : 'Next';
             progressBar.style.minWidth = ''+index/Math.max(1, tabs.length-1)*100+'%';
@@ -1191,8 +1219,9 @@
             setErrorMessage(); // set error message to null
   
             var index = getCurrentTabIndex(); // Current Index
+            var tabIndex = tabs[index].getAttribute('data-tab-index');
 
-            if(index == 0){
+            if(tabIndex == 0){
 
                 var validation = validateVehicleType();
 
@@ -1201,7 +1230,7 @@
                     return;
                 }
 
-            }else if(index == 1){
+            }else if(tabIndex == 1){
 
                 var validation = validateVehicleCondition();
 
@@ -1210,7 +1239,7 @@
                     return;
                 }
 
-            }else if(index == 2){
+            }else if(tabIndex == 2){
 
                 var validation = validateVehicleName();
 
@@ -1226,9 +1255,9 @@
                     return;
                 }
 
-            }else if(index == 3){
+            }else if(tabIndex == 3){
                 // Ignore
-            }else if(index == 4){
+            }else if(tabIndex == 4){
 
                 var validation = validateVehicleOwners();
 
@@ -1244,14 +1273,14 @@
                     return;
                 }
                 
-            }else if(index == 5){
+            }else if(tabIndex == 5){
                 var validation = validateVehicleSeat();
 
                 if(!validation.success){
                     setErrorMessage(validation.message);
                     return;
                 }
-            }else if(index == 6){
+            }else if(tabIndex == 6){
 
                 var validation = validateVehicleEngine();
 
@@ -1267,7 +1296,7 @@
                     return;
                 }
 
-            }else if(index == 7){
+            }else if(tabIndex == 7){
 
                 var validation = validateVehicleFuelCapacity();
 
@@ -1276,7 +1305,7 @@
                     return;
                 }
 
-            }else if(index == 8){
+            }else if(tabIndex == 8){
 
                 var validation = validateVehicleTransmission();
 
@@ -1285,7 +1314,7 @@
                     return;
                 }
 
-            }else if(index == 9){
+            }else if(tabIndex == 9){
 
                 var validation = validateVehicleFrontTyre();
 
@@ -1301,7 +1330,7 @@
                     return;
                 }
 
-            }else if(index == 10){
+            }else if(tabIndex == 10){
 
                 var validation = validateVehicleFrontBreak();
 
@@ -1317,9 +1346,9 @@
                     return;
                 }
 
-            }else if(index == 11){
+            }else if(tabIndex == 11){
                 // Ignore
-            }else if(index == 12){
+            }else if(tabIndex == 12){
 
                 var validation = validateVehicleMileage();
 
@@ -1470,6 +1499,26 @@
 
                         selectVehicleFrontSuspension.append(option1);
                         selectVehicleRearSuspension.append(option2);
+                    }
+                
+                });
+
+                // Vehicle Features
+                await fetch('<?=API_ENDPOINT.'/features';?>'+'\/'+id)
+                .then(response => response.json())
+                .then(features => {
+
+                    var vehicleFeatureContainer = document.getElementById('vehicle-feature-row');
+                    vehicleFeatureContainer.innerText = ''; // clearing vehicle feature row
+
+                    var div = document.createElement('div'); // reused
+                    
+                    for(feature of features){
+                        console.log(feature.id);
+                        div.innerHTML = '<div class="col-auto"><div class="custom-checkbox margin-5"><input id="feature-'+feature.id+'" type="checkbox" name="vehicle-feature[]" value="'+feature.id+'"><label for="feature-'+feature.id+'" class="padding-5 radius-100 cursor-pointer is-white-90" title="'+feature.category+'"><span class="padding-10 radius-100 width-100">'+feature.feature+'</span></label></div></div>';
+                        console.log(div.firstChild);
+
+                        vehicleFeatureContainer.append(div.firstChild);
                     }
                 
                 });

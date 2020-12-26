@@ -1,26 +1,28 @@
 <?php
     $PAGE_NAME = 'Login';
 
-    include '../include/redirection.php';
+    include_once '../include/redirection.php';
 
-    // Display Cookie Message (if any)
-    include '../include/toast.php';
+    // Bug
+    include_once '../include/header.ui.php'; 
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head> <?php include '../include/header.ui.php';?> </head>
+<head> <?php include_once '../include/header.ui.php';?> </head>
 
 <body class="is-white-95" style="overflow-y: scroll;">  
 
-    <!-- Navigation Bar -- start -->
-    <?php 
-    
-        include '../include/navbar.ui.php';
+    <?php
+        // Including navbar
+        include_once '../include/navbar.ui.php';
 
+        // Including toast
+        include_once '../include/toast.php';
     ?>
-    <!-- Navigation Bar -- end -->
 
 
     <!-- Login Form -- start -->
@@ -36,7 +38,7 @@
                     </div>
                     <div class="col-50 padding-20" phone="col-100">
 
-                    <p class="h4 margin-top-20 margin-bottom-5">Admin Login</p>
+                    <p class="h4 margin-top-20 margin-bottom-5">Login</p>
                     <p class="small margin-bottom-30">Enter your email and password to continue.</p>
 
                     <form method="POST" action="../controller/login.php">

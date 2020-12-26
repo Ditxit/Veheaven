@@ -2,24 +2,25 @@
 
     $PAGE_NAME = "Explore";
 
-    include '../include/header.ui.php'; 
+    // Bug
+    include_once '../include/header.ui.php'; 
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head> <?php include '../include/header.ui.php';?> </head>
+<head> <?php include_once '../include/header.ui.php';?> </head>
 
 <body class="is-white-100">  
 
-    <!-- Cookie Message -- start -->
-    <?php include '../include/toast.php'; ?>
-    <!-- Cookie Message -- end -->
+    <?php
+        // Including navbar
+        include_once '../include/navbar.ui.php';
 
-    <!-- Navigation Bar -- start -->
-    <?php include '../include/navbar.ui.php';?>
-    <!-- Navigation Bar -- end -->
+        // Including toast
+        include_once '../include/toast.php';
+    ?>
 
     <!-- Search Section -- start -->
 	<div class="outer-container padding-y-90 display-block is-deep-purple">

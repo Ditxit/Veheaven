@@ -11,8 +11,14 @@
         curl_close($cURLConnection);
         $apiResponse = json_decode($apiResponse,TRUE);
 
-        echo"<pre>";
-        var_dump($apiResponse);
-        echo"</pre>";
-        exit;
+        if(isset($apiResponse) && isset($apiResponse['inserted_id'])){
+            $vehicleId = $apiResponse['inserted_id'];
+            setcookie('toast_message', "Vehicle added successfully", time()+60*60, "/");
+            header('Location: ../profile');
+            exit;
+        }else{
+            setcookie('toast_message', "Error adding vehicle", time()+60*60, "/");
+            header('Location: ../explore');
+            exit;
+        }
     }

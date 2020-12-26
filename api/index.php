@@ -194,6 +194,22 @@
         Api::send($data);
     });
 
+    /* Get Vehicle Colors */
+    Api::get('/colors',function(){
+        $sql = "SELECT `id`, `color`, `hexcode` FROM `vehicle_color` ORDER BY `color` ASC;";
+        $data = Database::query($sql);
+        Api::send($data);
+    });
+
+    /* Get Vehicle Features */
+    Api::get('/features'.Api::INTEGER,function($id){
+        $sql = "
+            SELECT vehicle_feature.id, vehicle_feature.feature, vehicle_feature_category.category FROM vehicle_feature_for_type INNER JOIN vehicle_feature ON vehicle_feature_for_type.vehicle_feature_id = vehicle_feature.id INNER JOIN vehicle_feature_category ON vehicle_feature_category.id = vehicle_feature.vehicle_feature_category_id WHERE vehicle_feature_for_type.vehicle_type_id = ?;
+        ";
+        $data = Database::query($sql,$id);
+        Api::send($data);
+    });
+
     /* Post Vehicle */
     Api::post('/vehicle/add',function(){
         if(isset($_POST['token']) && !Token::isTampered($_POST['token']) && !Token::isExpired($_POST['token'])){
@@ -203,8 +219,6 @@
             if($payload['user_type'] == 'seller'){
                 $_POST['vehicle-condition'] = '2';
             }
-
-            //Api::send($_POST);
 
             $sql = "INSERT INTO `vehicle` (`name`, `price`, `mileage`, `engine`, `bhp`, `turn_radius`, `seat`, `top_speed`, `vehicle_condition_id`, `vehicle_type_id`, `vehicle_body_id`, `vehicle_transmission_id`, `front_vehicle_tyre_id`, `rear_vehicle_tyre_id`, `vehicle_fuel_id`, `vehicle_fuel_capacity`, `front_vehicle_break_id`, `rear_vehicle_break_id`, `front_vehicle_suspension_id`, `rear_vehicle_suspension_id`, `vehicle_model_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             
@@ -237,6 +251,22 @@
                 
         }else{
             Api::send(['Token Error']);
+        }
+    });
+
+    /* Upload Photo */
+    Api::post('/photo/add',function(){
+        $valid = File::check('jpg','png','jpeg','svg');
+        if($valid == TRUE) {
+            $name = File::save();
+            if($name){
+                $data = Database::query("INSERT INTO `image` (`name`) VALUES (?)",$name);
+                Api::send($data);
+            }else{
+                Api::send(File::$error);
+            }
+        }else {
+            Api::send(File::$error);
         }
     });
 
