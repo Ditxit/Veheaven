@@ -12,7 +12,8 @@ CREATE TABLE `vehicle_province` (
 
 CREATE TABLE `vehicle_color` (
     `id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `color` VARCHAR (100) NOT NULL
+    `color` VARCHAR (100) NOT NULL,
+    `hexcode` CHAR (7) NOT NULL
 );
 
 CREATE TABLE `vehicle_feature_category` (
@@ -283,20 +284,20 @@ INSERT INTO vehicle_province (number,province) VALUES (7,'Sudurpashchim Province
 
 
 /* vehicle color */
-INSERT INTO vehicle_color (color) VALUES ('Black');
-INSERT INTO vehicle_color (color) VALUES ('Blue');
-INSERT INTO vehicle_color (color) VALUES ('Brown');
-INSERT INTO vehicle_color (color) VALUES ('Gold');
-INSERT INTO vehicle_color (color) VALUES ('Gray');
-INSERT INTO vehicle_color (color) VALUES ('Green');
-INSERT INTO vehicle_color (color) VALUES ('Orange');
-INSERT INTO vehicle_color (color) VALUES ('Purple');
-INSERT INTO vehicle_color (color) VALUES ('Red');
-INSERT INTO vehicle_color (color) VALUES ('Silver');
-INSERT INTO vehicle_color (color) VALUES ('Tan');
-INSERT INTO vehicle_color (color) VALUES ('White');
-INSERT INTO vehicle_color (color) VALUES ('Yellow');
-INSERT INTO vehicle_color (color) VALUES ('Other');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Black','#000000');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Blue','#0000FF');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Brown','#A52A2A');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Gold','#FFD700');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Gray','#808080');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Green','#00FF00');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Orange','#FFA500');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Purple','#800080');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Red','#FF0000');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Silver','#C0C0C0');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Tan','#D2B48C');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('White','#FFFFFF');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Yellow','#FFFF00');
+INSERT INTO vehicle_color (`color`,`hexcode`) VALUES ('Other','#F1F1F1');
 
 /* vehicle feature category */
 INSERT INTO vehicle_feature_category (category) VALUES ('Safety');
@@ -441,6 +442,10 @@ INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('MP3 P
 INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('DVD Playback',11);
 INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('iPod Compatibility',11);
 INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('Steering mounted controls',11);
+INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('Low oil indicator',10);
+INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('Turn signal lights',9);
+INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('Pass Switch',10);
+INSERT INTO vehicle_feature (feature,vehicle_feature_category_id) VALUES ('Passenger footrest',8);
 
 /* vehicle condition */
 INSERT INTO vehicle_condition (`condition`) VALUES ('New');
@@ -451,7 +456,154 @@ INSERT INTO vehicle_type (type) VALUES ('Bike');
 INSERT INTO vehicle_type (type) VALUES ('Car');
 
 /* vehicle feature for type */
-/* INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (1,1); */
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (1,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (2,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (3,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (4,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (5,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (6,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (7,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (9,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (10,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (11,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (12,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (13,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (14,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (15,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (16,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (17,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (18,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (19,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (20,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (21,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (22,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (23,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (24,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (25,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (26,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (27,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (28,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (29,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (30,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (31,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (32,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (33,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (34,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (35,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (36,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (37,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (38,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (39,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (40,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (41,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (42,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (43,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (44,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (45,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (46,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (47,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (48,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (49,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (50,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (51,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (52,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (53,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (54,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (55,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (56,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (57,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (58,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (59,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (60,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (61,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (62,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (63,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (64,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (65,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (66,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (67,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (68,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (69,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (70,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (71,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (72,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (73,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (74,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (75,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (76,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (77,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (78,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (79,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (80,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (81,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (82,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (83,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (84,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (85,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (86,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (87,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (88,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (89,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (90,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (91,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (92,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (93,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (94,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (95,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (96,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (97,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (98,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (99,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (100,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (101,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (102,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (103,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (104,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (105,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (106,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (107,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (108,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (109,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (110,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (111,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (112,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (113,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (114,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (115,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (116,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (117,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (118,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (119,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (120,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (121,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (122,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (123,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (124,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (125,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (126,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (127,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (128,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (129,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (130,2);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (131,2);
+
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (7,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (8,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (35,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (86,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (93,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (98,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (99,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (100,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (102,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (103,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (104,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (105,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (106,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (108,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (110,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (130,1);
+INSERT INTO vehicle_feature_for_type (vehicle_feature_id,vehicle_type_id) VALUES (131,1);
 
 /* vehicle body */
 INSERT INTO vehicle_body (body) VALUES ('Standard');
