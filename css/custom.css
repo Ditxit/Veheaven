@@ -1,19 +1,41 @@
-.custom-radio [type=radio] { 
+/* For radio button */
+
+.custom-radio [type="radio"]{ 
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.custom-radio [type=radio] + .custom-radio-option:hover {
+.custom-radio [type="radio"] + .custom-radio-option:hover {
     cursor: pointer;
     background-color: #eeeeff;
     transition: 0.15s ease-in-out;
 }
 
-.custom-radio [type=radio]:checked + .custom-radio-option {
+.custom-radio [type="radio"]:checked + .custom-radio-option {
     background-color: #ddddff;
 }
+
+/* For checkbox */
+
+.custom-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-checkbox input[type="checkbox"] + label {
+    display:block;
+    width: 100%;
+    border: 5px solid transparent;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label {
+    border: 5px solid #673AB7;
+}
+
 
 .custom-border{
     border: 1.5px solid #ddd;
