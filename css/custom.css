@@ -36,6 +36,15 @@
     border: 5px solid #673AB7;
 }
 
+/* For image inputs */
+.custom-image-input [type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* For border */
 
 .custom-border{
     border: 1.5px solid #ddd;
