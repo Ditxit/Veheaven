@@ -713,8 +713,59 @@
                                                         </div>
                                                         <!-- Feature Tab Content -- end -->
 
+                                                        <!-- Photo Tab Content -- start -->
+                                                        <div id="photo-tab" class="tab" title="Photos" data-tab-index="15" style="display:block;">
+                                                            <div id="vehicle-image-row" class="row">
+                                                                <div class="col-25 padding-5">
+                                                                    <div class="custom-image-input">
+                                                                        <input id="vehicle-image" type="file" name="vehicle-image[]" accept=".png, .jpg, .jpeg" onchange="showImagePreview(event);" multiple/>
+                                                                        <label for="vehicle-image">
+                                                                            <img src="../assets/icons/image.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" on-hover="is-blue-10" alt="Add vehicle image">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <script>
+                                                            var fileVehicleImage = document.getElementById('vehicle-image');
+                                                            
+                                                            function removeImage(event) {
+
+                                                                let dataTransfer = new DataTransfer();
+                                                                for(file of fileVehicleImage.files){
+                                                                    if(event.target.alt != file.name){
+                                                                        dataTransfer.items.add(file);
+                                                                    }
+                                                                    //else{ event.target.style.display = "none";}
+                                                                }
+                                                                fileVehicleImage.files = dataTransfer.files;
+                                                                console.log(fileVehicleImage.files);
+                                                            }
+
+                                                            var vehicleImageRow = document.getElementById('vehicle-image-row');
+
+                                                            var div = document.createElement('div'); // reused
+
+                                                            function showImagePreview(event){
+
+                                                                let imageColumns = vehicleImageRow.querySelectorAll('[data-single-image-column]');
+                                                                for(imageColumn of imageColumns) {
+                                                                    vehicleImageRow.removeChild(imageColumn);
+                                                                }
+
+                                                                for(file of event.target.files){
+                                                                    let src = URL.createObjectURL(file);
+                                                                    //let name = file.name;
+                                                                    div.innerHTML = '<div class="col-25 padding-5" data-single-image-column><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImage(event);"></div></div>';
+                                                                    vehicleImageRow.append(div.firstChild);
+                                                                }
+                                                            }
+
+                                                        </script>
+                                                        <!-- Photo Tab Content -- end -->
+
                                                         <!-- Submit Tab Content -- start -->
-                                                        <div id="submit-tab" class="tab" title="Publish" data-tab-index="15" style="display:none;">
+                                                        <div id="submit-tab" class="tab" title="Publish" data-tab-index="16" style="display:none;">
                                                             <div class="row shadow-15 radius-20"> <!-- First Row -- start -->
                                                                 <div class="col padding-20">
                                                                     <img src="../assets/backgrounds/vehicle-publish.svg" alt="Publish Vehicle">
@@ -1514,10 +1565,7 @@
                     var div = document.createElement('div'); // reused
                     
                     for(feature of features){
-                        console.log(feature.id);
                         div.innerHTML = '<div class="col-auto"><div class="custom-checkbox margin-5"><input id="feature-'+feature.id+'" type="checkbox" name="vehicle-feature[]" value="'+feature.id+'"><label for="feature-'+feature.id+'" class="padding-5 radius-100 cursor-pointer is-white-90" title="'+feature.category+'"><span class="padding-10 radius-100 width-100">'+feature.feature+'</span></label></div></div>';
-                        console.log(div.firstChild);
-
                         vehicleFeatureContainer.append(div.firstChild);
                     }
                 
