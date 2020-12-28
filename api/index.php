@@ -216,9 +216,7 @@
 
             $payload = Token::getPayload($_POST['token']);
 
-            if($payload['user_type'] == 'seller'){
-                $_POST['vehicle-condition'] = '2';
-            }
+            if($payload['user_type'] == 'seller'){ $_POST['vehicle-condition'] = '2'; }
 
             $sql = "INSERT INTO `vehicle` (`name`, `price`, `mileage`, `engine`, `bhp`, `turn_radius`, `seat`, `top_speed`, `vehicle_condition_id`, `vehicle_type_id`, `vehicle_body_id`, `vehicle_transmission_id`, `front_vehicle_tyre_id`, `rear_vehicle_tyre_id`, `vehicle_fuel_id`, `vehicle_fuel_capacity`, `front_vehicle_break_id`, `rear_vehicle_break_id`, `front_vehicle_suspension_id`, `rear_vehicle_suspension_id`, `vehicle_model_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             
@@ -246,6 +244,8 @@
                 $_POST['vehicle-rear-suspension'],
                 $_POST['vehicle-model']
             );
+
+            $vehicleId = $data['inserted_id'];
             
             Api::send($data);
                 
@@ -254,9 +254,18 @@
         }
     });
 
-    /* Upload Photo */
-    Api::post('/photo/add',function(){
-        $valid = File::check('jpg','png','jpeg','svg');
+    /*
+        $_POST format ==> ['token'='...','vehicle_id'='...',image_id=[..., ..., ...]]
+    */
+    Api::post('/vehicle/image/add', function(){
+        // *** token checking here *** //
+        $_POST['image_id'] = json_decode($_POST['image_id'],true);
+        Api::send($_POST);
+    });
+
+    /* Upload Image File To Server */
+    Api::post('/image/save',function(){
+        $valid = File::check('jpg','png','jpeg');
         if($valid == TRUE) {
             $name = File::save();
             if($name){

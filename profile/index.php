@@ -714,53 +714,90 @@
                                                         <!-- Feature Tab Content -- end -->
 
                                                         <!-- Photo Tab Content -- start -->
-                                                        <div id="photo-tab" class="tab" title="Photos" data-tab-index="15" style="display:block;">
+                                                        <div id="photo-tab" class="tab" title="Photos" data-tab-index="15" style="display:none;">
                                                             <div id="vehicle-image-row" class="row">
-                                                                <div class="col-25 padding-5">
+
+                                                                <div id="vehicle-image-row-add-image-column" class="col-25 padding-5">
                                                                     <div class="custom-image-input">
-                                                                        <input id="vehicle-image" type="file" name="vehicle-image[]" accept=".png, .jpg, .jpeg" onchange="showImagePreview(event);" multiple/>
+                                                                        <input id="vehicle-image" type="file" name="vehicle-image[]" accept=".png, .jpg, .jpeg" onchange="showImagePreview();" multiple/>
                                                                         <label for="vehicle-image">
                                                                             <img src="../assets/icons/image.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" on-hover="is-blue-10" alt="Add vehicle image">
                                                                         </label>
                                                                     </div>
                                                                 </div>
+                                                                <!-- More columns will be added in JS -->
                                                             </div>
                                                         </div>
                                                         <script>
-                                                            var fileVehicleImage = document.getElementById('vehicle-image');
-                                                            
-                                                            function removeImage(event) {
-
-                                                                let dataTransfer = new DataTransfer();
-                                                                for(file of fileVehicleImage.files){
-                                                                    if(event.target.alt != file.name){
-                                                                        dataTransfer.items.add(file);
-                                                                    }
-                                                                    //else{ event.target.style.display = "none";}
-                                                                }
-                                                                fileVehicleImage.files = dataTransfer.files;
-                                                                console.log(fileVehicleImage.files);
-                                                            }
-
                                                             var vehicleImageRow = document.getElementById('vehicle-image-row');
+                                                            var vehicleImageRowAddImageColumn = document.getElementById('vehicle-image-row-add-image-column');
+                                                            var fileVehicleImage = document.getElementById('vehicle-image');
 
-                                                            var div = document.createElement('div'); // reused
+                                                            var dataTransfer = new DataTransfer();
+                                                            
+                                                            var div = document.createElement('div');
 
-                                                            function showImagePreview(event){
+                                                            function removeImagePreview(event) {
+                                                                let allFiles = [];
 
-                                                                let imageColumns = vehicleImageRow.querySelectorAll('[data-single-image-column]');
-                                                                for(imageColumn of imageColumns) {
-                                                                    vehicleImageRow.removeChild(imageColumn);
+                                                                for(let file of dataTransfer.files){
+                                                                    if(event.target.alt != file.name){
+                                                                        allFiles.push(file);
+                                                                    }
                                                                 }
 
-                                                                for(file of event.target.files){
-                                                                    let src = URL.createObjectURL(file);
-                                                                    //let name = file.name;
-                                                                    div.innerHTML = '<div class="col-25 padding-5" data-single-image-column><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImage(event);"></div></div>';
-                                                                    vehicleImageRow.append(div.firstChild);
+                                                                dataTransfer.items.clear();
+
+                                                                for(let file of allFiles){
+                                                                    dataTransfer.items.add(file);
                                                                 }
+
+                                                                // Re-setting the value
+                                                                fileVehicleImage.files = dataTransfer.files;
+
+                                                                // Removing Html DOMS
+                                                                let deleteColumn = vehicleImageRow.querySelectorAll('[data-image-name="'+event.target.alt+'"]')[0];
+                                                                deleteColumn.parentNode.removeChild(deleteColumn);
+
                                                             }
 
+                                                            function showImagePreview(){
+
+                                                                // Initializing some local vars
+                                                                let seenNames = [], newFiles = [], oldFiles = [];
+
+                                                                // Check old files first
+                                                                for(let file of dataTransfer.files){
+                                                                    if(!seenNames.includes(file.name)){
+                                                                        oldFiles.push(file);
+                                                                        seenNames.push(file.name);
+                                                                    }
+                                                                }
+
+                                                                // Check new files second
+                                                                for(let file of fileVehicleImage.files){
+                                                                    if(!seenNames.includes(file.name)){
+                                                                        newFiles.push(file);
+                                                                        seenNames.push(file.name);
+                                                                    }
+                                                                }
+
+                                                                dataTransfer.items.clear();
+
+                                                                for(let file of newFiles.concat(oldFiles)){
+                                                                    dataTransfer.items.add(file);
+                                                                }
+
+                                                                // Re-setting the value
+                                                                fileVehicleImage.files = dataTransfer.files;
+
+                                                                for(file of newFiles){
+                                                                    let src = URL.createObjectURL(file); // creating blob from File object
+                                                                    div.innerHTML = '<div class="col-25 padding-5" data-image-name="'+file.name+'"><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImagePreview(event);"></div></div>';
+                                                                    vehicleImageRowAddImageColumn.after(div.firstChild); // add new element after #vehicle-image-row-add-image-column
+                                                                }
+
+                                                            }
                                                         </script>
                                                         <!-- Photo Tab Content -- end -->
 
