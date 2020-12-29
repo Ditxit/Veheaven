@@ -148,22 +148,22 @@
                                                         <!-- Vehicle Type Content -- start -->
                                                         <div id="type-tab" class="tab" title="Bike or Car" data-tab-index="0" style="display:block;">
                                                             <div class="row">
-                                                                <div class="col-60 padding-y-10">
+                                                                <div class="col-60 padding-y-10" phone="col-100">
                                                                     <p class="h6">What are you selling ?</p>
                                                                     <p class="small">Select an option between mortorbike and car</p>
                                                                 </div>
-                                                                <div class="col-40">
+                                                                <div class="col-40" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col-50">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-type" value="1">
-                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" src="../assets/icons/vehicle/svg/005-motorbike.svg" alt="bike">
+                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-85" src="../assets/icons/vehicle/svg/005-motorbike.svg" alt="bike">
                                                                             </label>
                                                                         </div>
                                                                         <div class="col-50 custom-border-left">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-type" value="2">
-                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" src="../assets/icons/vehicle/svg/002-car.svg" alt="car">
+                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-85" src="../assets/icons/vehicle/svg/002-car.svg" alt="car">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -178,11 +178,11 @@
                                                             echo '
                                                             <div id="condition-tab" class="tab" title="New or Used" data-tab-index="1" style="display:none;">
                                                                 <div class="row">
-                                                                    <div class="col-60 padding-y-10">
+                                                                    <div class="col-60 padding-y-10" phone="col-100">
                                                                         <p class="h6">What is the vehicle condition ?</p>
                                                                         <p class="small">Select an option between new and used</p>
                                                                     </div>
-                                                                    <div class="col-40">
+                                                                    <div class="col-40" phone="col-100">
                                                                         <div class="row radius-20 custom-border">
                                                                             <div class="col-50">
                                                                                 <label class="custom-radio">
@@ -209,24 +209,29 @@
                                                         <div id="general-tab" class="tab" title="General Detail" data-tab-index="2" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Enter name of vehicle</p>
                                                                     <p class="small">Try to enter the name that make sense</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-name" name="vehicle-name" type="text" placeholder="2020 Jaguar Diesel Prestige" class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <input id="vehicle-name" name="vehicle-name" type="text" inputmode="text" placeholder="Eg: 2020 Jaguar Diesel Prestige" class="padding-20 radius-20 is-white-95 custom-border">
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Enter selling price of vehicle</p>
                                                                     <p class="small">Price should be in Nepalese Rupee (NRs.)</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-price" name="vehicle-price" type="number" placeholder="Nrs." class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col-auto is-white custom-border-right"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">NRs.</span></div>
+                                                                        <div class="col">
+                                                                            <input id="vehicle-price" name="vehicle-price" type="text" inputmode="decimal" placeholder="Eg: 350000" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
@@ -236,12 +241,12 @@
                                                         <!-- Manufacturer & Modal Tab Content -- start -->
                                                         <div id="manufacturer-tab" class="tab" title="Make and Model" data-tab-index="3" style="display:none;">
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Manufacturer</p>
                                                                     <p class="small">Select the manufacturer from the list</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-brand" name="vehicle-brand" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-brand" name="vehicle-brand" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -250,12 +255,12 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Model</p>
                                                                     <p class="small">Select the modal from the list</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-model" name="vehicle-model" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-model" name="vehicle-model" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -267,11 +272,11 @@
                                                         <div id="owner-detail-tab" class="tab" title="Owner Detail" data-tab-index="4" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Total number of owners</p>
                                                                     <p class="small">Do not forget to count yourself</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -310,24 +315,41 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Vehicle Registration Date</p>
-                                                                    <p class="small">Try to enter correct registration date</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Distance Travelled</p>
+                                                                    <p class="small">Enter vehicle travelled distance</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-registered-year" name="vehicle-registered-year" type="month" placeholder="YYYY" min="1900" max="2100" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-travelled-distance" name="vehicle-travelled-distance" type="text" inputmode="decimal" placeholder="Eg: 3000" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Third Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Vehicle Registration Date</p>
+                                                                    <p class="small">Try to enter correct registration date</p>
+                                                                </div>
+                                                                <div class="col-50" phone="col-100">
+                                                                    <input id="vehicle-registered-year" name="vehicle-registered-year" type="month" placeholder="YYYY" min="1900" max="2100" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
+                                                                </div>
+                                                            </div> <!-- Third Row -- end -->
+
+                                                            <hr class="margin-y-30">
+
+                                                            <div class="row has-gap-20"> <!-- Fourth Row -- start -->
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Vehicle Registred Province</p>
                                                                     <p class="small">Select an provience from dropdown</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-province" name="vehicle-province" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-province" name="vehicle-province" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <?php 
                                                                             $provinces = file_get_contents(API_ENDPOINT.'/province');
                                                                             $provinces = json_decode($provinces,TRUE);
@@ -338,19 +360,19 @@
                                                                         ?>
                                                                     </select>
                                                                 </div>
-                                                            </div> <!-- Third Row -- end -->
+                                                            </div> <!-- Fourth Row -- end -->
 
                                                             <hr class="margin-y-30">
 
-                                                            <div class="row has-gap-20"> <!-- Fourth Row -- start -->
+                                                            <div class="row has-gap-20"> <!-- Fifth Row -- start -->
                                                                 <div class="col-100 padding-y-10">
                                                                     <p class="h6">Your Message</p>
                                                                     <p class="small">Write a brief description about the vehicle</p>
                                                                 </div>
                                                                 <div class="col-100">
-                                                                    <textarea id="vehicle-owner-message" name="vehicle-owner-message" placeholder="Message..." class="padding-20 radius-20"></textarea>
+                                                                    <textarea id="vehicle-owner-message" name="vehicle-owner-message" inputmode="text" placeholder="Eg: This is a Duke RC 390cc bike with good mileage..." class="padding-20 radius-20 is-white-95 custom-border"></textarea>
                                                                 </div>
-                                                            </div> <!-- Fourth Row -- end -->
+                                                            </div> <!-- Fifth Row -- end -->
 
                                                         </div>
                                                         <!-- Owner Detail Tab Contnet -- end -->
@@ -359,12 +381,12 @@
                                                         <div id="body-tab" class="tab" title="Body Detail" data-tab-index="5" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Vehicle body</p>
                                                                     <p class="small">Body type of your vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-body" name="vehicle-body" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-body" name="vehicle-body" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -373,12 +395,17 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Total number of seats</p>
                                                                     <p class="small">How many seats your vehicle have ?</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-seat" name="vehicle-seat" type="number" placeholder="1,2,3 ..." class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-seat" name="vehicle-seat" type="text" inputmode="decimal" placeholder="Eg: 2" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">seats</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
                                         
@@ -389,24 +416,34 @@
                                                         <div id="engine-tab" class="tab" title="Engine Detail" data-tab-index="6" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Cubic capacity (CC)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Cubic capacity</p>
                                                                     <p class="small">Enter the cubic capatity of engine</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-cc" name="vehicle-cc" type="number" placeholder="CC" class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-cc" name="vehicle-cc" type="text" inputmode="decimal" placeholder="Eg: 180" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">cc</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Brake Horse Power (BHP)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Brake Horse Power</p>
                                                                     <p class="small">Enter the break horse power of engine</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-bhp" name="vehicle-bhp" type="number" placeholder="BHP" class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-bhp" name="vehicle-bhp" type="text" inputmode="decimal" placeholder="Eg: 20" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">bhp</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
@@ -417,12 +454,12 @@
                                                         <div id="fuel-tab" class="tab" title="Fuel Detail" data-tab-index="7" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Fuel type</p>
                                                                     <p class="small">Select the fuel used by vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-fuel" name="vehicle-fuel" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-fuel" name="vehicle-fuel" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -431,12 +468,17 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Fuel Capacity (Liter)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Fuel Capacity</p>
                                                                     <p class="small">Enter the fuel capacity of tank</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-fuel-capacity" name="vehicle-fuel-capacity" type="number" placeholder="liter" class="padding-20 radius-20">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-fuel-capacity" name="vehicle-fuel-capacity" type="text" inputmode="decimal" placeholder="Eg: 34.5" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">liter</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
@@ -446,11 +488,11 @@
                                                         <!-- Transmission Content -- start -->
                                                         <div id="transmission-tab" class="tab" title="Transmission" data-tab-index="8" style="display:none;">
                                                             <div class="row">
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Vehicle transmission type</p>
                                                                     <p class="small">Select the transmission type of vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -480,11 +522,11 @@
                                                         <div id="tyre-tab" class="tab" title="Tyres" data-tab-index="9" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                 <p class="h6">Front tyre</p>
                                                                     <p class="small">Tyre type of the font wheel(s)</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -511,11 +553,11 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Rear tyre</p>
                                                                     <p class="small">Tyre type of the rear wheel(s)</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -546,11 +588,11 @@
                                                         <div id="break-tab" class="tab" title="Breaks" data-tab-index="10" style="display:none;">
 
                                                             <div class="row"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                 <p class="h6">Front break</p>
                                                                     <p class="small">Break type of the font wheel(s)</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -577,11 +619,11 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                 <p class="h6">Rear break</p>
                                                                     <p class="small">Break type of the rear wheel(s)</p>
                                                                 </div>
-                                                                <div class="col-50">
+                                                                <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
                                                                         <div class="col">
                                                                             <label class="custom-radio">
@@ -611,12 +653,12 @@
                                                         <!-- Suspension Tab Content -- start -->
                                                         <div id="suspension-tab" class="tab" title="Suspensions" data-tab-index="11" style="display:none;">
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Front suspension</p>
                                                                     <p class="small">Select the front wheel(s) suspension</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-front-suspension" name="vehicle-front-suspension" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-front-suspension" name="vehicle-front-suspension" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -625,12 +667,12 @@
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
+                                                                <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Rear suspension</p>
                                                                     <p class="small">Select the rear wheel(s) suspension</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <select id="vehicle-rear-suspension" name="vehicle-rear-suspension" class="padding-20 radius-20 cursor-pointer">
+                                                                <div class="col-50" phone="col-100">
+                                                                    <select id="vehicle-rear-suspension" name="vehicle-rear-suspension" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
                                                                 </div>
@@ -642,36 +684,51 @@
                                                         <div id="performance-tab" class="tab" title="Performance" data-tab-index="12" style="display:none;">
 
                                                             <div class="row has-gap-20"> <!-- First Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Mileage (Km/litre)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Mileage</p>
                                                                     <p class="small">Enter the mileage of the vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-mileage" name="vehicle-mileage" type="number" placeholder="kilometer" class="padding-20 radius-20"/>
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-mileage" name="vehicle-mileage" type="text" inputmode="decimal" placeholder="Eg: 40" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/ltr</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Top Speed (Km/hour)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Top Speed</p>
                                                                     <p class="small">Enter the top speed of the vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-top-speed" name="vehicle-top-speed" type="number" placeholder="kilometer" class="padding-20 radius-20"/>
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-top-speed" name="vehicle-top-speed" type="text" inputmode="decimal" placeholder="Eg: 160" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/hr</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
 
                                                             <hr class="margin-y-30">
 
                                                             <div class="row has-gap-20"> <!-- Third Row -- start -->
-                                                                <div class="col-50 padding-y-10">
-                                                                    <p class="h6">Turn Radius (meter)</p>
+                                                                <div class="col-50 padding-y-10" phone="col-100">
+                                                                    <p class="h6">Turn Radius</p>
                                                                     <p class="small">Enter the turn radius of the vehicle</p>
                                                                 </div>
-                                                                <div class="col-50">
-                                                                    <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="number" placeholder="meter" class="padding-20 radius-20"/>
+                                                                <div class="col-50" phone="col-100">
+                                                                    <div class="row is-white-95 custom-border radius-20">
+                                                                        <div class="col">
+                                                                            <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="text" inputmode="decimal" placeholder="Eg: 1.5" class="padding-20 is-transparent custom-border-none">
+                                                                        </div>
+                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">meter</span></div>
+                                                                    </div>
                                                                 </div>
                                                             </div> <!-- Third Row -- end -->
 
@@ -682,19 +739,23 @@
                                                         <div id="color-tab" class="tab" title="Colors" data-tab-index="13" style="display:none;">
                                                             <div class="row">
                                                             <?php 
-                                                                function textColor($hexcolor){
-                                                                    return (hexdec($hexcolor) > 0xffffff/2) ? '#000000':'#FFFFFF';
-                                                                }
                                                                 $colors = file_get_contents(API_ENDPOINT.'/colors');
                                                                 $colors = json_decode($colors,TRUE);
 
                                                                 foreach ($colors as $color){
                                                                     echo '
-                                                                        <div class="col-25">
+                                                                        <div class="col-auto" phone="col-33">
                                                                             <div class="custom-checkbox margin-5" title="'.$color['color'].'">
                                                                                 <input id="'.$color['color'].'-'.$color['id'].'" type="checkbox" name="vehicle-color[]" value="'.$color['id'].'">
-                                                                                <label for="'.$color['color'].'-'.$color['id'].'" class="padding-5 radius-100 cursor-pointer">
-                                                                                    <span class="padding-10 radius-100 width-100 text-center shadow-20" style="background-color:'.$color['hexcode'].'; color:'.textColor($color['hexcode']).'">'.$color['color'].'</span>
+                                                                                <label for="'.$color['color'].'-'.$color['id'].'" class="padding-5 radius-100 cursor-pointer is-white-95">
+                                                                                    <div class="row">
+                                                                                        <div class="col-auto">
+                                                                                            <span class="radius-circle padding-20 custom-border" style="background-color:'.$color['hexcode'].';"></span>
+                                                                                        </div>
+                                                                                        <div class="col">
+                                                                                            <span class="padding-y-5 padding-x-10" style="margin-top: 2px;">'.$color['color'].'</span>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -721,7 +782,7 @@
                                                                     <div class="custom-image-input">
                                                                         <input id="vehicle-image" type="file" name="vehicle-image[]" accept=".png, .jpg, .jpeg" onchange="showImagePreview();" multiple/>
                                                                         <label for="vehicle-image">
-                                                                            <img src="../assets/icons/image.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" on-hover="is-blue-10" alt="Add vehicle image">
+                                                                            <img src="../assets/icons/plus.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" on-hover="is-blue-10" alt="Add vehicle image">
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -793,7 +854,7 @@
 
                                                                 for(file of newFiles){
                                                                     let src = URL.createObjectURL(file); // creating blob from File object
-                                                                    div.innerHTML = '<div class="col-25 padding-5" data-image-name="'+file.name+'"><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImagePreview(event);"></div></div>';
+                                                                    div.innerHTML = '<div style="min-height:'+vehicleImageRowAddImageColumn.offsetHeight +'px;" class="col-25 padding-5" data-image-name="'+file.name+'"><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImagePreview(event);"></div></div>';
                                                                     vehicleImageRowAddImageColumn.after(div.firstChild); // add new element after #vehicle-image-row-add-image-column
                                                                 }
 
@@ -803,19 +864,19 @@
 
                                                         <!-- Submit Tab Content -- start -->
                                                         <div id="submit-tab" class="tab" title="Publish" data-tab-index="16" style="display:none;">
-                                                            <div class="row shadow-15 radius-20"> <!-- First Row -- start -->
-                                                                <div class="col padding-20">
+                                                            <div class="row radius-20"> <!-- First Row -- start -->
+                                                                <div class="col-30 padding-20" phone="col-100">
                                                                     <img src="../assets/backgrounds/vehicle-publish.svg" alt="Publish Vehicle">
                                                                 </div>
-                                                                <div class="col padding-20">
+                                                                <div class="col-70 padding-20" phone="col-100">
                                                                         <div class="row">
                                                                             <div class="col-100">
-                                                                                <p class="h6">Publish Now ?</p>
+                                                                                <p class="h5">Publish Now ?</p>
                                                                                 <p class="small">We reached the end of the form, click publish to post</p>
                                                                             </div>
                                                                             <div class="col-100">
                                                                                 <input type="hidden" name="token" value="<?=$_COOKIE['token'];?>">
-                                                                                <input id="vehicle-add" name="vehicle-add" type="submit" value="Publish" class="is-deep-purple-50 radius-10 padding-15 margin-y-15 width-60" on-hover="is-deep-purple-60">
+                                                                                <input id="vehicle-add" name="vehicle-add" type="submit" value="Publish" class="is-deep-purple-50 radius-10 padding-15 margin-y-25 width-50" on-hover="is-deep-purple-60">
                                                                             </div>
                                                                         </div>
                                                                 </div>
@@ -896,6 +957,7 @@
         var selectVehicleModel = document.getElementById('vehicle-model');
 
         var radioVehicleOwners = document.getElementsByName('vehicle-owners');
+        var numberVehicleTravelledDistance = document.getElementById('vehicle-travelled-distance');
         var dateVehicleRegisteredYear = document.getElementById('vehicle-registered-year');
         var selectVehicleProvince = document.getElementById('vehicle-province');
         var textareaOwnerMessage = document.getElementById('vehicle-owner-message');
@@ -1030,6 +1092,29 @@
 
             }
 
+        }
+
+        function validateVehicleTravelledDistance(){
+
+            var distance = numberVehicleTravelledDistance.value.trim();
+
+            if(distance == ""){
+
+                return {success: false, message : "Please enter the travelled distance of vehicle"};
+
+            }else if(isNaN(parseInt(distance)) || !isFinite(distance) || parseFloat(distance) !== parseInt(distance)){
+
+                return {success: false, message : "Value in vehicle travelled distance field is not valid"};
+            
+            }else if(parseInt(distance) <= 0){
+
+                return {success: false, message : "Vehicle travelled distance cannot be negative or zero"};
+
+            }else{
+
+                return {success: true};
+
+            }
         }
 
         function validateVehicleRegisteredYear(){
@@ -1354,6 +1439,13 @@
                     return;
                 }
 
+                validation = validateVehicleTravelledDistance();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
                 validation = validateVehicleRegisteredYear();
 
                 if(!validation.success){
@@ -1602,7 +1694,7 @@
                     var div = document.createElement('div'); // reused
                     
                     for(feature of features){
-                        div.innerHTML = '<div class="col-auto"><div class="custom-checkbox margin-5"><input id="feature-'+feature.id+'" type="checkbox" name="vehicle-feature[]" value="'+feature.id+'"><label for="feature-'+feature.id+'" class="padding-5 radius-100 cursor-pointer is-white-90" title="'+feature.category+'"><span class="padding-10 radius-100 width-100">'+feature.feature+'</span></label></div></div>';
+                        div.innerHTML = '<div class="col-auto"><div class="custom-checkbox margin-5"><input id="feature-'+feature.id+'" type="checkbox" name="vehicle-feature[]" value="'+feature.id+'"><label for="feature-'+feature.id+'" class="padding-5 radius-100 cursor-pointer is-white-90" title="'+feature.category+'"><span class="padding-x-10 padding-y-5 radius-100 width-100">'+feature.feature+'</span></label></div></div>';
                         vehicleFeatureContainer.append(div.firstChild);
                     }
                 
