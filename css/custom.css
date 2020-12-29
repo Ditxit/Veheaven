@@ -47,22 +47,26 @@
 /* For border */
 
 .custom-border{
-    border: 1.5px solid #ddd;
+    border: 1.6px solid #ddd;
+}
+
+.custom-border-none{
+    border: none !important;
 }
 
 .custom-border-top{
-    border-top: 1.5px solid #ddd;
+    border-top: 1.6px solid #ddd;
 }
 
 .custom-border-bottom{
-    border-bottom: 1.5px solid #ddd;
+    border-bottom: 1.6px solid #ddd;
 }
 
 .custom-border-left{
-    border-left: 1.5px solid #ddd;
+    border-left: 1.6px solid #ddd;
 }
 
 .custom-border-right{
-    border-right: 1.5px solid #ddd;
+    border-right: 1.6px solid #ddd;
 }
 
