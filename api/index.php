@@ -244,26 +244,163 @@
                 $_POST['vehicle-rear-suspension'],
                 $_POST['vehicle-model']
             );
-
-            $vehicleId = $data['inserted_id'];
             
             Api::send($data);
                 
-        }else{
-            Api::send(['Token Error']);
         }
+        Api::send(['Token Error']);
     });
+
+    /* 
+    *   Add data to used_vehicle table 
+    *   $_POST = [
+            'token'='...',
+            'vehicle-id'='...',
+            'vehicle-owners'='...',
+            'vehicle-owner-message'='...',
+            'vehicle-travelled-distance'='...',
+            'vehicle-registered-year'='...',
+            'vehicle-province'='...'
+        ]
+
+    */
+
+    Api::post('/used/vehicle/add',function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $sql = "INSERT INTO 
+                    `used_vehicle` (
+                        `vehicle_id`,
+                        `owners`,
+                        `owners_message`,
+                        `distance`,
+                        `registered_date`,
+                        `vehicle_province_id`
+                    ) 
+                    
+                    VALUES (?,?,?,?,?,?);";
+        
+        $data = Database::query(
+            $sql, 
+            $_POST['vehicle-id'],
+            $_POST['vehicle-owners'],
+            $_POST['vehicle-owner-message'],
+            $_POST['vehicle-travelled-distance'],
+            $_POST['vehicle-registered-year'],
+            $_POST['vehicle-province']
+        );
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
+    });
+
+    /* 
+    *   Add data to vehicle_color_list table 
+    *   $_POST = [
+            'token'='...',
+            'vehicle-color'='...',
+        ]
+
+    */
+    Api::post('/vehicle/color/add',function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $sql = "INSERT INTO `vehicle_color_list` (`vehicle_id`,`vehicle_color_id`) VALUES (?,?);";
+        $color_ids = json_decode($_POST['color-id'],TRUE);
+
+        foreach ($color_ids as $color_id) {
+            $data = Database::query($sql,$_POST['vehicle-id'],$color_id);
+        }
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
+    });
+
 
     /*
         $_POST format ==> ['token'='...','vehicle_id'='...',image_id=[..., ..., ...]]
     */
-    Api::post('/vehicle/image/add', function(){
-        // *** token checking here *** //
-        $_POST['image_id'] = json_decode($_POST['image_id'],true);
-        Api::send($_POST);
+    Api::post('/vehicle/image/add',function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $sql = "INSERT INTO `vehicle_image` (`vehicle_id`,`image_id`) VALUES (?,?);";
+        $image_ids = json_decode($_POST['image-id'],TRUE);
+
+        foreach ($image_ids as $image_id) {
+            $data = Database::query($sql,$_POST['vehicle-id'],$image_id);
+        }
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
     });
 
-    /* Upload Image File To Server */
+    /* Upload image file to server and save image name in 'image' table */
     Api::post('/image/save',function(){
         $valid = File::check('jpg','png','jpeg');
         if($valid == TRUE) {
