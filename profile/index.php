@@ -143,7 +143,7 @@
 
                                                 <!-- Card Body Content Container -- start -->
                                                 <div class="col-100" id="add-vehicle-form">
-                                                    <form action="../controller/vehicle.php" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
+                                                    <form action="../controller/vehicle.php" method="POST" enctype="multipart/form-data" class="padding-x-20 padding-40 scoped-custom-form" style="min-height:auto; max-height:65vh; overflow-y:scroll;">
 
                                                         <!-- Vehicle Type Content -- start -->
                                                         <div id="type-tab" class="tab" title="Bike or Car" data-tab-index="0" style="display:block;">
@@ -154,16 +154,16 @@
                                                                 </div>
                                                                 <div class="col-40" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col-50">
+                                                                        <div class="col-50" title="bike">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-type" value="1">
-                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-85" src="../assets/icons/vehicle/svg/005-motorbike.svg" alt="bike">
+                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-70" src="../assets/icons/vehicle/svg/005-motorbike.svg" alt="bike">
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col-50 custom-border-left">
+                                                                        <div class="col-50 custom-border-left" title="car">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-type" value="2">
-                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-85" src="../assets/icons/vehicle/svg/002-car.svg" alt="car">
+                                                                                <img class="custom-radio-option padding-x-50 padding-y-10" phone="padding-x-70" src="../assets/icons/vehicle/svg/002-car.svg" alt="car">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -184,13 +184,13 @@
                                                                     </div>
                                                                     <div class="col-40" phone="col-100">
                                                                         <div class="row radius-20 custom-border">
-                                                                            <div class="col-50">
+                                                                            <div class="col-50" title="new">
                                                                                 <label class="custom-radio">
                                                                                     <input type="radio" name="vehicle-condition" value="1">
                                                                                     <p class="custom-radio-option text-center padding-y-20">New</p>
                                                                                 </label>
                                                                             </div>
-                                                                            <div class="col-50 custom-border-left">
+                                                                            <div class="col-50 custom-border-left" title="used">
                                                                                 <label class="custom-radio">
                                                                                     <input type="radio" name="vehicle-condition" value="2">
                                                                                     <p class="custom-radio-option text-center padding-y-20">Used</p>
@@ -213,7 +213,7 @@
                                                                     <p class="h6">Enter name of vehicle</p>
                                                                     <p class="small">Try to enter the name that make sense</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="vehicle name">
                                                                     <input id="vehicle-name" name="vehicle-name" type="text" inputmode="text" placeholder="Eg: 2020 Jaguar Diesel Prestige" class="padding-20 radius-20 is-white-95 custom-border">
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
@@ -227,8 +227,8 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col-auto is-white custom-border-right"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">NRs.</span></div>
-                                                                        <div class="col">
+                                                                        <div class="col-auto is-white custom-border-right" title="Nepalese rupee"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">NRs.</span></div>
+                                                                        <div class="col" title="vehicle price">
                                                                             <input id="vehicle-price" name="vehicle-price" type="text" inputmode="decimal" placeholder="Eg: 350000" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
                                                                     </div>
@@ -245,7 +245,7 @@
                                                                     <p class="h6">Manufacturer</p>
                                                                     <p class="small">Select the manufacturer from the list</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="manufacturer">
                                                                     <select id="vehicle-brand" name="vehicle-brand" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -259,7 +259,7 @@
                                                                     <p class="h6">Model</p>
                                                                     <p class="small">Select the modal from the list</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="model">
                                                                     <select id="vehicle-model" name="vehicle-model" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -278,31 +278,31 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+                                                                        <div class="col" title="1 owner">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">1</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="2 owners">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">2</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="3 owners">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">3</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="4 owners">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="4">
                                                                                 <p class="custom-radio-option text-center padding-y-20">4</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="5 owners">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-owners" value="5">
                                                                                 <p class="custom-radio-option text-center padding-y-20">5</p>
@@ -321,10 +321,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="travelled distance">
                                                                             <input id="vehicle-travelled-distance" name="vehicle-travelled-distance" type="text" inputmode="decimal" placeholder="Eg: 3000" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
@@ -336,8 +338,8 @@
                                                                     <p class="h6">Vehicle Registration Date</p>
                                                                     <p class="small">Try to enter correct registration date</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
-                                                                    <input id="vehicle-registered-year" name="vehicle-registered-year" type="month" placeholder="YYYY" min="1900" max="2100" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
+                                                                <div class="col-50" phone="col-100" title="registered date">
+                                                                    <input id="vehicle-registered-year" name="vehicle-registered-year" type="date" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                 </div>
                                                             </div> <!-- Third Row -- end -->
 
@@ -348,7 +350,7 @@
                                                                     <p class="h6">Vehicle Registred Province</p>
                                                                     <p class="small">Select an provience from dropdown</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="registered province">
                                                                     <select id="vehicle-province" name="vehicle-province" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <?php 
                                                                             $provinces = file_get_contents(API_ENDPOINT.'/province');
@@ -369,7 +371,7 @@
                                                                     <p class="h6">Your Message</p>
                                                                     <p class="small">Write a brief description about the vehicle</p>
                                                                 </div>
-                                                                <div class="col-100">
+                                                                <div class="col-100" title="owners message">
                                                                     <textarea id="vehicle-owner-message" name="vehicle-owner-message" inputmode="text" placeholder="Eg: This is a Duke RC 390cc bike with good mileage..." class="padding-20 radius-20 is-white-95 custom-border"></textarea>
                                                                 </div>
                                                             </div> <!-- Fifth Row -- end -->
@@ -385,7 +387,7 @@
                                                                     <p class="h6">Vehicle body</p>
                                                                     <p class="small">Body type of your vehicle</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="body">
                                                                     <select id="vehicle-body" name="vehicle-body" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -401,10 +403,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="seat count">
                                                                             <input id="vehicle-seat" name="vehicle-seat" type="text" inputmode="decimal" placeholder="Eg: 2" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">seats</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">seats</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
@@ -422,10 +426,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="cubic capacity">
                                                                             <input id="vehicle-cc" name="vehicle-cc" type="text" inputmode="decimal" placeholder="Eg: 180" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">cc</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">cc</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
@@ -439,10 +445,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="brake horse power">
                                                                             <input id="vehicle-bhp" name="vehicle-bhp" type="text" inputmode="decimal" placeholder="Eg: 20" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">bhp</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">bhp</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
@@ -458,7 +466,7 @@
                                                                     <p class="h6">Fuel type</p>
                                                                     <p class="small">Select the fuel used by vehicle</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="fuel type">
                                                                     <select id="vehicle-fuel" name="vehicle-fuel" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -474,10 +482,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="fuel capacity">
                                                                             <input id="vehicle-fuel-capacity" name="vehicle-fuel-capacity" type="text" inputmode="decimal" placeholder="Eg: 34.5" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">liter</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">liter</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
@@ -494,19 +504,19 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+                                                                        <div class="col" title="automatic transmssion">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-transmission" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Automatic</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="manual transmssion">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-transmission" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Manual</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="other transmssion">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-transmission" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
@@ -528,24 +538,26 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+
+                                                                        <div class="col" title="tubed tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-tyre" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubed</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="tubeless tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-tyre" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="other tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-tyre" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
                                                                             </label>
                                                                         </div>
+
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
@@ -559,19 +571,19 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+                                                                        <div class="col" title="tubed tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-tyre" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubed</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="tubeless tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-tyre" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Tubeless</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="other tyre">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-tyre" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
@@ -594,19 +606,19 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+                                                                        <div class="col" title="disk break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-break" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Disk</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="drum break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-break" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Drum</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="other break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-front-break" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
@@ -625,19 +637,19 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row radius-20 custom-border">
-                                                                        <div class="col">
+                                                                        <div class="col" title="disk break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-break" value="1">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Disk</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="drum break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-break" value="2">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Drum</p>
                                                                             </label>
                                                                         </div>
-                                                                        <div class="col custom-border-left">
+                                                                        <div class="col custom-border-left" title="other break">
                                                                             <label class="custom-radio">
                                                                                 <input type="radio" name="vehicle-rear-break" value="3">
                                                                                 <p class="custom-radio-option text-center padding-y-20">Other</p>
@@ -657,7 +669,7 @@
                                                                     <p class="h6">Front suspension</p>
                                                                     <p class="small">Select the front wheel(s) suspension</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="front suspension">
                                                                     <select id="vehicle-front-suspension" name="vehicle-front-suspension" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -671,7 +683,7 @@
                                                                     <p class="h6">Rear suspension</p>
                                                                     <p class="small">Select the rear wheel(s) suspension</p>
                                                                 </div>
-                                                                <div class="col-50" phone="col-100">
+                                                                <div class="col-50" phone="col-100" title="rear suspension">
                                                                     <select id="vehicle-rear-suspension" name="vehicle-rear-suspension" class="padding-20 radius-20 cursor-pointer is-white-95 custom-border">
                                                                         <!-- Options will be added in JS -->
                                                                     </select>
@@ -690,10 +702,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="mileage">
                                                                             <input id="vehicle-mileage" name="vehicle-mileage" type="text" inputmode="decimal" placeholder="Eg: 40" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/ltr</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/ltr</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- First Row -- end -->
@@ -707,10 +721,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="top speed">
                                                                             <input id="vehicle-top-speed" name="vehicle-top-speed" type="text" inputmode="decimal" placeholder="Eg: 160" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/hr</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">km/hr</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Second Row -- end -->
@@ -724,10 +740,12 @@
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col">
+                                                                        <div class="col" title="turn radius">
                                                                             <input id="vehicle-turn-radius" name="vehicle-turn-radius" type="text" inputmode="decimal" placeholder="Eg: 1.5" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
-                                                                        <div class="col-auto is-white custom-border-left"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">meter</span></div>
+                                                                        <div class="col-auto is-white custom-border-left" title="unit">
+                                                                            <span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">meter</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div> <!-- Third Row -- end -->
@@ -744,7 +762,7 @@
 
                                                                 foreach ($colors as $color){
                                                                     echo '
-                                                                        <div class="col-auto" phone="col-33">
+                                                                        <div class="col-auto">
                                                                             <div class="custom-checkbox margin-5" title="'.$color['color'].'">
                                                                                 <input id="'.$color['color'].'-'.$color['id'].'" type="checkbox" name="vehicle-color[]" value="'.$color['id'].'">
                                                                                 <label for="'.$color['color'].'-'.$color['id'].'" class="padding-5 radius-100 cursor-pointer is-white-95">
@@ -782,7 +800,7 @@
                                                                     <div class="custom-image-input">
                                                                         <input id="vehicle-image" type="file" name="vehicle-image[]" accept=".png, .jpg, .jpeg" onchange="showImagePreview();" multiple/>
                                                                         <label for="vehicle-image">
-                                                                            <img src="../assets/icons/plus.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" on-hover="is-blue-10" alt="Add vehicle image">
+                                                                            <img src="../assets/icons/plus.svg" class="padding-50 is-blue-5 cursor-pointer radius-20" phone="-padding-50 padding-25" on-hover="is-blue-10" alt="Add vehicle image">
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -871,8 +889,8 @@
                                                                 <div class="col-70 padding-20" phone="col-100">
                                                                         <div class="row">
                                                                             <div class="col-100">
-                                                                                <p class="h5">Publish Now ?</p>
-                                                                                <p class="small">We reached the end of the form, click publish to post</p>
+                                                                                <p class="h5">Ready to Publish</p>
+                                                                                <p class="small">We have gathered all the information that are necessary for creating vehicle sale avertisement</p>
                                                                             </div>
                                                                             <div class="col-100">
                                                                                 <input type="hidden" name="token" value="<?=$_COOKIE['token'];?>">
@@ -985,6 +1003,12 @@
         var numberVehicleMileage = document.getElementById('vehicle-mileage');
         var numberVehicleTopSpeed = document.getElementById('vehicle-top-speed');
         var numberVehicleTurnRadius = document.getElementById('vehicle-turn-radius');
+
+        var checkboxVehicleColor = document.getElementsByName('vehicle-color[]');
+
+        // var checkboxVehicleFeature = document.getElementsByName('vehicle-feature');
+
+        // var fileVehicleImage = document.getElementsByName(''); // already initialized
 
         function getSelectedRadioValueOf(radioElementObject){
             for(var i = 0; i < radioElementObject.length; i++){
@@ -1371,11 +1395,33 @@
 
         }
 
+        function validateVehicleColor(){
+            for(checkbox of checkboxVehicleColor){
+                if(checkbox.checked) return {success: true};
+            }
+            return {success: false, message : "Atlease one vehicle color must be selected"};
+        }
+
+        // function validateVehicleFeature(){
+        //     for(checkbox of checkboxVehicleFeature){
+        //         if(checkbox.checked) return {success: true};
+        //     }
+        //     return {success: false, message : "Atlease one vehicle feature must be selected"};
+        // }
+
+        function validateVehiclePhoto(){
+            if(fileVehicleImage.files.length > 0){
+                return {success: true};
+            }
+            return {success: false, message : "Atlease one vehicle image must be added"};
+        }
+
         function updateButtonsState(){
             var index = getCurrentTabIndex(); 
             cardTitle.innerText = tabs[index].title;
             previousButton.style.display = (index == 0) ? 'none' : 'block';
-            nextButton.innerText = (index == tabs.length-1) ? 'Post' : 'Next';
+            //nextButton.innerText = (index == tabs.length-1) ? 'Post' : 'Next';
+            nextButton.style.display = (index == tabs.length-1) ? 'none' : 'block';
             progressBar.style.minWidth = ''+index/Math.max(1, tabs.length-1)*100+'%';
         }
 
@@ -1394,7 +1440,7 @@
             var index = getCurrentTabIndex(); // Current Index
             var tabIndex = tabs[index].getAttribute('data-tab-index');
 
-            if(tabIndex == 0){
+            if(tabIndex == 0){ // type tab
 
                 var validation = validateVehicleType();
 
@@ -1403,7 +1449,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 1){
+            }else if(tabIndex == 1){ // condition tab
 
                 var validation = validateVehicleCondition();
 
@@ -1412,7 +1458,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 2){
+            }else if(tabIndex == 2){ // general tab
 
                 var validation = validateVehicleName();
 
@@ -1428,9 +1474,9 @@
                     return;
                 }
 
-            }else if(tabIndex == 3){
-                // Ignore
-            }else if(tabIndex == 4){
+            }else if(tabIndex == 3){ // make and nodel tab
+                // ignore
+            }else if(tabIndex == 4){ // owner detail tab
 
                 var validation = validateVehicleOwners();
 
@@ -1453,14 +1499,16 @@
                     return;
                 }
                 
-            }else if(tabIndex == 5){
+            }else if(tabIndex == 5){ // body tab
+
                 var validation = validateVehicleSeat();
 
                 if(!validation.success){
                     setErrorMessage(validation.message);
                     return;
                 }
-            }else if(tabIndex == 6){
+
+            }else if(tabIndex == 6){ // engine tab
 
                 var validation = validateVehicleEngine();
 
@@ -1476,7 +1524,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 7){
+            }else if(tabIndex == 7){ // fuel tab
 
                 var validation = validateVehicleFuelCapacity();
 
@@ -1485,7 +1533,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 8){
+            }else if(tabIndex == 8){ // transmission tab
 
                 var validation = validateVehicleTransmission();
 
@@ -1494,7 +1542,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 9){
+            }else if(tabIndex == 9){ // tyre tab
 
                 var validation = validateVehicleFrontTyre();
 
@@ -1510,7 +1558,7 @@
                     return;
                 }
 
-            }else if(tabIndex == 10){
+            }else if(tabIndex == 10){ // break tab
 
                 var validation = validateVehicleFrontBreak();
 
@@ -1526,9 +1574,9 @@
                     return;
                 }
 
-            }else if(tabIndex == 11){
+            }else if(tabIndex == 11){ // suspension tab
                 // Ignore
-            }else if(tabIndex == 12){
+            }else if(tabIndex == 12){ // performance tab
 
                 var validation = validateVehicleMileage();
 
@@ -1551,12 +1599,32 @@
                     return;
                 }
 
+            }else if(tabIndex == 13){ // color tab
+
+                var validation = validateVehicleColor();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
+            }else if(tabIndex == 14){ // feature tab
+                // ignore
+            }else if(tabIndex == 15){ // photo tab
+
+                var validation = validateVehiclePhoto();
+
+                if(!validation.success){
+                    setErrorMessage(validation.message);
+                    return;
+                }
+
             }
 
             if(tabs.length - 1 != index){ // if index is not last index
 
-                tabs[index].style.display = 'none';
-                tabs[index + 1].style.display = 'block';
+                tabs[index].style.display = 'none'; // hide current tab
+                tabs[index + 1].style.display = 'block'; // show next tab
 
             }
             updateButtonsState();
