@@ -11,7 +11,7 @@
         // exit;
 
         /* 
-        *   Handling image saving first
+        *   Handling image saving & database recording first
         */
         $imageIdArray = [];
 
@@ -142,6 +142,37 @@
         curl_close($cURLConnection);
         $apiResponse = json_decode($apiResponse,TRUE);
 
+        /*
+        *   Adding data in vehicle_feature_list table  
+        */
+        $data = [];
+        $data['token'] = $_POST['token'];
+        $data['vehicle-id'] = $vehicleId;
+        $data['feature-id'] = json_encode($_POST['vehicle-feature']);
+
+        $cURLConnection = curl_init(API_ENDPOINT.'/vehicle/feature/add');
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+        $apiResponse = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+        $apiResponse = json_decode($apiResponse,TRUE);
+
+
+        /*
+        *   Adding data in user_vehicle table  
+        */
+        $data = [];
+        $data['token'] = $_POST['token'];
+        $data['vehicle-id'] = $vehicleId;
+
+        $cURLConnection = curl_init(API_ENDPOINT.'/user/vehicle/add');
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+
+        $apiResponse = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+        $apiResponse = json_decode($apiResponse,TRUE);
 
         /*
         *   Redirect with success message  
