@@ -79,6 +79,16 @@
                                 <?php if(isset($payload['phone'])) echo 'Total Vehicles: '.count($vehicles);?>
                             </div>
                         </div>
+                        <?php
+                            if(count($vehicles) > 0){
+                                echo '
+                                    <div class="col-100">
+                                        <hr>
+                                        <a onclick="showModal(\'add_vehicle_modal\')" class="padding-y-10 text-green">Add vehicle</a>
+                                    </div>
+                                ';
+                            }
+                        ?>
                         <div class="col-100">
                             <hr>
                             <a href="../controller/logout.php" class="padding-top-10 text-red">Logout</a>
@@ -90,22 +100,116 @@
                         <div class="col-100">
                             <?php
                                 if(count($vehicles) == 0){
-                                    echo '<div class="row">';
-                                        echo '<div class="col-40">';
-                                            echo '<div class="padding-50">';
-                                                echo '<img src="../assets/backgrounds/not-found.svg" alt="Vehicles not found">';
-                                            echo '</div>';
-                                        echo '</div>';
-                                        echo '<div class="col-60">';
-                                            echo '<div class="padding-50">';
-                                                echo '<p class="h4">Looks like you are yet to add your first vehicle</p>';
-                                                echo '<p class="small">Click on the button to fill the vehicle detail form</p>';
-                                                echo '<a onclick="showModal(\'add_vehicle_modal\')" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-60" on-hover="is-deep-purple-60">Add a Vehicle</a>';
-                                            echo '</div>';
-                                        echo '</div>';
-                                    echo '</div>';
+                                    echo '
+                                        <div class="row">
+                                            <div class="col-40">
+                                                <div class="padding-50">
+                                                    <img src="../assets/backgrounds/not-found.svg" alt="Vehicles not found">
+                                                </div>
+                                            </div>
+                                            <div class="col-60">
+                                                <div class="padding-50">
+                                                    <p class="h4">Looks like you are yet to add your first vehicle</p>
+                                                    <p class="small">Click on the button to fill the vehicle detail form</p>
+                                                    <a onclick="showModal(\'add_vehicle_modal\')" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-60" on-hover="is-deep-purple-60">Add a Vehicle</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ';
+                                }else{
+
+                                    echo '
+                                        <div class="row padding-20 custom-border-bottom has-gap-20">
+                                            <div class="col-60">
+                                                <div class="row is-white-95 custom-border radius-20">
+                                                    <div class="col" title="search user vehicle">
+                                                        <input id="user-vehicle-search" type="search" inputmode="text" placeholder="Search '.count($vehicles).' vehicles" class="is-transparent custom-border-none">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-40">
+                                                <div class="row is-white-95 custom-border radius-20">
+                                                    <div class="col-auto is-white custom-border-right" title="search vehicle"><span style="width: 65px;" class="padding-x-10 padding-y-10 h6 text-center">Sort</span></div>
+                                                    <div class="col" title="search term">
+                                                        <select id="user-vehicle-sort-by" class="is-transparent custom-border-none">
+                                                            <option>Date Ascending</option>
+                                                            <option>Date Descending</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ';
+                                    foreach($vehicles as $vehicle){
+                                        echo '
+                                            <div class="row custom-border-bottom padding-20 has-gap-20" data-user-vehicle-row="'.$vehicle['name'].'">
+                                                <div class="col-25">
+                                                    <img style="object-fit: cover;" class="width-100 height-100 is-white-90 radius-10" src="../api/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
+                                                </div>
+                                                <div class="col-40">
+                                                    <div class="row">
+                                                        <div class="col-100">
+                                                            <p class="h5 text-ellipsis" title="'.$vehicle['name'].'">'.$vehicle['name'].'</p>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <p class="small">
+                                                                <span>NRs.&nbsp;</span>
+                                                                <span class="text-deep-purple bold">'.$vehicle['price'].'</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <a class="is-deep-purple button padding-x-20 padding-y-5 margin-top-10 radius-10" href="../vehicle/?id='.$vehicle['id'].'" class="button">View More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-35">
+                                                    <div class="row padding-15 radius-20 is-white-95">
+                                                        <div class="col-100">
+                                                            <span class="small bold">Added Date: </span>
+                                                            <span class="small">'.date("F jS, Y", strtotime($vehicle['added_date'])).'</span>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <span class="small bold">Engine: </span>
+                                                            <span class="small">'.$vehicle['engine'].'&nbsp;CC</span>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <span class="small bold">Mileage: </span>
+                                                            <span class="small">'.$vehicle['mileage'].'&nbsp;Km/ltr</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ';
+                                    }
+                                    // echo "<pre>";
+                                    //     var_dump($vehicles);
+                                    //     var_dump($payload);
+                                    // echo "</pre>";
                                 }
                             ?>
+                            <script>
+                                // User vehicle searching javascript
+                                const searchUserVehicleSearch = document.getElementById("user-vehicle-search");
+                                const rowEveryUserVehicle = document.querySelectorAll("[data-user-vehicle-row]");
+
+                                searchUserVehicleSearch.onkeyup = () => {
+                                    const needle = searchUserVehicleSearch.value.trim().toLowerCase();
+                                    if(needle == ""){
+                                        for(const row of rowEveryUserVehicle){
+                                            row.style.display = "";
+                                        }
+                                    }else{
+                                        for(const row of rowEveryUserVehicle){
+                                            const hay = row.getAttribute("data-user-vehicle-row").trim().toLowerCase();
+                                            if(hay.search(needle) == -1){
+                                                row.style.display = "none";
+                                            }else{
+                                                row.style.display = "";
+                                            }
+                                        }
+                                    }
+                                }
+                            </script>
 
                             <div class="modal" id="add_vehicle_modal">
                                 <div class="outer-container">
