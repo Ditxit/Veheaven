@@ -88,25 +88,108 @@
     /* Get User Vehicles */
     Api::get(Api::INTEGER.'/vehicles',function($user_id){
         $sql = "SELECT 
-                user_vehicle.vehicle_id, 
-                user_vehicle.added_date,
-                user_vehicle.last_updated,
-                vehicle.name,
-                vehicle.price,
-                vehicle.mileage,
-                vehicle.engine,
-                vehicle.bhp,
-                vehicle.turn_radius,
-                vehicle.seat,
-                vehicle.top_speed
+                user_vehicle.vehicle_id AS id, 
+                user_vehicle.added_date AS added_date,
+                user_vehicle.last_updated AS last_updated,
+                vehicle.name AS name,
+                vehicle.price AS price,
+                vehicle.mileage AS mileage,
+                vehicle.engine AS engine,
+                vehicle.bhp AS bhp,
+                vehicle.turn_radius AS turn_radius,
+                vehicle.seat AS seat,
+                vehicle.top_speed AS top_speed,
+                vehicle.vehicle_fuel_capacity AS fuel_capacity
                 FROM user_vehicle
                 INNER JOIN vehicle
                     ON user_vehicle.vehicle_id = vehicle.id
-                WHERE user_vehicle.user_id=?;
+                WHERE user_vehicle.user_id=?
+                ORDER BY user_vehicle.vehicle_id DESC;
                 ";
         
-        $data = Database::query($sql,$user_id);
-        Api::send($data);
+        $vehicles = Database::query($sql,$user_id);
+
+        foreach ($vehicles as $index=>$vehicle) {
+            $sql = "SELECT 
+                vehicle_image.image_id AS id,
+                image.name AS name
+                FROM vehicle_image
+                    INNER JOIN image
+                    ON image.id = vehicle_image.image_id
+                WHERE vehicle_image.vehicle_id=?;
+            ";
+            $images = Database::query($sql,$vehicles[$index]['id']);
+            $vehicles[$index]['images'] = $images;
+        }
+
+        Api::send($vehicles);
+    });
+
+    /* Get Single Vehicle Detail */
+    // Need to fetch more information from 'vehicle' table
+    Api::get('/vehicle'.Api::INTEGER,function($vehicle_id){
+
+        $sql = "SELECT 
+                user_vehicle.user_id AS user_id,
+                user_vehicle.added_date AS added_date,
+                user_vehicle.last_updated AS last_updated,
+                vehicle.name AS name,
+                vehicle.price AS price,
+                vehicle.mileage AS mileage,
+                vehicle.engine AS engine,
+                vehicle.bhp AS bhp,
+                vehicle.turn_radius AS turn_radius,
+                vehicle.seat AS seat,
+                vehicle.top_speed AS top_speed,
+                vehicle.vehicle_fuel_capacity AS fuel_capacity
+            FROM user_vehicle
+            INNER JOIN vehicle
+                ON user_vehicle.vehicle_id = vehicle.id
+            WHERE user_vehicle.vehicle_id=?;
+        ";
+
+        $vehicle = Database::query($sql,$vehicle_id);
+        $vehicle = $vehicle[0];
+
+        // For vehicle images
+        $sql = "SELECT 
+                vehicle_image.image_id AS id,
+                image.name AS name
+                FROM vehicle_image
+                    INNER JOIN image
+                    ON image.id = vehicle_image.image_id
+                WHERE vehicle_image.vehicle_id=?;
+            ";
+        $vehicle['images'] = Database::query($sql,$vehicle_id);
+
+        // For vehicle features
+        $sql = "SELECT 
+                vehicle_feature_list.vehicle_feature_id AS id,
+                vehicle_feature.feature AS feature,
+                vehicle_feature_category.category AS category
+                FROM vehicle_feature_category
+                    INNER JOIN vehicle_feature
+                    ON vehicle_feature_category.id = vehicle_feature.vehicle_feature_category_id
+                    INNER JOIN vehicle_feature_list
+                    ON vehicle_feature.id = vehicle_feature_list.vehicle_feature_id
+                WHERE vehicle_feature_list.vehicle_id=?;
+            ";
+        $vehicle['features'] = Database::query($sql,$vehicle_id);
+
+        // For vehicle colors
+        $sql = "SELECT 
+                vehicle_color.id AS id,
+                vehicle_color.color AS color,
+                vehicle_color.hexcode AS hexcode
+                FROM vehicle_color
+                    INNER JOIN vehicle_color_list
+                    ON vehicle_color.id = vehicle_color_list.vehicle_color_id
+                WHERE vehicle_color_list.vehicle_id=?;
+            ";
+        $vehicle['colors'] = Database::query($sql,$vehicle_id);
+
+        Api::send($vehicle);
+
     });
 
     /* Get Provinces */
@@ -361,6 +444,51 @@
     });
 
 
+    /* 
+    *   Add data to vehicle_color_list table 
+    *   $_POST = [
+            'token'='...',
+            'vehicle-color'='...',
+        ]
+
+    */
+    Api::post('/vehicle/feature/add',function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $sql = "INSERT INTO `vehicle_feature_list` (`vehicle_id`,`vehicle_feature_id`) VALUES (?,?);";
+        $feature_ids = json_decode($_POST['feature-id'],TRUE);
+
+        foreach ($feature_ids as $feature_id) {
+            $data = Database::query($sql,$_POST['vehicle-id'],$feature_id);
+        }
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
+    });
+
+
     /*
         $_POST format ==> ['token'='...','vehicle_id'='...',image_id=[..., ..., ...]]
     */
@@ -415,6 +543,54 @@
             Api::send(File::$error);
         }
     });
+
+    /* 
+    *   Add data to user_vehicle table 
+    *   $_POST = [
+            'token'='...',
+            'vehicle-id'='...',
+        ]
+
+    */
+    Api::post('/user/vehicle/add',function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $payload = Token::getPayload($_POST['token']);
+
+        // Getting current nepal local time
+        date_default_timezone_set("Asia/Kathmandu");
+        $datetime = date("Y-m-d H:i:s");
+
+        $sql = "INSERT INTO `user_vehicle` (`user_id`,`vehicle_id`,`added_date`,`last_updated`) VALUES (?,?,?,?);";
+        $data = Database::query($sql,$payload['id'],$_POST['vehicle-id'],$datetime,$datetime);
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
+    });
+
+
 
     /*General Token*/
     Api::get('/visitor/token/create',function(){
