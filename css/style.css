@@ -1203,7 +1203,6 @@ small,.small { font-size: 80%; padding: 1% 0; }
 /* IMAGE CSS -- BEGINS */
 img{
 	display: block;
-	vertical-align: middle;
 	border-style: none;
 	position: relative;
 	width: 100%;
@@ -1288,7 +1287,7 @@ img{
 	position: absolute;
 	min-width: 120px;
 	max-width: auto;
-	z-index: : 900 !important;
+	z-index: 900 !important;
 }
 /* DROPDOWN CSS -- ENDS */
 
