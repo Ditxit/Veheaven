@@ -70,3 +70,27 @@
     border-right: 1.6px solid #ddd;
 }
 
+/* For Snapping Containers */
+.custom-slider{
+    scroll-behavior: smooth;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    align-items: center;
+    -webkit-overflow-scrolling: touch;
+
+    /* remove horizontal scroll bar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* remove horizontal scroll bar */
+.custom-slider::-webkit-scrollbar { display: none; } /* Chrome */
+
+.custom-slider .custom-slide{
+    display: inline-block;
+    scroll-snap-align: center;
+    margin-bottom: -6px;
+}
+  
+

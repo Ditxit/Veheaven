@@ -71,22 +71,28 @@
                                 <div class="row">
                                     <!-- vehicle image column -->
                                     <div class="col-100">
-                                        <div class="is-black">
-                                            <img style="object-fit: contain; height:65vh;" src="../api/storage/'.$vehicle['images'][0]['name'].'" alt="Vehicle Image"/>
-                                        </div>
+                                        <div class="custom-slider is-black" id="vehicle-image-gallery">';
+                                        foreach($vehicle['images'] as $image){
+                                            echo '
+                                                <div class="custom-slide">
+                                                    <img style="object-fit: contain; height:65vh;" src="../api/storage/'.$image['name'].'" alt="'.$image['name'].'"/>
+                                                </div>
+                                            ';
+                                        }
+                                        echo '</div>
                                     </div>
-                                    <div class="col-100">
+                                    <div class="col-100 custom-border-top">
                                         <div class="row">
                                             <div class="col-25">
-                                                <a class="float-left custom-border padding-10 margin-top-10 margin-left-20 margin-bottom-20 radius-10" href="">
+                                                <a id="vehicle-image-gallery-previous" class="float-left custom-border padding-10 margin-10 radius-10">
                                                     <img src="../assets/icons/svg/arrow-left.svg" alt="previous">
                                                 </a>
                                             </div>
                                             <div class="col-50">
-                                                <p class="h6 text-center padding-top-30">'.$vehicle['name'].'</p>
+                                                <p class="h6 text-center padding-top-25">'.$vehicle['name'].'</p>
                                             </div>
                                             <div class="col-25">
-                                                <a class="float-right custom-border padding-10 margin-top-10 margin-right-20 margin-bottom-20 radius-10" href="">
+                                                <a id="vehicle-image-gallery-next" class="float-right custom-border padding-10 margin-10 radius-10">
                                                     <img src="../assets/icons/svg/arrow-right.svg" alt="next">
                                                 </a>
                                             </div>
@@ -97,6 +103,16 @@
 
                         </div>
                         <!-- Vehicle General Detail Column -- end -->
+                        <script>
+                            const vehicleImageGallery = document.getElementById("vehicle-image-gallery");
+                            const vehicleImageGalleryWidth = vehicleImageGallery.querySelector(".custom-slide").clientWidth;
+                            document.getElementById("vehicle-image-gallery-previous").addEventListener("click", ()=>{
+                                vehicleImageGallery.scrollBy(-vehicleImageGalleryWidth, 0);
+                            });
+                            document.getElementById("vehicle-image-gallery-next").addEventListener("click", ()=>{
+                                vehicleImageGallery.scrollBy(vehicleImageGalleryWidth, 0);
+                            });
+                        </script>
 
                         <!-- Vehicle Overview Container Column -- start -->
                         <div class="col-100">
@@ -326,9 +342,9 @@
                             <div class="row is-white custom-border radius-15">
                                 <div class="col">';
                                     
-                                foreach($vehicle['features'] as $feature){
+                                foreach($vehicle['features'] as $index => $feature){
                                     echo '
-                                        <div class="row custom-border-bottom padding-20">
+                                        <div class="row '.($index == 0 ? '' : 'custom-border-top ').'padding-20">
                                             <div class="col-100">'.$feature['feature'].'</div>
                                         </div>
                                     ';
@@ -362,8 +378,8 @@
 
                             <div class="row padding-20 has-gap-10">
                                 <div class="col-100">
-                                    <a href="" on-hover="text-blue">
-                                        <img class="float-left" style="height:44px; width:44px;" src="../assets/avatars/default.jpg" alt="seller image">
+                                    <a href="../profile/" on-hover="text-blue">
+                                        <img class="float-left radius-circle" style="height:44px; width:44px;" src="../assets/avatars/default.jpg" alt="seller image">
                                         <p class="float-left padding-left-15 padding-y-15">'.$vehicle['seller']['first_name'].' '.$vehicle['seller']['last_name'].'</p>
                                     </a>
                                 </div>
