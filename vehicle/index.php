@@ -413,10 +413,44 @@
                                             <a href="" class="padding-20 width-100" on-hover="text-green">Edit Post</a>
                                         </div>
                                         <div class="col-100">
-                                            <a href="" class="padding-20 width-100" on-hover="text-red">Delete Post</a>
+                                            <a onclick="showModal(\'delete_vehicle_modal\')" class="padding-20 width-100" on-hover="text-red">Delete Post</a>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Confirm delete model -- start -->
+                                <div class="modal" id="delete_vehicle_modal">
+                                    <div class="outer-container">
+                                        <div class="inner-container">
+                                            <div class="card float-center width-40 is-white radius-15 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-20 radius-0">
+                                                <div class="row padding-20 custom-border-bottom">
+                                                    <div class="col-15 padding-15">
+                                                        <img src="../assets/icons/svg/alert-triangle.svg" alt="Alert">
+                                                    </div>
+                                                    <div class="col-85 padding-y-15">
+                                                        <p id="card-title" class="h6">Delete Vehicle</p>
+                                                        <p class="small">This action cannot be undone</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-50 custom-border-right">
+                                                        <a class="close button width-100 is-white padding-y-5">Cancel</a>
+                                                    </div>
+                                                    <div class="col-50">
+                                                        <form action="../controller/vehicle.php" method="POST">
+                                                            <input type="hidden" name="token" value="'.$_COOKIE['token'].'">
+                                                            <input type="hidden" name="vehicle-id" value="'.$_GET['id'].'">
+                                                            <input class="button width-100 is-white text-red padding-y-5" type="submit" name="vehicle-remove" value="Delete">
+                                                        </form>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Confirm delete model -- end -->
                             ';
                         }
 
