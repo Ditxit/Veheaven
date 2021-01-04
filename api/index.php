@@ -89,6 +89,7 @@
     Api::get(Api::INTEGER.'/vehicles',function($user_id){
         $sql = "SELECT 
                 user_vehicle.vehicle_id AS id, 
+                user_vehicle.status AS status, 
                 user_vehicle.added_date AS added_date,
                 user_vehicle.last_updated AS last_updated,
                 vehicle.name AS name,
@@ -103,7 +104,7 @@
                 FROM user_vehicle
                 INNER JOIN vehicle
                     ON user_vehicle.vehicle_id = vehicle.id
-                WHERE user_vehicle.user_id=?
+                WHERE user_vehicle.user_id=? AND user_vehicle.status != 'removed' 
                 ORDER BY user_vehicle.vehicle_id DESC;
                 ";
         
@@ -130,6 +131,7 @@
 
         $sql = "SELECT 
                 user_vehicle.user_id AS seller,
+                user_vehicle.status AS status,
                 user_vehicle.added_date AS added_date,
                 user_vehicle.last_updated AS last_updated,
                 vehicle.name AS name,
@@ -767,8 +769,8 @@
         date_default_timezone_set("Asia/Kathmandu");
         $datetime = date("Y-m-d H:i:s");
 
-        $sql = "INSERT INTO `user_vehicle` (`user_id`,`vehicle_id`,`added_date`,`last_updated`) VALUES (?,?,?,?);";
-        $data = Database::query($sql,$payload['id'],$_POST['vehicle-id'],$datetime,$datetime);
+        $sql = "INSERT INTO `user_vehicle` (`user_id`,`vehicle_id`,`status`,`added_date`,`last_updated`) VALUES (?,?,?,?,?);";
+        $data = Database::query($sql,$payload['id'],$_POST['vehicle-id'],$_POST['status'],$datetime,$datetime);
 
         Api::send([
             "success" => TRUE
@@ -776,7 +778,58 @@
 
     });
 
+    /* 
+    *   Set user_vehicle status to 'removed' 
+    *   $_POST = [
+            'token'='...',
+            'vehicle-id'='...',
+        ]
 
+    */
+    Api::post('/user/vehicle/remove', function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $payload = Token::getPayload($_POST['token']);
+
+        $sql = "UPDATE user_vehicle
+            SET status = 'removed'
+            WHERE user_id=? AND vehicle_id=?;";
+
+        $data = Database::query($sql,$payload['id'],$_POST['vehicle-id']);
+
+        if(!$data){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Error removing vehicle"
+            ]);
+        }
+
+        Api::send([
+            "success" => TRUE
+        ]);
+        
+
+    });
 
     /*General Token*/
     Api::get('/visitor/token/create',function(){
