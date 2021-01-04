@@ -165,6 +165,7 @@
         $data = [];
         $data['token'] = $_POST['token'];
         $data['vehicle-id'] = $vehicleId;
+        $data['status'] = 'public';
 
         $cURLConnection = curl_init(API_ENDPOINT.'/user/vehicle/add');
         curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $data);
@@ -180,4 +181,29 @@
         setcookie('toast_message', "Vehicle added successfully", time()+60*60, "/");
         header('Location: ../profile');
         exit;
+
+    }else if(isset($_POST['vehicle-remove'])){
+
+        // Including global constants
+        include_once '../include/config.php';
+
+        //var_dump($_POST);
+
+        $cURLConnection = curl_init(API_ENDPOINT.'/user/vehicle/remove');
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $_POST);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, TRUE);
+
+        $apiResponse = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+        $apiResponse = json_decode($apiResponse,TRUE);
+
+        if($apiResponse && $apiResponse['success'] == TRUE){
+            setcookie('toast_message', "Vehicle deleted successfully", time()+60*60, "/");
+        }else{
+            setcookie('toast_message', $apiResponse['message'], time()+60*60, "/");
+        }
+
+        header('Location: ../profile');
+        exit;
+
     }
