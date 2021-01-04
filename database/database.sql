@@ -264,6 +264,7 @@ CREATE TABLE `user_vehicle` (
     `id` INT (11) NOT NULL,
     `user_id` INT (11) NOT NULL,
     `vehicle_id` INT (11) NOT NULL,
+    `status` ENUM('draft','public','private','removed') NOT NULL DEFAULT 'draft',
     `added_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `last_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
