@@ -144,7 +144,7 @@
                                         echo '
                                             <div class="row custom-border-bottom padding-20 has-gap-20" data-user-vehicle-row="'.$vehicle['name'].'">
                                                 <div class="col-25">
-                                                    <img style="object-fit: cover;" class="width-100 height-100 is-white-90 radius-10" src="../api/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
+                                                    <img style="object-fit: cover;" class="width-100 is-white-90 radius-10" src="../api/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
                                                 </div>
                                                 <div class="col-40">
                                                     <div class="row">
