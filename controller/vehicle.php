@@ -206,4 +206,25 @@
         header('Location: ../profile');
         exit;
 
+    }else if(isset($_POST['vehicle-edit'])){
+
+        // Including global constants
+        include_once '../include/config.php';
+
+        $cURLConnection = curl_init(API_ENDPOINT.'/user/vehicle/edit');
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $_POST);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, TRUE);
+
+        $apiResponse = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+        $apiResponse = json_decode($apiResponse,TRUE);
+
+        if($apiResponse && $apiResponse['success'] == TRUE){
+            setcookie('toast_message', "Vehicle edited successfully", time()+60*60, "/");
+        }else{
+            setcookie('toast_message', $apiResponse['message'], time()+60*60, "/");
+        }
+
+        header('Location: ../vehicle/?id='.$_POST['vehicle-id']);
+        exit;
     }

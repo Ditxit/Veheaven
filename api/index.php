@@ -831,6 +831,58 @@
 
     });
 
+    Api::post('/user/vehicle/edit', function(){
+
+        if(!isset($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token not found"
+            ]);
+        }
+
+        if(Token::isTampered($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is tampered"
+            ]);
+        }
+
+        if(Token::isExpired($_POST['token'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token is expired"
+            ]);
+        }
+
+        $payload = Token::getPayload($_POST['token']);
+
+        $sql = "UPDATE vehicle
+            SET name=?, price=?
+            WHERE id=?;";
+
+        $data = Database::query($sql,$_POST['vehicle-name'],$_POST['vehicle-price'],$_POST['vehicle-id']);
+
+        if(!$data){
+            Api::send([
+                "success" => FALSE,
+                "message" => "Error removing vehicle"
+            ]);
+        }
+
+        $sql = "UPDATE user_vehicle SET last_updated=? WHERE vehicle_id=?";
+
+        // Getting current nepal local time
+        date_default_timezone_set("Asia/Kathmandu");
+        $datetime = date("Y-m-d H:i:s");
+
+        $data = Database::query($sql, $datetime, $_POST['vehicle-id']);
+
+        Api::send([
+            "success" => TRUE
+        ]);
+
+    });
+
     /*General Token*/
     Api::get('/visitor/token/create',function(){
         Api::send(Token::create([

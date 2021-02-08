@@ -53,6 +53,15 @@
         //     var_dump($vehicle);
         // echo "</pre>";
 
+        if($vehicle['status'] == "removed"){
+            /*
+            *   Redirect with no such vehicle exist message  
+            */
+            setcookie('toast_message', "No such vehicle exist", time()+60*60, "/");
+            header('Location: ../explore');
+            exit;
+        }
+
         echo '
         <div class="outer-container">
             <div class="width-80 float-center">
@@ -410,13 +419,60 @@
                                 <div class="custom-border radius-15 is-white margin-top-25">
                                     <div class="row">
                                         <div class="col-100 custom-border-bottom">
-                                            <a href="" class="padding-20 width-100" on-hover="text-green">Edit Post</a>
+                                            <a onclick="showModal(\'edit_vehicle_modal\')" class="padding-20 width-100" on-hover="text-green">Edit Post</a>
                                         </div>
                                         <div class="col-100">
                                             <a onclick="showModal(\'delete_vehicle_modal\')" class="padding-20 width-100" on-hover="text-red">Delete Post</a>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Edit vehicle model -- start -->
+                                <div class="modal" id="edit_vehicle_modal">
+                                    <div class="outer-container">
+                                        <div class="inner-container">
+                                            <form action="../controller/vehicle.php" method="POST">
+                                                <div class="card float-center width-40 is-white radius-15 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-20 radius-0">
+                                                    <div class="row custom-border margin-15 radius-20">
+                                                        <div class="col-100">
+                                                            <div class="row is-white-95 custom-border-bottom">
+                                                                <div class="col-auto is-white custom-border-right" title="Name">
+                                                                    <span style="width: 70px;" class="padding-x-10 padding-top-15 h6 text-center">Name</span>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <input id="edit-vehicle-name" name="vehicle-name" type="text" value="'.$vehicle['name'].'" class="padding-15 is-transparent custom-border-none">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-100">
+                                                            <div class="row is-white-95">
+                                                                <div class="col-auto is-white custom-border-right" title="Nepalese rupee">
+                                                                    <span style="width: 70px;" class="padding-x-10 padding-top-15 h6 text-center">NRs.</span>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <input id="edit-vehicle-price" name="vehicle-price" type="text" inputmode="decimal" value="'.$vehicle['price'].'" class="padding-15 is-transparent custom-border-none">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row custom-border-top">
+                                                        <div class="col-50 custom-border-right">
+                                                            <a class="close button width-100 is-white padding-y-5">Cancel</a>
+                                                        </div>
+                                                        <div class="col-50">
+                                                            <input type="hidden" name="token" value="'.$_COOKIE['token'].'">
+                                                            <input type="hidden" name="vehicle-id" value="'.$_GET['id'].'">
+                                                            <input class="button width-100 is-white text-green padding-y-5" type="submit" name="vehicle-edit" value="Save">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Edit vehicle model -- end -->
 
                                 <!-- Confirm delete model -- start -->
                                 <div class="modal" id="delete_vehicle_modal">
