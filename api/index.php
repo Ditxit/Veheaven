@@ -39,6 +39,7 @@
                 user_vehicle.status AS status,
                 user_vehicle.added_date AS added_date,
                 user_vehicle.last_updated AS last_updated,
+                vehicle.id AS id,
                 vehicle.name AS name,
                 vehicle.price AS price,
                 vehicle.mileage AS mileage,
@@ -278,8 +279,8 @@
                     ON used_vehicle.vehicle_province_id = vehicle_province.id
                 WHERE used_vehicle.vehicle_id=?;
             ";
-        }
-        $vehicle['used_vehicle'] = Database::query($sql,$vehicle_id)[0];
+            $vehicle['used_vehicle'] = Database::query($sql,$vehicle_id)[0];
+        }  
 
         return $vehicle;
     }
@@ -754,6 +755,35 @@
             "success" => TRUE
         ]);
 
+    });
+
+    /*
+    * Returns the {limit} data of recent vehicle {type}
+    * /recent/car/5
+    * /recent/bike/10
+    */
+    Api::get('/recent'.Api::STRING.Api::STRING,function($type,$limit){
+        $type_id = Database::query("SELECT `id` FROM `vehicle_type` WHERE UPPER(`type`)=?;", strtoupper($type));
+        $type_id ? $type_id = $type_id[0]['id'] : Api::send(null);
+
+        $sql = "SELECT vehicle.id AS id
+                    FROM vehicle
+                INNER JOIN
+                    user_vehicle ON user_vehicle.vehicle_id=vehicle.id 
+                WHERE 
+                    vehicle_type_id=? AND
+                    user_vehicle.status=?
+                ORDER BY user_vehicle.added_date DESC 
+                LIMIT ?;";
+
+        $vehicle_ids = Database::query($sql, $type_id, "public", $limit);
+
+        $data = [];
+        foreach($vehicle_ids as $vehicle_id){
+            array_push($data, get_vehicle_details($vehicle_id['id'])); 
+        }
+
+        Api::send($data);
     });
 
     /*General Token*/

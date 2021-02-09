@@ -20,6 +20,9 @@
 
         // Including toast
         include_once '../include/toast.php';
+
+        // Including global constants
+        include_once '../include/config.php';
     ?>
 
     <!-- Search Section -- start -->
@@ -125,7 +128,68 @@
 		</div>
 	</div>
     <!-- Search Section -- end -->
-    
+
+    <!-- Recently Added Bike Section -- start -->
+    <div class="outer-container">
+        <div class="inner-container padding-15">
+            <div class="row margin-10">
+                <div class="col">
+                    <p class="h5 margin-top-10">Recent Bikes</p>
+                </div>
+                <div class="col">
+                    <a href="" class="button is-deep-purple float-right radius-10">See More →</a>
+                </div>
+            </div>
+            
+            <!-- Recently added bike vehicle cards here -->
+            <div class="row">
+                <?php
+                    $bikes = json_decode(file_get_contents(API_ENDPOINT.'/recent/bike/4'), TRUE);
+                    foreach($bikes as $bike){
+                        echo '
+                            <div class="col-25 padding-x-10">
+                                <div class="custom-border radius-20 is-white">
+                                    <div clas="row" title="'.$bike['name'].'">
+                                        <div class="col-100 custom-border-bottom">
+                                            <img src="'.API_ENDPOINT.'/storage/'.$bike['images'][0]['name'].'" alt="">
+                                        </div>
+                                        <div class="col-100 padding-20 custom-border-bottom">
+                                            <p class="h5 text-ellipsis">'.$bike['name'].'</p>
+                                            <p class="bold margin-top-5 text-deep-purple">NRs. '.$bike['price'].'</p>
+                                        </div>
+                                        
+                                        <div class="col-100">
+                                            <a href="'.SERVER_NAME.'/vehicle/?id='.$bike['id'].'" on-hover="text-deep-purple is-white-95" class="width-100 padding-15 text-center">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-25 padding-x-10">
+                                <div class="custom-border radius-20 is-white">
+                                    <div clas="row" title="'.$bike['name'].'">
+                                        <div class="col-100 custom-border-bottom">
+                                            <img src="'.API_ENDPOINT.'/storage/'.$bike['images'][0]['name'].'" alt="">
+                                        </div>
+                                        <div class="col-100 padding-20 custom-border-bottom">
+                                            <p class="h5 text-ellipsis">'.$bike['name'].'</p>
+                                            <p class="bold margin-top-5 text-deep-purple">NRs. '.$bike['price'].'</p>
+                                        </div>
+                                        
+                                        <div class="col-100">
+                                            <a href="'.SERVER_NAME.'/vehicle/?id='.$bike['id'].'" on-hover="text-deep-purple is-white-95" class="width-100 padding-15 text-center">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ';
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+    <!-- Recently Added Bike Section -- end -->
+
     <!-- Be A Seller Or Login Section -- start -->
     <div class="outer-container is-white">
         <div class="inner-container padding-y-20">
