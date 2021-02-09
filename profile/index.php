@@ -976,7 +976,7 @@
 
                                                                 for(file of newFiles){
                                                                     let src = URL.createObjectURL(file); // creating blob from File object
-                                                                    div.innerHTML = '<div style="min-height:'+vehicleImageRowAddImageColumn.offsetHeight +'px;" class="col-25 padding-5" data-image-name="'+file.name+'"><div class="radius-20"><img style="object-fit: cover;" class="width-100 height-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImagePreview(event);"></div></div>';
+                                                                    div.innerHTML = '<div style="min-height:'+vehicleImageRowAddImageColumn.offsetHeight +'px;" class="col-25 padding-5" data-image-name="'+file.name+'"><div class="radius-20"><img style="object-fit: cover;" class="width-100 is-white-90" src="'+src+'" alt="'+file.name+'" onclick="removeImagePreview(event);"></div></div>';
                                                                     vehicleImageRowAddImageColumn.after(div.firstChild); // add new element after #vehicle-image-row-add-image-column
                                                                 }
 
