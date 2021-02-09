@@ -134,7 +134,7 @@
         <div class="inner-container padding-15">
             <div class="row margin-10">
                 <div class="col">
-                    <p class="h5 margin-top-10">Recent Bikes</p>
+                    <p class="h5 margin-top-10">Recently Added Bikes</p>
                 </div>
                 <div class="col">
                     <a href="" class="button is-deep-purple float-right radius-10">See More →</a>
@@ -192,34 +192,85 @@
 
     <!-- Be A Seller Or Login Section -- start -->
     <div class="outer-container is-white">
-        <div class="inner-container padding-y-20">
+        <div class="inner-container padding-15">
             <div class="card">
-                <div class="row">
-                    <div class="col-50">
-                        <div class="padding-40 margin-x-5 margin-y-60 radius-20 cursor-pointer" on-hover="is-white-95">
-                            <div class="is-blue-5 radius-20 padding-50 padding-y-90 margin-bottom-25 shadow-15" on-hover="shadow-20">
-                                <img src="../assets/backgrounds/vehicle-explore-illustration.svg">
-                            </div>
-                            <p class="h4">Want to Sell Your Vehicle?</p>
-                            <p class="small">Register an account for free and list your vehicle</p>
-                            <a href="" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-40" on-hover="is-deep-purple-60">Be a Seller</a>
-                        </div>
+                <div class="row custom-border margin-x-10 is-white-95 radius-20">
+                    <div class="col-50 padding-100 custom-border-right">
+                        <p class="h4">Want to Sell Your Vehicle?</p>
+                        <p class="small">Register an account for free and list your vehicle</p>
+                        <a href="" class="button is-deep-purple-50 radius-10 padding-10 margin-top-25 display-block width-40" on-hover="is-deep-purple-60">Be a Seller</a>
                     </div>
-                    <div class="col-50">
-                    <div class="padding-40 margin-x-5 margin-y-60 radius-20 cursor-pointer" on-hover="is-white-95">
-                            <div class="is-blue-5 radius-20 padding-50 margin-bottom-25 shadow-15" on-hover="shadow-20">
-                                <img src="../assets/backgrounds/account-login.svg">
-                            </div>
-                            <p class="h4">Already have an account?</p>
-                            <p class="small">Login to your account to see the vehicles you listed</p>
-                            <a href="../login" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-40" on-hover="is-deep-purple-60">Login to Account</a>
-                        </div>
+                    <div class="col-50 padding-100">
+                        <p class="h4">Already have an account?</p>
+                        <p class="small">Login to your account to see the vehicles you listed</p>
+                        <a href="../login" class="button is-deep-purple-50 radius-10 padding-10 margin-top-25 display-block width-40" on-hover="is-deep-purple-60">Goto Login</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Be A Seller Or Login Section -- end -->
+
+    <!-- Recently Added Car Section -- start -->
+    <div class="outer-container">
+        <div class="inner-container padding-15">
+            <div class="row margin-10">
+                <div class="col">
+                    <p class="h5 margin-top-10">Recently Added Cars</p>
+                </div>
+                <div class="col">
+                    <a href="" class="button is-deep-purple float-right radius-10">See More →</a>
+                </div>
+            </div>
+            
+            <!-- Recently added car vehicle cards here -->
+            <div class="row">
+                <?php
+                    $cars = json_decode(file_get_contents(API_ENDPOINT.'/recent/bike/4'), TRUE);
+                    foreach($cars as $car){
+                        echo '
+                            <div class="col-25 padding-x-10">
+                                <div class="custom-border radius-20 is-white">
+                                    <div clas="row" title="'.$car['name'].'">
+                                        <div class="col-100 custom-border-bottom">
+                                            <img src="'.API_ENDPOINT.'/storage/'.$car['images'][0]['name'].'" alt="">
+                                        </div>
+                                        <div class="col-100 padding-20 custom-border-bottom">
+                                            <p class="h5 text-ellipsis">'.$car['name'].'</p>
+                                            <p class="bold margin-top-5 text-deep-purple">NRs. '.$car['price'].'</p>
+                                        </div>
+                                        
+                                        <div class="col-100">
+                                            <a href="'.SERVER_NAME.'/vehicle/?id='.$car['id'].'" on-hover="text-deep-purple is-white-95" class="width-100 padding-15 text-center">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-25 padding-x-10">
+                                <div class="custom-border radius-20 is-white">
+                                    <div clas="row" title="'.$car['name'].'">
+                                        <div class="col-100 custom-border-bottom">
+                                            <img src="'.API_ENDPOINT.'/storage/'.$car['images'][0]['name'].'" alt="">
+                                        </div>
+                                        <div class="col-100 padding-20 custom-border-bottom">
+                                            <p class="h5 text-ellipsis">'.$car['name'].'</p>
+                                            <p class="bold margin-top-5 text-deep-purple">NRs. '.$car['price'].'</p>
+                                        </div>
+                                        
+                                        <div class="col-100">
+                                            <a href="'.SERVER_NAME.'/vehicle/?id='.$car['id'].'" on-hover="text-deep-purple is-white-95" class="width-100 padding-15 text-center">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ';
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+    <!-- Recently Added car Section -- end -->
 
     <!-- Footer -- start -->
     <div class="outer-container is-deep-purple">
