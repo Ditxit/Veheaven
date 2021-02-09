@@ -3,9 +3,10 @@
 
     include 'doodle/doodle.php';
 
-    /* Token Debug*/
-    Api::get('/user-token/verify'.API::STRING,function($token){
-
+    /* 
+    * Some common/utility functions 
+    */
+    function verify_token($token){
         if(Token::isEmpty($token)){
             Api::send([
                 "success" => FALSE,
@@ -27,6 +28,12 @@
                 "message" => "Token was tampered"
             ]);
         } else { /* ignore */ }
+    }
+
+    /* Token Debug*/
+    Api::get('/user-token/verify'.API::STRING,function($token){
+
+        verify_token($token);
         
         $payload = Token::getPayload($token);
 
@@ -45,18 +52,13 @@
 
     Api::get('/token/payload'.API::STRING,function($token){
 
-        if(Token::isTampered($token)){
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token was tampered"
-            ]);
-        } else {
-            Api::send([
-                "success" => TRUE,
-                "payload" => Token::getPayload($token)
-            ]);
-        }
-        
+        verify_token($token);
+
+        Api::send([
+            "success" => TRUE,
+            "payload" => Token::getPayload($token)
+        ]);
+
     });
 
      /* General Login API */
@@ -483,43 +485,40 @@
 
     /* Post Vehicle */
     Api::post('/vehicle/add',function(){
-        if(isset($_POST['token']) && !Token::isTampered($_POST['token']) && !Token::isExpired($_POST['token'])){
+        verify_token($_POST['token']);
 
-            $payload = Token::getPayload($_POST['token']);
+        $payload = Token::getPayload($_POST['token']);
 
-            if($payload['user_type'] == 'seller'){ $_POST['vehicle-condition'] = '2'; }
+        if($payload['user_type'] == 'seller'){ $_POST['vehicle-condition'] = '2'; }
 
-            $sql = "INSERT INTO `vehicle` (`name`, `price`, `mileage`, `engine`, `bhp`, `turn_radius`, `seat`, `top_speed`, `vehicle_condition_id`, `vehicle_type_id`, `vehicle_body_id`, `vehicle_transmission_id`, `front_vehicle_tyre_id`, `rear_vehicle_tyre_id`, `vehicle_fuel_id`, `vehicle_fuel_capacity`, `front_vehicle_break_id`, `rear_vehicle_break_id`, `front_vehicle_suspension_id`, `rear_vehicle_suspension_id`, `vehicle_model_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-            
-            $data = Database::query(
-                $sql,
-                $_POST['vehicle-name'],
-                $_POST['vehicle-price'],
-                $_POST['vehicle-mileage'],
-                $_POST['vehicle-cc'],
-                $_POST['vehicle-bhp'],
-                $_POST['vehicle-turn-radius'],
-                $_POST['vehicle-seat'],
-                $_POST['vehicle-top-speed'],
-                $_POST['vehicle-condition'],
-                $_POST['vehicle-type'],
-                $_POST['vehicle-body'],
-                $_POST['vehicle-transmission'],
-                $_POST['vehicle-front-tyre'],
-                $_POST['vehicle-rear-tyre'],
-                $_POST['vehicle-fuel'],
-                $_POST['vehicle-fuel-capacity'],
-                $_POST['vehicle-front-break'],
-                $_POST['vehicle-rear-break'],
-                $_POST['vehicle-front-suspension'],
-                $_POST['vehicle-rear-suspension'],
-                $_POST['vehicle-model']
-            );
-            
-            Api::send($data);
-                
-        }
-        Api::send(['Token Error']);
+        $sql = "INSERT INTO `vehicle` (`name`, `price`, `mileage`, `engine`, `bhp`, `turn_radius`, `seat`, `top_speed`, `vehicle_condition_id`, `vehicle_type_id`, `vehicle_body_id`, `vehicle_transmission_id`, `front_vehicle_tyre_id`, `rear_vehicle_tyre_id`, `vehicle_fuel_id`, `vehicle_fuel_capacity`, `front_vehicle_break_id`, `rear_vehicle_break_id`, `front_vehicle_suspension_id`, `rear_vehicle_suspension_id`, `vehicle_model_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        
+        $data = Database::query(
+            $sql,
+            $_POST['vehicle-name'],
+            $_POST['vehicle-price'],
+            $_POST['vehicle-mileage'],
+            $_POST['vehicle-cc'],
+            $_POST['vehicle-bhp'],
+            $_POST['vehicle-turn-radius'],
+            $_POST['vehicle-seat'],
+            $_POST['vehicle-top-speed'],
+            $_POST['vehicle-condition'],
+            $_POST['vehicle-type'],
+            $_POST['vehicle-body'],
+            $_POST['vehicle-transmission'],
+            $_POST['vehicle-front-tyre'],
+            $_POST['vehicle-rear-tyre'],
+            $_POST['vehicle-fuel'],
+            $_POST['vehicle-fuel-capacity'],
+            $_POST['vehicle-front-break'],
+            $_POST['vehicle-rear-break'],
+            $_POST['vehicle-front-suspension'],
+            $_POST['vehicle-rear-suspension'],
+            $_POST['vehicle-model']
+        );
+        
+        Api::send($data);
     });
 
     /* 
@@ -538,26 +537,7 @@
 
     Api::post('/used/vehicle/add',function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $sql = "INSERT INTO 
                     `used_vehicle` (
@@ -597,26 +577,7 @@
     */
     Api::post('/vehicle/color/add',function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $sql = "INSERT INTO `vehicle_color_list` (`vehicle_id`,`vehicle_color_id`) VALUES (?,?);";
         $color_ids = json_decode($_POST['color-id'],TRUE);
@@ -642,26 +603,7 @@
     */
     Api::post('/vehicle/feature/add',function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $sql = "INSERT INTO `vehicle_feature_list` (`vehicle_id`,`vehicle_feature_id`) VALUES (?,?);";
         $feature_ids = json_decode($_POST['feature-id'],TRUE);
@@ -682,26 +624,7 @@
     */
     Api::post('/vehicle/image/add',function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $sql = "INSERT INTO `vehicle_image` (`vehicle_id`,`image_id`) VALUES (?,?);";
         $image_ids = json_decode($_POST['image-id'],TRUE);
@@ -742,26 +665,7 @@
     */
     Api::post('/user/vehicle/add',function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $payload = Token::getPayload($_POST['token']);
 
@@ -788,26 +692,7 @@
     */
     Api::post('/user/vehicle/remove', function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $payload = Token::getPayload($_POST['token']);
 
@@ -833,26 +718,7 @@
 
     Api::post('/user/vehicle/edit', function(){
 
-        if(!isset($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token not found"
-            ]);
-        }
-
-        if(Token::isTampered($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is tampered"
-            ]);
-        }
-
-        if(Token::isExpired($_POST['token'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token is expired"
-            ]);
-        }
+        verify_token($_POST['token']);
 
         $payload = Token::getPayload($_POST['token']);
 
