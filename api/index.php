@@ -6,6 +6,8 @@
     /* 
     * Some common/utility functions 
     */
+
+    // function to verify token
     function verify_token($token){
         if(Token::isEmpty($token)){
             Api::send([
@@ -30,107 +32,8 @@
         } else { /* ignore */ }
     }
 
-    /* Token Debug*/
-    Api::get('/user-token/verify'.API::STRING,function($token){
-
-        verify_token($token);
-        
-        $payload = Token::getPayload($token);
-
-        if(!isset($payload['user_type'])) {
-            Api::send([
-                "success" => FALSE,
-                "message" => "Token was not user token"
-            ]);
-        }else{
-            Api::send([
-                "success" => TRUE
-            ]);
-        }
-        
-    });
-
-    Api::get('/token/payload'.API::STRING,function($token){
-
-        verify_token($token);
-
-        Api::send([
-            "success" => TRUE,
-            "payload" => Token::getPayload($token)
-        ]);
-
-    });
-
-     /* General Login API */
-     Api::post('/login',function(){
-
-        $sql = "SELECT 
-                user.id, 
-                user.first_name, 
-                user.last_name, 
-                user.email, 
-                user.phone, 
-                user_type.type AS user_type 
-                FROM user 
-                INNER JOIN user_type 
-                    ON user.user_type_id = user_type.id 
-                WHERE user.email=? AND user.password=?;";
-
-        $data = Database::query($sql, $_POST['email'], $_POST['password']);
-
-        if($data){
-            $data = $data[0];
-            $data['token'] = Token::create($data);
-        }
-
-        Api::send($data);
-
-    });
-
-    /* Get User Vehicles */
-    Api::get(Api::INTEGER.'/vehicles',function($user_id){
-        $sql = "SELECT 
-                user_vehicle.vehicle_id AS id, 
-                user_vehicle.status AS status, 
-                user_vehicle.added_date AS added_date,
-                user_vehicle.last_updated AS last_updated,
-                vehicle.name AS name,
-                vehicle.price AS price,
-                vehicle.mileage AS mileage,
-                vehicle.engine AS engine,
-                vehicle.bhp AS bhp,
-                vehicle.turn_radius AS turn_radius,
-                vehicle.seat AS seat,
-                vehicle.top_speed AS top_speed,
-                vehicle.vehicle_fuel_capacity AS fuel_capacity
-                FROM user_vehicle
-                INNER JOIN vehicle
-                    ON user_vehicle.vehicle_id = vehicle.id
-                WHERE user_vehicle.user_id=? AND user_vehicle.status != 'removed' 
-                ORDER BY user_vehicle.vehicle_id DESC;
-                ";
-        
-        $vehicles = Database::query($sql,$user_id);
-
-        foreach ($vehicles as $index=>$vehicle) {
-            $sql = "SELECT 
-                vehicle_image.image_id AS id,
-                image.name AS name
-                FROM vehicle_image
-                    INNER JOIN image
-                    ON image.id = vehicle_image.image_id
-                WHERE vehicle_image.vehicle_id=?;
-            ";
-            $images = Database::query($sql,$vehicles[$index]['id']);
-            $vehicles[$index]['images'] = $images;
-        }
-
-        Api::send($vehicles);
-    });
-
-    /* Get Single Vehicle Detail */
-    Api::get('/vehicle'.Api::INTEGER,function($vehicle_id){
-
+    // Function to get single vehicle details from passed id
+    function get_vehicle_details($vehicle_id){
         $sql = "SELECT 
                 user_vehicle.user_id AS seller,
                 user_vehicle.status AS status,
@@ -378,7 +281,111 @@
         }
         $vehicle['used_vehicle'] = Database::query($sql,$vehicle_id)[0];
 
-        Api::send($vehicle);
+        return $vehicle;
+    }
+
+    /* Token Debug*/
+    Api::get('/user-token/verify'.API::STRING,function($token){
+
+        verify_token($token);
+        
+        $payload = Token::getPayload($token);
+
+        if(!isset($payload['user_type'])) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "Token was not user token"
+            ]);
+        }else{
+            Api::send([
+                "success" => TRUE
+            ]);
+        }
+        
+    });
+
+    Api::get('/token/payload'.API::STRING,function($token){
+
+        verify_token($token);
+
+        Api::send([
+            "success" => TRUE,
+            "payload" => Token::getPayload($token)
+        ]);
+
+    });
+
+     /* General Login API */
+     Api::post('/login',function(){
+
+        $sql = "SELECT 
+                user.id, 
+                user.first_name, 
+                user.last_name, 
+                user.email, 
+                user.phone, 
+                user_type.type AS user_type 
+                FROM user 
+                INNER JOIN user_type 
+                    ON user.user_type_id = user_type.id 
+                WHERE user.email=? AND user.password=?;";
+
+        $data = Database::query($sql, $_POST['email'], $_POST['password']);
+
+        if($data){
+            $data = $data[0];
+            $data['token'] = Token::create($data);
+        }
+
+        Api::send($data);
+
+    });
+
+    /* Get User Vehicles */
+    Api::get(Api::INTEGER.'/vehicles',function($user_id){
+        $sql = "SELECT 
+                user_vehicle.vehicle_id AS id, 
+                user_vehicle.status AS status, 
+                user_vehicle.added_date AS added_date,
+                user_vehicle.last_updated AS last_updated,
+                vehicle.name AS name,
+                vehicle.price AS price,
+                vehicle.mileage AS mileage,
+                vehicle.engine AS engine,
+                vehicle.bhp AS bhp,
+                vehicle.turn_radius AS turn_radius,
+                vehicle.seat AS seat,
+                vehicle.top_speed AS top_speed,
+                vehicle.vehicle_fuel_capacity AS fuel_capacity
+                FROM user_vehicle
+                INNER JOIN vehicle
+                    ON user_vehicle.vehicle_id = vehicle.id
+                WHERE user_vehicle.user_id=? AND user_vehicle.status != 'removed' 
+                ORDER BY user_vehicle.vehicle_id DESC;
+                ";
+        
+        $vehicles = Database::query($sql,$user_id);
+
+        foreach ($vehicles as $index=>$vehicle) {
+            $sql = "SELECT 
+                vehicle_image.image_id AS id,
+                image.name AS name
+                FROM vehicle_image
+                    INNER JOIN image
+                    ON image.id = vehicle_image.image_id
+                WHERE vehicle_image.vehicle_id=?;
+            ";
+            $images = Database::query($sql,$vehicles[$index]['id']);
+            $vehicles[$index]['images'] = $images;
+        }
+
+        Api::send($vehicles);
+    });
+
+    /* Get Single Vehicle Detail */
+    Api::get('/vehicle'.Api::INTEGER,function($vehicle_id){
+
+        Api::send(get_vehicle_details($vehicle_id));
 
     });
 
