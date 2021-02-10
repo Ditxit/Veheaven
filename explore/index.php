@@ -12,7 +12,7 @@
 
 <head> <?php include_once '../include/header.ui.php';?> </head>
 
-<body class="is-white-100">  
+<body class="is-white-95">  
 
     <?php
         // Including navbar
@@ -130,7 +130,7 @@
     <!-- Search Section -- end -->
 
     <!-- Recently Added Bike Section -- start -->
-    <div class="outer-container">
+    <div class="outer-container margin-y-30">
         <div class="inner-container padding-15">
             <div class="row margin-10">
                 <div class="col">
@@ -191,10 +191,10 @@
     <!-- Recently Added Bike Section -- end -->
 
     <!-- Be A Seller Or Login Section -- start -->
-    <div class="outer-container is-white">
+    <div class="outer-container margin-y-30">
         <div class="inner-container padding-15">
             <div class="card">
-                <div class="row custom-border margin-x-10 is-white-95 radius-20">
+                <div class="row custom-border margin-x-10 is-white radius-20">
                     <div class="col-50 padding-100 custom-border-right">
                         <p class="h4">Want to Sell Your Vehicle?</p>
                         <p class="small">Register an account for free and list your vehicle</p>
@@ -212,7 +212,7 @@
     <!-- Be A Seller Or Login Section -- end -->
 
     <!-- Recently Added Car Section -- start -->
-    <div class="outer-container">
+    <div class="outer-container margin-y-30">
         <div class="inner-container padding-15">
             <div class="row margin-10">
                 <div class="col">
@@ -273,7 +273,7 @@
     <!-- Recently Added car Section -- end -->
 
     <!-- Footer -- start -->
-    <div class="outer-container is-deep-purple">
+    <div class="outer-container is-deep-purple margin-top-30">
         <div class="inner-container padding-y-40">
             <div class="row">
                 <div class="col">
