@@ -53,7 +53,7 @@
         //     var_dump($vehicle);
         // echo "</pre>";
 
-        if($vehicle['status'] == "removed"){
+        if(!$vehicle || $vehicle['status'] == "removed"){
             /*
             *   Redirect with no such vehicle exist message  
             */
