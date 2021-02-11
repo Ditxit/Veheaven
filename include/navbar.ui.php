@@ -13,7 +13,7 @@
 
             <!-- Search Box Container -->
             <div class="col-40 padding-top-15">
-                <form action="">
+                <form action="" autocomplete="off">
                     <input class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search">
                     <div id="search-suggestion" class="is-white shadow-20 radius-5" style="display:none; position:absolute; top:40;">
                         <!-- List items will be add in JS -->
