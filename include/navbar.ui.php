@@ -1,3 +1,9 @@
+<?php
+
+    // Including global constants
+    include_once 'config.php';
+
+?>
 
 <div class="outer-container is-white-100 shadow-15 sticky top">
     <div class="inner-container">
@@ -13,9 +19,9 @@
 
             <!-- Search Box Container -->
             <div class="col-40 padding-top-15">
-                <form action="" autocomplete="off">
-                    <input class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search">
-                    <div id="search-suggestion" class="is-white shadow-20 radius-5" style="display:none; position:absolute; top:40;">
+                <form id="search-form" action="" autocomplete="off" novalidate>
+                    <input id="search-box" class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search">
+                    <div id="search-suggestion" class="is-white width-100 shadow-20 radius-5" style="display:none; position:absolute; top:40;">
                         <!-- List items will be add in JS -->
                     </div>
                 </form>
@@ -26,14 +32,23 @@
                         template.innerHTML = text;
                         return template.content.firstChild;
                     }
+                    function slugify(text){
+                        return text.toString().toLowerCase()
+                            .replace(/\s+/g, '-')           // Replace spaces with -
+                            //.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                            .replace(/^-+/, '')             // Trim - from start of text
+                            .replace(/-+$/, '');            // Trim - from end of text
+                    }
 
-                    const searchBox = document.getElementsByName('search')[0];
-                    const searchBoxSuggestion = document.getElementById('search-suggestion');
+                    const searchForm = document.getElementById('search-form');
+                    const searchBox = searchForm.querySelector('#search-box');
+                    const searchBoxSuggestion = searchForm.querySelector('#search-suggestion');
 
                     let keyword = "";
 
                     // Event to suggest the vehicle name
-                    searchBox.oninput = function(event){
+                    searchBox.oninput = async function(event){
                         keyword = searchBox.value.trim().toLowerCase();
                         searchBoxSuggestion.innerHTML = "";
 
@@ -42,24 +57,32 @@
                             return;
                         }else{
                             searchBoxSuggestion.style.display = 'block';
-                            for(var i=0; i < 7; i++){
-                                const data = Math.random().toString(36).substring(2);
-                                searchBoxSuggestion.appendChild(
-                                    textToNode(
-                                        "<a data-active='0' data-keyword='"+data+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
-                                            data +
-                                        "</a>"
-                                    )
-                                );
-                            }
+                            await fetch('<?=API_ENDPOINT.'/search';?>'+'/7/'+slugify(keyword))
+                            .then(response => response.json())
+                            .then(data => {
+                                for(var i = 0; i<data.length; i++){
+                                    searchBoxSuggestion.appendChild(
+                                        textToNode(
+                                            "<a data-active='0' data-keyword='"+data[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+data[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
+                                                data[i].name +
+                                            "</a>"
+                                        )
+                                    );
+                                }
+                            });
                         }
                     }
 
-                    searchBox.onfocus = () => {searchBoxSuggestion.style.display = 'block';}
-                    searchBox.onblur = () => {searchBoxSuggestion.style.display = 'none';}
+                    searchBox.onfocus = () => {
+                        if (searchBoxSuggestion.style.display != 'block') searchBoxSuggestion.style.display = 'block';
+                    }
+
+                    window.onclick = (event) => {
+                        if(!searchForm.contains(event.target)) searchBoxSuggestion.style.display = 'none';
+                    }
 
                     // Event for key (up-arrow,down-arrow) navigation
-                    searchBox.onkeydown = function(event){
+                    searchBox.onkeydown = searchBoxSuggestion.onkeydown = function(event){
                         if (searchBoxSuggestion.childElementCount == 0 || ![38,40].includes(event.keyCode)) return;
 
                         var active = searchBoxSuggestion.querySelector('a[data-active="1"]');
@@ -78,10 +101,12 @@
                         if(active){
                             active.setAttribute("data-active", "1");
                             active.style.backgroundColor = "#EEEEEE";
+                            active.focus();
 
                             searchBox.value = active.getAttribute("data-keyword");
                         }else{
                             searchBox.value = keyword;
+                            searchBox.focus();
                         }
 
                         // To fix the cursor placement at the
@@ -95,9 +120,6 @@
             <div class="col-30">
                 <div class="float-right">
                     <?php
-                        // Including global constants
-                        include_once 'config.php';
-
                         // Checking user exist or not
                         if (isset($_COOKIE['token'])) {
                             $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
