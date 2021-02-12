@@ -19,8 +19,8 @@
 
             <!-- Search Box Container -->
             <div class="col-40 padding-top-15">
-                <form id="search-form" action="" autocomplete="off" novalidate>
-                    <input id="search-box" class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search">
+                <form id="search-form" autocomplete="off" novalidate onsubmit="return false;">
+                    <input id="search-box" class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search" inputmode="text">
                     <div id="search-suggestion" class="is-white width-100 shadow-20 radius-5" style="display:none; position:absolute; top:40;">
                         <!-- List items will be add in JS -->
                     </div>
@@ -34,11 +34,9 @@
                     }
                     function slugify(text){
                         return text.toString().toLowerCase()
-                            .replace(/\s+/g, '-')           // Replace spaces with -
-                            //.replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                            .replace(/^-+/, '')             // Trim - from start of text
-                            .replace(/-+$/, '');            // Trim - from end of text
+                            .replace(/[^0-9a-zA-Z ]/g, '')      // Remove all non-word or non-numeric or non-space chars
+                            .trim()                             // Trim starting and ending white-spaces
+                            .replace(/\s+/g, '-')               // Remove all other redundant white-spaces and replace with -
                     }
 
                     const searchForm = document.getElementById('search-form');
@@ -49,26 +47,34 @@
 
                     // Event to suggest the vehicle name
                     searchBox.oninput = async function(event){
-                        keyword = searchBox.value.trim().toLowerCase();
-                        searchBoxSuggestion.innerHTML = "";
+                        keyword = searchBox.value;
+                        searchBoxSuggestion.innerText = "";
 
                         if(keyword.length < 1){
+                            //searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>Type to search...</p>"));
                             searchBoxSuggestion.style.display = 'none';
                             return;
                         }else{
+                            searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>Searching ...</p>"));
                             searchBoxSuggestion.style.display = 'block';
-                            await fetch('<?=API_ENDPOINT.'/search';?>'+'/7/'+slugify(keyword))
+                            await fetch('<?=API_ENDPOINT.'/search';?>'+'/7/'+slugify(keyword)) // url
                             .then(response => response.json())
                             .then(data => {
-                                for(var i = 0; i<data.length; i++){
-                                    searchBoxSuggestion.appendChild(
-                                        textToNode(
-                                            "<a data-active='0' data-keyword='"+data[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+data[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
-                                                data[i].name +
-                                            "</a>"
-                                        )
-                                    );
+                                searchBoxSuggestion.innerText = "";
+                                if(data.length == 0) {
+                                    searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>No result found</p>"));
+                                }else{
+                                    for(var i = 0; i<data.length; i++){
+                                        searchBoxSuggestion.appendChild(
+                                            textToNode(
+                                                "<a data-active='0' data-keyword='"+data[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+data[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
+                                                    data[i].name +
+                                                "</a>"
+                                            )
+                                        );
+                                    } // For loop
                                 }
+                                
                             });
                         }
                     }
