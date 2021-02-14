@@ -92,5 +92,14 @@
     scroll-snap-align: center;
     margin-bottom: -6px;
 }
-  
 
+/* custom background and texts */
+.custom-bg-red		{ background-color: #ff2e63; color: #FAFBFC; }
+.custom-bg-black	{ background-color: #252a34; color: #FAFBFC; }
+.custom-bg-blue   	{ background-color: #364f6b; color: #FAFBFC; }
+.custom-bg-gray   	{ background-color: #eff0f5; color: #252a34; }
+
+.custom-text-red		{ color: #ff2e63; }
+.custom-text-black	    { color: #252a34; }
+.custom-text-blue   	{ color: #364f6b; }
+.custom-text-gray   	{ color: #eff0f5; }
