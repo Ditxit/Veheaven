@@ -20,7 +20,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> <?php include_once '../include/header.ui.php';?> </head>
-<body class="is-white-95" style="overflow-y:scroll;">  
+<body class="custom-bg-gray" style="overflow-y:scroll;">  
 
     <?php
         // Including navbar

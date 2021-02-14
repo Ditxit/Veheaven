@@ -18,7 +18,7 @@
 
 <head> <?php include_once '../include/header.ui.php';?> </head>
 
-<body class="is-white-95">  
+<body class="custom-bg-gray">  
 
     <?php
         // Including navbar
