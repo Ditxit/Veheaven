@@ -1,7 +1,11 @@
 <?php
     if(isset($_COOKIE['toast_message'])){
-        echo "
-            <style>
+
+        $toast_message =  $_COOKIE['toast_message'];
+        setcookie('toast_message', null, -1, '/'); 
+        unset($_COOKIE['toast_message']);
+
+        echo "<style>
                 .toast{
                     opacity: 0;
                     display: block;
@@ -41,14 +45,5 @@
                 }
             </style>
         
-            <div class='toast'>
-            ";
-
-        echo $_COOKIE['toast_message'];
-
-        echo "</div>";
-
-        unset($_COOKIE['toast_message']); 
-        setcookie('toast_message', null, -1, '/'); 
-
+            <div class='toast'>".$toast_message."</div>";
     }
