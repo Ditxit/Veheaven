@@ -15,6 +15,9 @@
     // Bug
     include_once '../include/header.ui.php'; 
 
+    // Including toast
+    include_once '../include/toast.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +28,6 @@
     <?php
         // Including navbar
         include_once '../include/navbar.ui.php';
-
-        // Including toast
-        include_once '../include/toast.php';
     ?>
 
     <?php
