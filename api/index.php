@@ -915,7 +915,7 @@
                 ...
             ]
         */
-        $vehicle_datas = Database::query($sql,"public",$limit);
+        $vehicle_datas = Database::query($sql,"public",$limit*5);
 
         // Order the result by similarity percentage
         $sorted_vehicle_datas = [];
@@ -931,6 +931,9 @@
         usort($sorted_vehicle_datas, function ($one, $two) {
             return $two['score'] <=> $one['score'];
         });
+
+        // Only selecting the first {$limit} ids
+        $sorted_vehicle_datas = array_slice($sorted_vehicle_datas, 0, $limit); //array, from_index, to_index
 
         // Preparing return data
         $data = [];
