@@ -6,7 +6,7 @@
 ?>
 
 <div class="outer-container is-white-100 shadow-15 sticky top">
-    <div class="inner-container">
+    <div class="width-80 float-center">
         <div class="row">
 
             <!-- Logo Container -->
@@ -34,9 +34,9 @@
                     }
                     function slugify(text){
                         return text.toString().toLowerCase()
-                            .replace(/[^0-9a-zA-Z ]/g, '')      // Remove all non-word or non-numeric or non-space chars
-                            .trim()                             // Trim starting and ending white-spaces
-                            .replace(/\s+/g, '-')               // Remove all other redundant white-spaces and replace with -
+                            .replace(/[^0-9a-zA-Z ]/g, ' ')      // Remove all non-word or non-numeric or non-space chars
+                            .trim()                              // Trim starting and ending white-spaces
+                            .replace(/\s+/g, '-')                // Remove all other redundant white-spaces and replace with -
                     }
 
                     const searchForm = document.getElementById('search-form');
