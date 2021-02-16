@@ -5,7 +5,7 @@
 
 ?>
 
-<div class="outer-container is-white-100 shadow-15 sticky top">
+<div class="outer-container is-white sticky top custom-border-bottom">
     <div class="width-80 float-center">
         <div class="row">
 
@@ -146,22 +146,22 @@
                         $CURRENT_PAGE = isset($PAGE_NAME) ? $PAGE_NAME : "";
 
                         if($PAGE_NAME == "Explore"){
-                            echo '<a class="button padding-15 text-deep-purple">Explore</a>';
+                            echo '<a class="button padding-15 custom-text-blue bold">Explore</a>';
                         }else{
-                            echo '<a href="../explore" class="button padding-15" on-hover="text-deep-purple">Explore</a>';
+                            echo '<a href="../explore" class="button padding-15" on-hover="custom-text-blue">Explore</a>';
                         }
 
                         if(!isset($USER)){
                             if($PAGE_NAME == "Login"){
-                                echo '<a class="button padding-15 text-deep-purple">Login</a>';
+                                echo '<a class="button padding-15 custom-text-blue bold">Login</a>';
                             }else{
-                                echo '<a href="../login" class="button padding-15" on-hover="text-deep-purple">Login</a>';
+                                echo '<a href="../login" class="button padding-15" on-hover="custom-text-blue">Login</a>';
                             }
                         }else{
                             if($PAGE_NAME == "Profile"){
-                                echo '<a href="../profile" class="button padding-15 text-deep-purple">'.$USER['name'].'</a>';
+                                echo '<a href="../profile" class="button padding-15 custom-text-blue bold">'.$USER['name'].'</a>';
                             }else{
-                                echo '<a href="../profile" class="button padding-15" on-hover="text-deep-purple">'.$USER['name'].'</a>';
+                                echo '<a href="../profile" class="button padding-15" on-hover="custom-text-blue">'.$USER['name'].'</a>';
                             }
                         }
 

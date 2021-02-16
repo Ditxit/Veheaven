@@ -49,54 +49,51 @@
     ?>
     
     <div class="outer-container">
-        <div class="inner-container margin-y-40">
-            <div class="row has-gap-30">
+        <div class="width-80 float-center margin-y-30">
+            <div class="row">
                 <div class="col-30">
 
-                    <div class="row padding-20 radius-20 is-white-100 shadow-15" on-hover="shadow-30">
-                        <div class="col-100">
-                            <div class="margin-bottom-20 radius-20 shadow-10" on-hover="shadow-20">
-                                <img src="../assets/avatars/default.jpg" alt="User Image" style="width:100%;height:280px;object-fit:cover;">
+                    <div class="row margin-right-30 radius-15 is-white custom-border">
+                        <div class="col-100 custom-border-bottom">
+                            <div class="padding-20">
+                                <img class="radius-5" src="../assets/avatars/default.jpg" alt="User Image" style="width:100%;height:280px;object-fit:cover;">
                             </div>
                         </div>
                         <div class="col-100">
-                            <div class="h5 cursor-default">
+                            <div class="h5 padding-x-20 margin-top-20">
                                 <?=$payload['first_name']." ".$payload['last_name']?>
                             </div>
                         </div>
-                        <div class="col-100">
-                            <div class="small cursor-default">
+                        <div class="col-100 padding-x-20">
+                            <div class="small margin-top-5">
                                 <?=$payload['email']?>
                             </div>
                         </div>
-                        <div class="col-100">
-                            <div class="small margin-bottom-10 cursor-default">
+                        <div class="col-100 padding-x-20">
+                            <div class="small margin-top-5 margin-bottom-20">
                                 <?php if(isset($payload['phone'])) echo $payload['phone'];?>
                             </div>
                         </div>
-                        <div class="col-100">
-                            <div class="small margin-bottom-10 cursor-default">
-                                <?php if(isset($payload['phone'])) echo 'Total Vehicles: '.count($vehicles);?>
-                            </div>
-                        </div>
+                    </div>
+                    
+                    <!-- Add Vehicle and Logout Buttons Containing Row -->
+                    <div class="row margin-top-30 margin-right-30 radius-15 is-white custom-border">
                         <?php
                             if(count($vehicles) > 0){
                                 echo '
-                                    <div class="col-100">
-                                        <hr>
-                                        <a onclick="showModal(\'add_vehicle_modal\')" class="padding-y-10 text-green">Add vehicle</a>
+                                    <div class="col-100 custom-border-bottom">
+                                        <a onclick="showModal(\'add_vehicle_modal\')" class="width-100 padding-20" on-hover="text-green">Add vehicle</a>
                                     </div>
                                 ';
                             }
                         ?>
                         <div class="col-100">
-                            <hr>
-                            <a href="../controller/logout.php" class="padding-top-10 text-red">Logout</a>
+                            <a href="../controller/logout.php" class="width-100 padding-20" on-hover="text-red">Logout</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-70">
-                    <div class="row is-white-100 radius-20 shadow-15" on-hover="shadow-30">
+                    <div class="row is-white radius-15 custom-border">
                         <div class="col-100">
                             <?php
                                 if(count($vehicles) == 0){
@@ -121,14 +118,14 @@
                                     echo '
                                         <div class="row padding-20 custom-border-bottom has-gap-20">
                                             <div class="col-60">
-                                                <div class="row is-white-95 custom-border radius-20">
+                                                <div class="row is-white-95 custom-border radius-10">
                                                     <div class="col" title="search user vehicle">
-                                                        <input id="user-vehicle-search" type="search" inputmode="text" placeholder="Search '.count($vehicles).' vehicles" class="is-transparent custom-border-none">
+                                                        <input id="user-vehicle-search" type="search" inputmode="text" placeholder="Search among '.count($vehicles).' vehicles" class="is-transparent custom-border-none">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-40">
-                                                <div class="row is-white-95 custom-border radius-20">
+                                                <div class="row is-white-95 custom-border radius-10">
                                                     <div class="col-auto is-white custom-border-right" title="search vehicle"><span style="width: 65px;" class="padding-x-10 padding-y-10 h6 text-center">Sort</span></div>
                                                     <div class="col" title="search term">
                                                         <select id="user-vehicle-sort-by" class="is-transparent custom-border-none">
@@ -142,31 +139,43 @@
                                     ';
                                     foreach($vehicles as $vehicle){
                                         echo '
-                                            <div class="row custom-border-bottom padding-20 has-gap-20" data-user-vehicle-row="'.$vehicle['name'].'">
-                                                <div class="col-25">
-                                                    <img style="object-fit: cover;" class="width-100 is-white-90 radius-10" src="../api/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
+                                            <!-- Single vehicle row -- start -->
+                                            <div class="row custom-border-bottom padding-20" data-user-vehicle-row="'.$vehicle['name'].'">
+                                                <div class="col-25 is-white-90">
+                                                    <img style="object-fit: cover;" class="width-100 radius-5" src="'.API_ENDPOINT.'/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
                                                 </div>
-                                                <div class="col-40">
+                                                <div class="col-45 padding-x-20">
                                                     <div class="row">
                                                         <div class="col-100">
                                                             <p class="h5 text-ellipsis" title="'.$vehicle['name'].'">'.$vehicle['name'].'</p>
                                                         </div>
                                                         <div class="col-100">
                                                             <p class="small">
-                                                                <span>NRs.&nbsp;</span>
-                                                                <span class="text-deep-purple bold">'.$vehicle['price'].'</span>
+                                                                <span><output class="custom-text-blue bold" onclick="this.innerText=format_NRP(this.innerText)">'.$vehicle['price'].'</output></span>
                                                             </p>
                                                         </div>
                                                         <div class="col-100">
-                                                            <a class="is-deep-purple button padding-x-20 padding-y-5 margin-top-10 radius-10" href="../vehicle/?id='.$vehicle['id'].'" class="button">View More</a>
+                                                            <span class="small bold">Seller: </span>
+                                                            <span class="small">'.$vehicle['seller']['first_name'].' '.$vehicle['seller']['last_name'].'</span>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-35">
-                                                    <div class="row padding-15 radius-20 is-white-95">
                                                         <div class="col-100">
                                                             <span class="small bold">Added Date: </span>
                                                             <span class="small">'.date("F jS, Y", strtotime($vehicle['added_date'])).'</span>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <a class="custom-bg-blue button width-50 padding-y-5 margin-top-15 radius-10" href="../vehicle/?id='.$vehicle['id'].'" class="button">View More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-30">
+                                                    <div class="row padding-15 radius-10 is-light-blue-5">
+                                                        <div class="col-100">
+                                                            <span class="small bold">Model: </span>
+                                                            <span class="small">'.$vehicle['model']['brand'].' '.$vehicle['model']['model'].'</span>
+                                                        </div>
+                                                        <div class="col-100">
+                                                            <span class="small bold">Body: </span>
+                                                            <span class="small">'.$vehicle['body']['body'].'</span>
                                                         </div>
                                                         <div class="col-100">
                                                             <span class="small bold">Engine: </span>
@@ -176,9 +185,14 @@
                                                             <span class="small bold">Mileage: </span>
                                                             <span class="small">'.$vehicle['mileage'].'&nbsp;Km/ltr</span>
                                                         </div>
+                                                        <div class="col-100">
+                                                            <span class="small bold">Type: </span>
+                                                            <span class="small">'.$vehicle['condition']['condition'].' '.$vehicle['type']['type'].'</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- Single vehicle row -- end -->
                                         ';
                                     }
                                     // echo "<pre>";

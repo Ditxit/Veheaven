@@ -13,11 +13,6 @@
                     width: 300px;
                     bottom: 20;
                     left: 20;
-                    background-color: #000000; 
-                    color: #EEEEEE;
-                    box-shadow: 0 3.0px 6.00px rgba(0,0,0,0.16), 0 3.0px 6.0px rgba(0,0,0,0.2300);
-                    padding: 18px;
-                    border-radius: 4px;
                     z-index: 1000;
 
                     animation-name: toast;
@@ -45,5 +40,5 @@
                 }
             </style>
         
-            <div class='toast'>".$toast_message."</div>";
+            <div class='toast is-black padding-x-25 padding-y-20 radius-10'>".$toast_message."</div>";
     }
