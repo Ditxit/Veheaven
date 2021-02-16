@@ -401,43 +401,20 @@
 
     /* Get User Vehicles */
     Api::get(Api::INTEGER.'/vehicles',function($user_id){
-        $sql = "SELECT 
-                user_vehicle.vehicle_id AS id, 
-                user_vehicle.status AS status, 
-                user_vehicle.added_date AS added_date,
-                user_vehicle.last_updated AS last_updated,
-                vehicle.name AS name,
-                vehicle.price AS price,
-                vehicle.mileage AS mileage,
-                vehicle.engine AS engine,
-                vehicle.bhp AS bhp,
-                vehicle.turn_radius AS turn_radius,
-                vehicle.seat AS seat,
-                vehicle.top_speed AS top_speed,
-                vehicle.vehicle_fuel_capacity AS fuel_capacity
-                FROM user_vehicle
-                INNER JOIN vehicle
-                    ON user_vehicle.vehicle_id = vehicle.id
-                WHERE user_vehicle.user_id=? AND user_vehicle.status != 'removed' 
+        $sql = "SELECT user_vehicle.vehicle_id AS id
+                FROM user_vehicle 
+                WHERE user_vehicle.user_id=? AND user_vehicle.status!=?
                 ORDER BY user_vehicle.vehicle_id DESC;
                 ";
-        
-        $vehicles = Database::query($sql,$user_id);
 
-        foreach ($vehicles as $index=>$vehicle) {
-            $sql = "SELECT 
-                vehicle_image.image_id AS id,
-                image.name AS name
-                FROM vehicle_image
-                    INNER JOIN image
-                    ON image.id = vehicle_image.image_id
-                WHERE vehicle_image.vehicle_id=?;
-            ";
-            $images = Database::query($sql,$vehicles[$index]['id']);
-            $vehicles[$index]['images'] = $images;
+        $vehicle_ids = Database::query($sql, $user_id, "removed");
+
+        $data = [];
+        foreach($vehicle_ids as $vehicle_id){
+            array_push($data, get_vehicle_details($vehicle_id['id'])); 
         }
 
-        Api::send($vehicles);
+        Api::send($data);
     });
 
     /* Get Single Vehicle Detail */
