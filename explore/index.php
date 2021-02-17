@@ -355,38 +355,83 @@
                     </section>
                     <!-- Recently Added Car Section -- end -->
 
+                    <!-- Email Us and Phone Us Section -- start -->
+                    <section class="margin-y-30">
+                        <div class="row">
+
+                            <div class="col-50">
+                                <div class="card is-white text-black custom-border radius-15 margin-right-15">
+                                    <div class="card-body padding-40 custom-border-bottom">
+                                        <p class="h4">Trouble finding vehicle?</p>
+                                        <p class="small">You can make calls or write emails for support.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="tel:+977-9863689659" class="button custom-text-blue bold padding-10 width-100 custom-border-right" on-hover="is-white-95">Call Us</a>
+                                            </div>
+                                            <div class="col">
+                                                <a href="Mailto:gau.manish77@gmail.com" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Email Us</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-50">
+                                <div class="card is-white text-black custom-border radius-15 margin-left-15">
+                                    <div class="card-body padding-40 custom-border-bottom">
+                                        <p class="h4">Confused what to buy?</p>
+                                        <p class="small">You can compare vehicles side-by-side.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Compare</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                    <!-- Email Us and Phone Us Section -- end -->
+
+                    <!-- Feedback or Enquiry Form Section -- start -->
+                    <section class="margin-y-30 is-white custom-border radius-15"> 
+                        <form class="card" action="" method="post">
+
+                            <div class="card-body padding-40 custom-border-bottom">
+                                <div class="row">
+                                    <div class="col-50 padding-right-15">
+                                        <p class="h4">Got any feedback or queries?</p>
+                                        <p class="small">Leave us a message telling your difficulties.</p>
+                                        <input class="padding-15 custom-border radius-10 margin-top-30" type="email" name="email" placeholder="Enter your email">
+                                    </div>
+                                    <div class="col-50 padding-left-15">
+                                        <textarea class="padding-15 custom-border radius-10" name="enquiry" placeholder="Enter your message..." cols="30" rows="5" style="height:121px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="submit" value="Submit" class="button custom-text-blue bold padding-10 width-100 custom-border-right">
+                                    </div>
+                                    <div class="col">
+                                        <input type="reset" value="Clear" class="button custom-text-blue bold padding-10 width-100">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </section>
+                    <!-- Recently Added Car Section -- end -->
+
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -- start -->
-    <div class="outer-container is-white margin-top-30 custom-border-top">
-        <div class="width-80 float-center padding-y-40">
-            <div class="row">
-                <div class="col">
-                    <p class="h6 margin-y-10 custom-text-red">Overview</p>
-                    <p><a href="" class="small margin-y-5 custom-text-blue">About Us</a></p>
-                    <p><a href="" class="small margin-y-5 custom-text-blue">FAQs</a></p>
-                    <p><a href="" class="small margin-y-5 custom-text-blue">Privacy Policies</a></p>
-                    <p><a href="" class="small margin-y-5 custom-text-blue">Terms & Conditions</a></p>
-                </div>
-                <div class="col">
-                    <p class="h6 margin-y-10 custom-text-red">Contact Us</p>
-                    <p><a href="Mailto:gau.manish77@gmail.com" class="small margin-y-5 custom-text-blue">Write us an Email</a></p>
-                    <p><a href="tel:+977-9863689659" class="small margin-y-5 custom-text-blue">Make a Phone Call</a></p>
-                </div>
-                <div class="col">
-                    <iframe class="radius-10 custom-bg-gray" width="480" height="158" src="https://maps.google.com/maps?q=Islington%20college&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="outer-container is-white custom-border-top">
-        <div class="width-80 float-center padding-y-30">
-            <p class="h6">&copy; Manish Gautam</p>
-        </div>
-    </div>
+    <?php include_once '../include/footer.ui.php'; ?>
     <!-- Footer -- end -->
 
     <script type="text/javascript">
@@ -458,6 +503,7 @@
             searchResult.innerText = "";
             searchResultTitle.innerText = "Searching...";
             searchResultSection.style.display = null;
+            searchResultSection.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 
             await fetch('<?=API_ENDPOINT.'/search';?>'+'/5/'+slugify(keyword)) // url
             .then(response => response.json())
