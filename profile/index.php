@@ -52,45 +52,46 @@
         <div class="width-80 float-center margin-y-30">
             <div class="row">
                 <div class="col-30">
-
-                    <div class="row margin-right-30 radius-15 is-white custom-border">
-                        <div class="col-100 custom-border-bottom">
-                            <div class="padding-20">
-                                <img class="radius-5" src="../assets/avatars/default.jpg" alt="User Image" style="width:100%;height:280px;object-fit:cover;">
+                    <section class="sticky top" style="top: 84px; z-index: 0;">
+                        <div class="row margin-right-30 radius-15 is-white custom-border">
+                            <div class="col-100 custom-border-bottom">
+                                <div class="padding-20">
+                                    <img class="radius-5" src="../assets/avatars/default.jpg" alt="User Image" style="width:100%;height:280px;object-fit:cover;">
+                                </div>
+                            </div>
+                            <div class="col-100">
+                                <div class="h5 padding-x-20 margin-top-20">
+                                    <?=$payload['first_name']." ".$payload['last_name']?>
+                                </div>
+                            </div>
+                            <div class="col-100 padding-x-20">
+                                <div class="small margin-top-5">
+                                    <?=$payload['email']?>
+                                </div>
+                            </div>
+                            <div class="col-100 padding-x-20">
+                                <div class="small margin-top-5 margin-bottom-20">
+                                    <?php if(isset($payload['phone'])) echo $payload['phone'];?>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-100">
-                            <div class="h5 padding-x-20 margin-top-20">
-                                <?=$payload['first_name']." ".$payload['last_name']?>
+                        
+                        <!-- Add Vehicle and Logout Buttons Containing Row -->
+                        <div class="row margin-top-30 margin-right-30 radius-15 is-white custom-border">
+                            <?php
+                                if(count($vehicles) > 0){
+                                    echo '
+                                        <div class="col-100 custom-border-bottom">
+                                            <a onclick="showModal(\'add_vehicle_modal\')" class="width-100 padding-20" on-hover="text-green">Add vehicle</a>
+                                        </div>
+                                    ';
+                                }
+                            ?>
+                            <div class="col-100">
+                                <a href="../controller/logout.php" class="width-100 padding-20" on-hover="text-red">Logout</a>
                             </div>
                         </div>
-                        <div class="col-100 padding-x-20">
-                            <div class="small margin-top-5">
-                                <?=$payload['email']?>
-                            </div>
-                        </div>
-                        <div class="col-100 padding-x-20">
-                            <div class="small margin-top-5 margin-bottom-20">
-                                <?php if(isset($payload['phone'])) echo $payload['phone'];?>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Add Vehicle and Logout Buttons Containing Row -->
-                    <div class="row margin-top-30 margin-right-30 radius-15 is-white custom-border">
-                        <?php
-                            if(count($vehicles) > 0){
-                                echo '
-                                    <div class="col-100 custom-border-bottom">
-                                        <a onclick="showModal(\'add_vehicle_modal\')" class="width-100 padding-20" on-hover="text-green">Add vehicle</a>
-                                    </div>
-                                ';
-                            }
-                        ?>
-                        <div class="col-100">
-                            <a href="../controller/logout.php" class="width-100 padding-20" on-hover="text-red">Logout</a>
-                        </div>
-                    </div>
+                    </section>
                 </div>
                 <div class="col-70">
                     <div class="row is-white radius-15 custom-border">
@@ -151,7 +152,7 @@
                                                         </div>
                                                         <div class="col-100">
                                                             <p class="small">
-                                                                <span><output class="custom-text-blue bold" onclick="this.innerText=format_NRP(this.innerText)">'.$vehicle['price'].'</output></span>
+                                                                <span><output class="custom-text-blue bold">'.$vehicle['price'].'</output></span>
                                                             </p>
                                                         </div>
                                                         <div class="col-100">
@@ -1057,6 +1058,10 @@
         </div>
     </div>
 
+    <!-- Footer -- start -->
+    <?php include_once '../include/footer.ui.php'; ?>
+    <!-- Footer -- end -->
+
     <!-- JavaScript -- start -->
     <script type="text/javascript">
 
@@ -1924,85 +1929,3 @@
     
 </body>
 </html>
-<!--
-    0. Blue Book, Run_Distance, 
-
-
-    1. Type
-        1.1 Bike
-        1.2 Car
-    
-    2. Condition (Only for admin)
-        2.1 New 
-        2.2 Old
-
-    3. General
-        3.1 Name
-        3.2 Price
-    
-    4. Owners Detail (Only for used vehicles)
-        3.3 Number of previous owners (only for used vehicles)
-        3.4 Owner Message (only for used vehicles)
-        3.5 Registered Year (only for used vehicles)
-        3.6 Registered Province (only for used vehicles)
-
-    4. Body
-        4.1 Body Type
-            4.1.1 Sedan
-            4.1.2 Hatchback
-            4.1.3 ...
-        4.2 Seat Count
-
-    5. Engine Details
-        3.1 CC
-        3.2 BHP
-
-    6. Fuel Type
-        Type
-            3.1 Petrol
-            3.2 Diesel
-            3.3 Electric
-            3.4 CNG
-        Capacity
-    
-    7. Transmission
-        3.1 Automatic
-        3.2 Manual
-        3.3 Others
-
-    8. Tyre
-        4.1 Front
-            4.1.1 Tubed
-            4.1.2 Tubeless
-        4.2 Rear
-            4.2.1 Tubed
-            4.2.2 Tubeless
-    
-    9. Break
-        5.1 Front
-            5.1.1 Disk
-            5.1.2 Drum
-        5.2 Rear
-            5.2.1 Disk
-            5.2.2 Drum
-    
-    10. Suspension
-        5.1 Front
-            5.1.1 Blah...
-            5.1.2 Blah...
-        5.2 Rear
-            5.2.1 Blah...
-            5.2.2 Blah...
-
-    11. Performance
-        11.1 Mileage
-        11.2 Top Speed
-        11.3 Turn Radius
-
-    11. Colors
-
-    12. Features
-
-    13. Photos
-
--->

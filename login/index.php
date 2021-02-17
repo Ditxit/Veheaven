@@ -16,7 +16,7 @@
 
 <head> <?php include_once '../include/header.ui.php';?> </head>
 
-<body class="is-white-95" style="overflow-y: scroll;">  
+<body class="custom-bg-gray" style="overflow-y: scroll;">  
 
     <?php
         // Including navbar
@@ -27,7 +27,7 @@
     <!-- Login Form -- start -->
     <div class="outer-container">
         <div class="inner-container">
-            <div class="card width-70 float-center margin-top-100 is-white radius-10 shadow-15" on-hover="shadow-50" phone="width-100 -margin-top-100">
+            <div class="card width-70 float-center margin-top-30 is-white radius-15 custom-border" phone="width-100 -margin-top-30">
 
                 <div class="row">
                     <div class="col-50 is-blue-5" phone="col-100">
@@ -49,7 +49,7 @@
                                     Email Address
                                     <span id="emailStatus" class="float-right"></span>
                                 </label>
-                                <input id="email" type="email" auto-complete="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-35 is-white-95" autofocus required/>
+                                <input id="email" type="email" auto-complete="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-30 is-white-95 custom-border" autofocus required/>
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
                                     Password
                                     <span id="passwordStatus" class="float-right"></span>
                                 </label>
-                                <div id="passwordContainer" class="row radius-10 is-white-95" style="border: 1.2px solid #e7e7e7;">
+                                <div id="passwordContainer" class="row radius-10 is-white-95 custom-border">
                                     <div class="col-85">
                                         <input id="password" type="password" auto-complete="current-password" placeholder="Password" name="password" class="radius-0 padding-20 margin-bottom-0 is-transparent" style="border: none;" minlength="8" required/>
                                     </div>
@@ -77,7 +77,7 @@
                             <div class="col">
                                 <div class="margin-bottom-10">
                                     <span class="float-right">
-                                        <a class="small text-blue" href="../recovery">Forgot password? </a>
+                                        <a class="small custom-text-blue" href="../recovery">Forgot password? </a>
                                     </span>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                         <!-- Submit Button Row -->
                         <div class="row">
                             <div class="col">
-                                <input type="submit" name="submit" value="Login" class="padding-20 is-blue radius-10" on-hover="is-blue-55"/>
+                                <input type="submit" name="submit" value="Login" class="padding-20 custom-bg-red radius-10" on-hover="is-blue-55"/>
                             </div>
                         </div>
 
