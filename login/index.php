@@ -26,7 +26,7 @@
 
     <!-- Login Form -- start -->
     <div class="outer-container">
-        <div class="inner-container">
+        <div class="width-80 float-center">
             <div class="card width-70 float-center margin-top-30 is-white radius-15 custom-border" phone="width-100 -margin-top-30">
 
                 <div class="row">
@@ -60,7 +60,7 @@
                                     Password
                                     <span id="passwordStatus" class="float-right"></span>
                                 </label>
-                                <div id="passwordContainer" class="row radius-10 is-white-95 custom-border">
+                                <div id="passwordContainer" class="row radius-10 is-white-95 custom-border margin-bottom-5">
                                     <div class="col-85">
                                         <input id="password" type="password" auto-complete="current-password" placeholder="Password" name="password" class="radius-0 padding-20 margin-bottom-0 is-transparent" style="border: none;" minlength="8" required/>
                                     </div>
@@ -75,7 +75,7 @@
                         <!-- Forgot Password Row -->
                         <div class="row">
                             <div class="col">
-                                <div class="margin-bottom-10">
+                                <div class="margin-bottom-30">
                                     <span class="float-right">
                                         <a class="small custom-text-blue" href="../recovery">Forgot password? </a>
                                     </span>
@@ -97,6 +97,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -- start -->
+    <?php include_once '../include/footer.ui.php'; ?>
+    <!-- Footer -- end -->
 
     <!-- JavaScript -- start -->
     <script type="text/javascript">
