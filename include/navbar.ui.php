@@ -127,23 +127,24 @@
                 <div class="float-right">
                     <?php
                         // Checking user exist or not
+                        $USER = [];
                         if (isset($_COOKIE['token'])) {
                             $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
                             $token = json_decode($token,TRUE);
-                            if(isset($token) && $token['success']){
 
+                            if(isset($token) && $token['success']){
                                 $payload = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
                                 $payload = json_decode($payload,TRUE);
 
                                 if(isset($payload) && $payload['success']){   
-                                    $USER = [];
-                                    $USER['id'] = $payload['payload']['id'];
-                                    $USER['name'] = $payload['payload']['first_name'];
+                                    $USER = $payload['payload'];
                                 }
+                                unset($payload);
                             }
+                            unset($token);
                         }
 
-                        $CURRENT_PAGE = isset($PAGE_NAME) ? $PAGE_NAME : "";
+                        $PAGE_NAME = isset($PAGE_NAME) ? $PAGE_NAME : "";
 
                         if($PAGE_NAME == "Explore"){
                             echo '<a class="button padding-15 custom-text-blue bold">Explore</a>';
@@ -151,7 +152,7 @@
                             echo '<a href="../explore" class="button padding-15" on-hover="custom-text-blue">Explore</a>';
                         }
 
-                        if(!isset($USER)){
+                        if(!$USER){
                             if($PAGE_NAME == "Login"){
                                 echo '<a class="button padding-15 custom-text-blue bold">Login</a>';
                             }else{
@@ -159,14 +160,11 @@
                             }
                         }else{
                             if($PAGE_NAME == "Profile"){
-                                echo '<a href="../profile" class="button padding-15 custom-text-blue bold">'.$USER['name'].'</a>';
+                                echo '<a href="../profile" class="button padding-15 custom-text-blue bold">'.$USER['first_name'].'</a>';
                             }else{
-                                echo '<a href="../profile" class="button padding-15" on-hover="custom-text-blue">'.$USER['name'].'</a>';
+                                echo '<a href="../profile" class="button padding-15" on-hover="custom-text-blue">'.$USER['first_name'].'</a>';
                             }
-                        }
-
-                        unset($CURRENT_PAGE);
-                        unset($USER);       
+                        }   
                     ?>
                 </div>
             </div>
