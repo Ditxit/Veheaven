@@ -37,6 +37,9 @@
             exit;
         }
 
+        /* Create a recovery code */
+        $recovery_code = bin2hex(random_bytes(4));
+
         /* Start Composing Email to the User */
 
         $receiver = $_POST['email']; // Receiver Email

@@ -13,19 +13,24 @@
     <link rel="stylesheet" href="../../css/style.css">
     <script type="text/javascript" src="../../js/script.js"></script>
 </head>
-<body class="is-white-95">
+<body class="custom-bg-gray">
 
-    <?php include '../include/header.ui.php'; ?>
+    <?php
+        include '../include/header.ui.php';
+
+        // Including navbar
+        include_once '../include/navbar.ui.php';
+    ?>
 
     <!-- Login Form -- start -->
     <div class="outer-container">
-        <div class="inner-container">
-            <div class="card width-70 float-center margin-top-100 is-white radius-10 shadow-15" on-hover="shadow-50">
+        <div class="width-80 float-center">
+            <div class="card width-70 float-center margin-top-30 is-white radius-15 custom-border">
 
                 <div class="row">
                     <div class="col-50 is-blue-5">
                         <div class=" margin-y-70 margin-x-40">
-                            <img src="../../assets/account-recovery.svg" alt="Login Illustration Image">
+                            <img src="../assets/backgrounds/account-recovery.svg" alt="Login Illustration Image">
                         </div>
                     </div>
                     <div class="col-50 padding-20">
@@ -42,7 +47,7 @@
                                     Email Address
                                     <span id="emailStatus" class="float-right"></span>
                                 </label>
-                                <input id="email" type="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-35" autocomplete="off" autofocus required/>
+                                <input id="email" type="email" placeholder="Email Address" name="email" class="radius-10 padding-20 margin-bottom-30 is-white-95 custom-border" autocomplete="off" autofocus required/>
                             </div>
                         </div>
 
@@ -53,14 +58,14 @@
                                     Confirm Email Address
                                     <span id="confirmEmailStatus" class="float-right"></span>
                                 </label>
-                                <input id="confirmEmail" type="email" placeholder="Confirm Email" name="confirm_email" class="radius-10 padding-20 margin-bottom-40" autocomplete="off" required/>
+                                <input id="confirmEmail" type="email" placeholder="Confirm Email" name="confirm_email" class="radius-10 padding-20 margin-bottom-30 is-white-95 custom-border" autocomplete="off" required/>
                             </div>
                         </div>
 
                         <!-- Submit Button Row -->
                         <div class="row">
                             <div class="col">
-                                <input type="submit" name="recovery_info" value="Send Code" class="padding-20 is-blue radius-10" on-hover="is-blue-55"/>
+                                <input type="submit" name="recovery_info" value="Send Code" class="padding-20 custom-bg-red radius-10" on-hover="is-blue-55"/>
                             </div>
                         </div>
 
@@ -71,6 +76,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -- start -->
+    <?php include_once '../include/footer.ui.php'; ?>
+    <!-- Footer -- end -->
 
     <!-- JavaScript -- start -->
     <script type="text/javascript">
