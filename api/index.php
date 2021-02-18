@@ -949,6 +949,13 @@
         Api::send($data);
     });
 
+    /* User Feedback or Enquiry */
+    Api::post('/enquiry',function(){
+        $sql = "INSERT INTO user_enquiry(email,enquiry) VALUES(?,?);";
+        $data = Database::query($sql,$_POST['email'],$_POST['enquiry']);
+        Api::send($data);
+    });
+
     /*General Token*/
     Api::get('/visitor/token/create',function(){
         Api::send(Token::create([

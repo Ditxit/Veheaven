@@ -250,7 +250,7 @@
                                         <p class="small">Register an account for free and list your vehicle</p>
                                     </div>
                                     <div class="card-footer">
-                                        <a href="" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Be a Seller</a>
+                                        <a href="../register" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Be a Seller</a>
                                     </div>
                                 </div>
                             </div>
@@ -396,14 +396,14 @@
 
                     <!-- Feedback or Enquiry Form Section -- start -->
                     <section class="margin-y-30 is-white custom-border radius-15"> 
-                        <form class="card" action="" method="post">
+                        <form class="card" action="<?=SERVER_NAME?>/controller/enquiry.php" method="POST">
 
                             <div class="card-body padding-40 custom-border-bottom">
                                 <div class="row">
                                     <div class="col-50 padding-right-15">
                                         <p class="h4">Got any feedback or queries?</p>
                                         <p class="small">Leave us a message telling your difficulties.</p>
-                                        <input class="padding-15 custom-border radius-10 margin-top-30" type="email" name="email" placeholder="Enter your email">
+                                        <input class="padding-15 custom-border radius-10 margin-top-30" type="email" name="email" value="<?= $USER ? $USER['email'] : ''?>" placeholder="Enter your email">
                                     </div>
                                     <div class="col-50 padding-left-15">
                                         <textarea class="padding-15 custom-border radius-10" name="enquiry" placeholder="Enter your message..." cols="30" rows="5" style="height:121px;"></textarea>
