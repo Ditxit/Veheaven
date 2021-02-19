@@ -138,6 +138,7 @@ CREATE TABLE `user` (
     `phone` VARCHAR (20) NULL,
     `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     `last_login` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `status` ENUM('unverified','verified','banned','deleted') NOT NULL DEFAULT 'unverified',
     `user_type_id` INT (11) NOT NULL,
     CONSTRAINT FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`)
 );
@@ -146,7 +147,6 @@ CREATE TABLE `user_verification` (
     `user_id` int (11) NOT NULL,
     `code` VARCHAR (10) NOT NULL,
     `expiry` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `is_verified` TINYINT (1) NOT NULL DEFAULT 0,
     CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 );
 
