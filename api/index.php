@@ -373,29 +373,49 @@
 
     });
 
-     /* General Login API */
-     Api::post('/login',function(){
+    Api::get('/hash'.Api::STRING, function($str){
+        Api::send([
+            "string" => $str,
+            "hash" => password_hash($str, PASSWORD_DEFAULT)
+        ]);
+    });
+
+
+    /* General Login API */
+    Api::post('/login',function(){
 
         $sql = "SELECT 
-                user.id, 
-                user.first_name, 
-                user.last_name, 
-                user.email, 
-                user.phone, 
-                user_type.type AS user_type 
-                FROM user 
-                INNER JOIN user_type 
-                    ON user.user_type_id = user_type.id 
-                WHERE user.email=? AND user.password=?;";
+                id, 
+                first_name, 
+                last_name, 
+                email,
+                password,
+                phone, 
+                user.type AS user_type 
+                FROM user  
+                WHERE user.email=? AND user.status=?";
 
-        $data = Database::query($sql, $_POST['email'], $_POST['password']);
+        $data = Database::query($sql, $_POST['email'], "verified");
 
-        if($data){
-            $data = $data[0];
-            $data['token'] = Token::create($data);
-        }
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "User not found"
+        ]);
 
-        Api::send($data);
+        $data = $data[0];
+
+        if(!password_verify($_POST['password'], $data['password'])) Api::send([
+            "success" => FALSE,
+            "message" => "Incorrect password"
+        ]);
+
+        unset($data['password']);
+        $data['token'] = Token::create($data);
+
+        Api::send([
+            "success" => TRUE,
+            "content" => $data
+        ]);
 
     });
 
@@ -971,6 +991,175 @@
         }else{
             Api::send(FALSE);
         }
+    });
+
+    /* Add unverified user to the 'user' table */
+    Api::post('/register/seller', function(){
+        $sql = "INSERT INTO user(first_name,last_name,email,phone,created_date,status,type) VALUES(?,?,?,?,?,?,?);";
+
+        // Getting current nepal local time
+        date_default_timezone_set("Asia/Kathmandu");
+        $datetime = date("Y-m-d H:i:s");
+
+        $data = Database::query($sql, $_POST['firstName'], $_POST['lastName'], $_POST['email'], $_POST['phoneNumber'], $datetime, 'unverified', 'seller');
+        Api::send($data);
+    });
+
+    /*Insert or Create User Verification Code*/
+    Api::post('/user/send/verification', function(){
+
+        if(!isset($_POST['user_id'])) Api::send([
+            "success" => FALSE,
+            "message" => "Missing: user_id"
+        ]);
+
+        if($_POST['user_id'] < 1) Api::send([
+            "success" => FALSE,
+            "message" => "Invalid: user_id"
+        ]);
+
+        $sql = "SELECT id FROM user WHERE id=? AND status!=?";
+        $data = Database::query($sql, $_POST['user_id'], "banned");
+
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Error: User does not exist"
+        ]);
+
+        // Getting current nepal local time
+        date_default_timezone_set("Asia/Kathmandu");
+        $expiry = date("Y-m-d H:i:s", strtotime('+5 minutes'));
+
+        /* Create a verification code */
+        $verification_code = time().bin2hex(random_bytes(10));
+
+        /* Check if the user_id is already present in user_verification table */
+        $sql = "SELECT user_id FROM user_verification WHERE user_id = ?;";
+        $data = Database::query($sql, $_POST['user_id']);
+
+        /* If user_id already exist in user_verification table */
+        if($data){
+            $sql = "UPDATE user_verification SET code=?, expiry=? WHERE user_id=?;";
+            $data = Database::query($sql, $verification_code, $expiry, $_POST['user_id']);
+        }else{
+            $sql = "INSERT INTO user_verification(user_id,code,expiry) VALUES(?,?,?);";
+            $data = Database::query($sql, $_POST['user_id'], $verification_code, $expiry);
+        }
+
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Something went wrong"
+        ]);
+
+        /* Prepare and send the mail */
+        /*
+        $receiver = $_POST['email']; // Receiver Email
+        $sender= 'gau.manish777@gmail.com'; // Sender Email
+        $subject= 'Veheaven - Account Verification'; // Email Subject
+
+        $headers = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= "From: " . $sender . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+        $message ='
+            <html>
+                <body>
+                    <h1>'.$subject.'</h1><br>
+                    <a href="'.SERVER_NAME.'/verify/?code='.$verification_code.'">Click to continue</a>
+                </body>
+            </html>
+        ';
+
+        $mail = @mail($receiver, $sender, $message, $headers);
+
+        if(!$mail) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Something went wrong"
+        ]);
+        */
+
+        Api::send([
+            "success" => TRUE
+        ]);
+        
+    });
+
+    /* Verify User Verification Code */
+    Api::post('/user/verify/verification', function(){
+
+        if(!isset($_POST['password'])) Api::send([
+            "success" => FALSE,
+            "message" => "Missing: password"
+        ]);
+
+        if(!isset($_POST['confirmPassword'])) Api::send([
+            "success" => FALSE,
+            "message" => "Missing: confirmPassword"
+        ]);
+
+        if($_POST['password'] != $_POST['confirmPassword']) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Passwords do not match"
+        ]);
+
+        if(strlen($_POST['password']) < 8) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Passwords is less than 8 characters"
+        ]);
+
+        if(!isset($_POST['code'])) Api::send([
+            "success" => FALSE,
+            "message" => "Missing: code"
+        ]);
+
+        // Getting current nepal local time
+        date_default_timezone_set("Asia/Kathmandu");
+        $datetime = date("Y-m-d H:i:s");
+
+        $sql = "SELECT user_id FROM user_verification WHERE code=? AND expiry>=?;";
+        $data = Database::query($sql, $_POST['code'], $datetime);
+
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Something went wrong"
+        ]);
+
+        $user_id = $data[0]['user_id'];
+
+        $sql = "UPDATE user SET password=?, last_login=?, status=? WHERE id=?;";
+        $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $data = Database::query($sql, $password_hash, $datetime, "verified", $user_id);
+
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Something went wrong"
+        ]);
+
+        $sql = "SELECT 
+                id, 
+                first_name, 
+                last_name, 
+                email, 
+                phone, 
+                user.type AS user_type 
+                FROM user  
+                WHERE user.id=? AND user.status=?";
+
+        $data = Database::query($sql, $user_id, "verified");
+
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Error: Something went wrong"
+        ]);
+
+        $data = $data[0];
+        $data['token'] = Token::create($data);
+
+        Api::send([
+            "success" => TRUE,
+            "content" => $data
+        ]);
+
     });
 
     Api::get(Api::DEFAULT,function(){

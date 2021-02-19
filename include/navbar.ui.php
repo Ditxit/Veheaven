@@ -158,6 +158,13 @@
                             }else{
                                 echo '<a href="../login" class="button padding-15" on-hover="custom-text-blue">Login</a>';
                             }
+
+                            if($PAGE_NAME == "Register"){
+                                echo '<a class="button padding-15 custom-text-blue bold">Register</a>';
+                            }else{
+                                echo '<a href="../register" class="button padding-15" on-hover="custom-text-blue">Register</a>';
+                            }
+
                         }else{
                             if($PAGE_NAME == "Profile"){
                                 echo '<a href="../profile" class="button padding-15 custom-text-blue bold">'.$USER['first_name'].'</a>';

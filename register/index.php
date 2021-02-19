@@ -1,4 +1,6 @@
 <?php
+    $PAGE_NAME = 'Register';
+
     include '../include/redirection.php';
     include '../include/toast.php';
 ?>
@@ -36,9 +38,9 @@
                     <div class="col-50 padding-20">
 
                     <p class="h4 margin-top-20 margin-bottom-5">Register Account</p>
-                    <p class="small margin-bottom-30">Register an account to add your vehicle for sale.</p>
+                    <p class="small margin-bottom-30">A verification link will be send to your email address.</p>
 
-                    <form method="POST" action="../controller/recovery.php">
+                    <form method="POST" action="../controller/register.php">
 
                         <!-- Name Row -->
                         <div class="row margin-bottom-20">
@@ -77,7 +79,7 @@
                                     Phone Number
                                     <span id="phoneNumberStatus" class="float-right"></span>
                                 </label>
-                                <input id="phoneNumber" type="tel" placeholder="9876543210" name="phoneNumber" class="radius-10 padding-20 margin-bottom-30 is-white-95 custom-border" autocomplete="on" required/>
+                                <input id="phoneNumber" type="tel" placeholder="9876543210" name="phoneNumber" class="radius-10 padding-20 margin-bottom-30 is-white-95 custom-border" autocomplete="on"/>
                             </div>
                         </div>
 

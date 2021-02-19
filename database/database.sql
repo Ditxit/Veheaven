@@ -124,28 +124,22 @@ CREATE TABLE `image` (
     `caption` VARCHAR (255) NULL
 );
 
-CREATE TABLE `user_type` (
-    `id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `type` VARCHAR (100) NOT NULL
-);
-
 CREATE TABLE `user` (
     `id` INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `first_name` VARCHAR (40) NOT NULL,
     `last_name` VARCHAR (40) NOT NULL,
     `email` VARCHAR (255) NOT NULL,
-    `password` VARCHAR (255) NOT NULL,
+    `password` VARCHAR (255) NULL,
     `phone` VARCHAR (20) NULL,
     `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-    `last_login` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `status` ENUM('unverified','verified','banned','deleted') NOT NULL DEFAULT 'unverified',
-    `user_type_id` INT (11) NOT NULL,
-    CONSTRAINT FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`)
+    `last_login` DATETIME NULL,
+    `status` ENUM('unverified','verified','banned') NOT NULL DEFAULT 'unverified',
+    `type` ENUM('visitor','seller','admin') NOT NULL DEFAULT 'visitor'
 );
 
 CREATE TABLE `user_verification` (
     `user_id` int (11) NOT NULL,
-    `code` VARCHAR (10) NOT NULL,
+    `code` VARCHAR (50) NOT NULL,
     `expiry` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 );
@@ -855,19 +849,14 @@ INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('Duke 20
 INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('RC 390','2012',8);
 INSERT INTO `vehicle_model` (`model`,`year`,`vehicle_brand_id`) VALUES ('Duke 390','2012',8);
 
-/* user_type */
-INSERT INTO user_type (type) VALUES ('admin');
-INSERT INTO user_type (type) VALUES ('seller');
-INSERT INTO user_type (type) VALUES ('visitor');
-
 /* user */
 INSERT INTO 
-    user (first_name,last_name,email,password,phone,created_date,last_login,user_type_id) 
-    VALUES ('Admin','Admin','admin@gmail.com','password','9063689659','2020-07-23 13:10:11','2020-07-23 13:10:11',1);
+    user (first_name,last_name,email,password,phone,created_date,last_login,status,type) 
+    VALUES ('Manish','Gautam','manish@gmail.com','$2y$10$Xu0CuWfzD/iAx4zGdFrgrOtoMOhtmpUVnfor/12K6ZscNd8rDFVDG','9063689659','2020-07-23 13:10:11','2020-07-23 13:10:11','verified','admin');
 
 INSERT INTO 
-    user (first_name,last_name,email,password,phone,created_date,last_login,user_type_id) 
-    VALUES ('Seller','Seller','seller@gmail.com','password','9876543210','2020-07-23 13:10:11','2020-07-23 13:10:11',2);
+    user (first_name,last_name,email,password,phone,created_date,last_login,status,type)  
+    VALUES ('Seller','Seller','seller@gmail.com','$2y$10$Xu0CuWfzD/iAx4zGdFrgrOtoMOhtmpUVnfor/12K6ZscNd8rDFVDG','9876543210','2020-07-23 13:10:11','2020-07-23 13:10:11','verified','seller');
 
 
 

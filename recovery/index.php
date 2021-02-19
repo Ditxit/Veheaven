@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="../../css/style.css">
-    <script type="text/javascript" src="../../js/script.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="text/javascript" src="../js/script.js"></script>
 </head>
 <body class="custom-bg-gray">
 
@@ -36,7 +36,7 @@
                     <div class="col-50 padding-20">
 
                     <p class="h4 margin-top-20 margin-bottom-5">Recover Account</p>
-                    <p class="small margin-bottom-30">A recovery code will be send to your email address.</p>
+                    <p class="small margin-bottom-30">A recovery link will be send to your email address.</p>
 
                     <form method="POST" action="../controller/recovery.php">
 
