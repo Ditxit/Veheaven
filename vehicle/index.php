@@ -379,7 +379,7 @@
                 <div class="col-30">
                     
                     <!-- Sticky top -- start -->
-                    <div class=" sticky top" style="top: 92px;">
+                    <div class=" sticky top" style="top: 92px; z-index: 0;">
 
                         <div class="custom-border radius-15 is-white"> 
 
