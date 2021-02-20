@@ -56,7 +56,12 @@
                         <div class="row margin-right-30 radius-15 is-white custom-border">
                             <div class="col-100 custom-border-bottom">
                                 <div class="padding-20">
-                                    <img class="radius-5" src="../assets/avatars/default.jpg" alt="User Image" style="width:100%;height:280px;object-fit:cover;">
+                                    <?php
+                                        $profile_image_link = $payload['image'] 
+                                                                ? SERVER_NAME.'/api/storage/'.$payload['image'][0]['name'] 
+                                                                : SERVER_NAME.'/assets/avatars/default.jpg';
+                                        echo '<img class="radius-5" src="'.$profile_image_link.'" alt="User Image" style="width:100%;height:280px;object-fit:cover;">';
+                                    ?> 
                                 </div>
                             </div>
                             <div class="col-100">
