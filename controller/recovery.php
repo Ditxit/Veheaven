@@ -2,6 +2,8 @@
 
     if(isset($_POST['recovery_info'])){
 
+        include_once '../include/config.php';
+
         if(!isset($_POST['email']) || !isset($_POST['confirm_email'])){
             setcookie('toast_message', "All fields not found", time()+60*60, "/");
             header('Location: ../recovery/');
@@ -37,34 +39,33 @@
             exit;
         }
 
-        /* Create a recovery code */
-        $recovery_code = bin2hex(random_bytes(4));
+        /* Send user verification code to the user */
+        $post = ["email" => $_POST['email']];
 
-        /* Start Composing Email to the User */
-
-        $receiver = $_POST['email']; // Receiver Email
-        $sender= 'gau.manish777@gmail.com'; // Sender Email
-        $subject= 'Veheaven Account Recovery Code'; // Email Subject
-
-        $headers = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= "From: " . $sender . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-        $message ='
-            <html>
-                <body>
-                    <h1>'.$subject.'</h1><br>
-                    <p>This is a test email.</p>
-                </body>
-            </html>
-        ';
-
-        if (mail($receiver, $sender, $message, $headers)){
-            echo "Email sent";
-        }else{
-            echo "Email sending failed";
-        }
-
+        $cURLConnection = curl_init(API_ENDPOINT.'/user/send/verification');
+        curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
         
+        $apiResponse = curl_exec($cURLConnection);
+        curl_close($cURLConnection);
+        $apiResponse = json_decode($apiResponse,TRUE);
+
+        if(isset($apiResponse) && $apiResponse && isset($apiResponse['success'])){
+
+            if($apiResponse['success']){
+
+                setcookie('toast_message', "Please check your email", time()+60*60, "/");
+                header('Location: ../explore/');
+                exit;
+
+            }else{
+
+                setcookie('toast_message', $apiResponse['message'], time()+60*60, "/");
+                header('Location: ../explore/');
+                exit;
+
+            }
+
+        }
 
     }
