@@ -43,7 +43,7 @@
         if(isset($apiResponse) && $apiResponse && isset($apiResponse['inserted_id']) && $apiResponse['inserted_id'] > 0){
 
             /* Send user verification code to the user */
-            $post = ["user_id" => $apiResponse['inserted_id']];
+            $post = ["email" => $_POST['email']];
 
             $cURLConnection = curl_init(API_ENDPOINT.'/user/send/verification');
             curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $post);
