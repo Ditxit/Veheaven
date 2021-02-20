@@ -410,8 +410,25 @@
         ]);
 
         unset($data['password']);
+        
+        // Getting user profile image
+        $sql = "SELECT 
+                    user_image.image_id AS id,
+                    image.name AS name
+                FROM user_image
+                INNER JOIN image
+                    ON image.id = user_image.image_id
+                WHERE user_image.user_id = ?;
+                ";
+
+        $image = Database::query($sql, $data['id']);
+
+        $data['image'] = $image;
+        
+        // Creating user token to return
         $data['token'] = Token::create($data);
 
+        // Send the token back
         Api::send([
             "success" => TRUE,
             "content" => $data
@@ -1008,23 +1025,25 @@
     /*Insert or Create User Verification Code*/
     Api::post('/user/send/verification', function(){
 
-        if(!isset($_POST['user_id'])) Api::send([
+        if(!isset($_POST['email'])) Api::send([
             "success" => FALSE,
-            "message" => "Missing: user_id"
+            "message" => "Missing: email"
         ]);
 
-        if($_POST['user_id'] < 1) Api::send([
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) Api::send([
             "success" => FALSE,
-            "message" => "Invalid: user_id"
+            "message" => "Invalid: email"
         ]);
 
-        $sql = "SELECT id FROM user WHERE id=? AND status!=?";
-        $data = Database::query($sql, $_POST['user_id'], "banned");
+        $sql = "SELECT id FROM user WHERE email=? AND status!=?;";
+        $data = Database::query($sql, $_POST['email'], "banned");
 
         if(!$data) Api::send([
             "success" => FALSE,
             "message" => "Error: User does not exist"
         ]);
+
+        $user_id = $data[0]['id'];
 
         // Getting current nepal local time
         date_default_timezone_set("Asia/Kathmandu");
@@ -1034,16 +1053,16 @@
         $verification_code = time().bin2hex(random_bytes(10));
 
         /* Check if the user_id is already present in user_verification table */
-        $sql = "SELECT user_id FROM user_verification WHERE user_id = ?;";
-        $data = Database::query($sql, $_POST['user_id']);
+        $sql = "SELECT user_id FROM user_verification WHERE user_id=?;";
+        $data = Database::query($sql, $user_id);
 
         /* If user_id already exist in user_verification table */
         if($data){
             $sql = "UPDATE user_verification SET code=?, expiry=? WHERE user_id=?;";
-            $data = Database::query($sql, $verification_code, $expiry, $_POST['user_id']);
+            $data = Database::query($sql, $verification_code, $expiry, $user_id);
         }else{
             $sql = "INSERT INTO user_verification(user_id,code,expiry) VALUES(?,?,?);";
-            $data = Database::query($sql, $_POST['user_id'], $verification_code, $expiry);
+            $data = Database::query($sql, $user_id, $verification_code, $expiry);
         }
 
         if(!$data) Api::send([
