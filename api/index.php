@@ -725,6 +725,7 @@
             $name = File::save();
             if($name){
                 $data = Database::query("INSERT INTO `image` (`name`) VALUES (?)",$name);
+                $data['name'] = $name;
                 Api::send($data);
             }else{
                 Api::send(File::$error);
@@ -1179,6 +1180,61 @@
             "content" => $data
         ]);
 
+    });
+
+
+    // Needs token & imageId keys in $_POST[]
+    // Returns inserted_id on success
+    Api::post('/user/add/image', function(){
+
+        verify_token($_POST['token']);
+
+        $user = Token::getPayload($_POST['token']);
+
+        $sql = "INSERT INTO user_image (user_id, image_id) VALUES (?, ?);";
+
+        $data = Database::query($sql, $user['id'], $_POST['imageId']);
+
+        Api::send([
+            "success" => TRUE,
+            "content" => $data
+        ]);
+
+    });
+
+    /*
+        Api to get user profile image
+        Requires userId
+        Returns image id & image name as ['id' => '...', 'name'=> '...']
+    */
+    Api::get(Api::INTEGER.'/image', function($userId){
+
+        if($userId < 1) Api::send([
+            "success" => FALSE, 
+            "message" => "Invalid: userId"
+        ]);
+
+        $sql = "SELECT 
+                    image.id AS id,
+                    image.name AS name
+                FROM image
+                INNER JOIN user_image
+                    ON user_image.image_id = image.id
+                INNER JOIN user
+                    ON user.id = user_image.user_id
+                WHERE user.id = ?
+                ORDER BY image.id DESC
+                LIMIT ?;
+                ";
+        
+        $data = Database::query($sql, $userId, 1);
+
+        $data = $data ? $data[0] : [];
+
+        Api::send([
+            "success" => TRUE,
+            "content" => $data
+        ]);
     });
 
     Api::get(Api::DEFAULT,function(){
