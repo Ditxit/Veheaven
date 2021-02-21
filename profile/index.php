@@ -57,11 +57,73 @@
                             <div class="col-100 custom-border-bottom">
                                 <div class="padding-20">
                                     <?php
-                                        $profile_image_link = $payload['image'] 
-                                                                ? SERVER_NAME.'/api/storage/'.$payload['image'][0]['name'] 
+
+                                        $userImage = file_get_contents(API_ENDPOINT.'/'.$payload['id'].'/image');
+                                        $userImage = json_decode($userImage,TRUE);
+                                        $userImage = $userImage['content'];
+
+                                        $userProfileImage = $userImage 
+                                                                ? SERVER_NAME.'/api/storage/'.$userImage['name']
                                                                 : SERVER_NAME.'/assets/avatars/default.jpg';
-                                        echo '<img class="radius-5" src="'.$profile_image_link.'" alt="User Image" style="width:100%;height:280px;object-fit:cover;">';
                                     ?> 
+                                    <div class="custom-image-input">
+                                        <input id="userImageFile" type="file" name="userImage" accept=".png, .jpg, .jpeg"/>
+                                        <label for="userImageFile">
+                                            <img id="userProfileImage" src="<?=$userProfileImage?>" alt="User Image" class="radius-5 cursor-pointer" style="width:100%;height:280px;object-fit:cover;" title="Click to change">
+                                        </label>
+                                    </div>
+                                    <script type="text/javascript">
+                                        const userImageFile = document.getElementById("userImageFile");
+                                        const userProfileImage = document.getElementById("userProfileImage")
+                                        
+                                        userImageFile.onchange = async () => {
+
+                                            // Validation for empty image file
+                                            if(!userImageFile || userImageFile.files.length < 1) return;
+
+                                            // Initialize a Form Data
+                                            var formData = new FormData()
+
+                                            // Append image File to form data
+                                            formData.append('file', userImageFile.files[0])
+
+                                            // Fetch the api
+                                            var image = await fetch('<?=API_ENDPOINT?>'+'/image/save', { // POST endpoint
+                                                method: 'POST',
+                                                body: formData // FormData object
+                                            }).then( // On success
+                                                (response) => {return response.json()} // Return response json
+                                            ).catch( // On error
+                                                (error) => {return null} // Return null
+                                            );
+
+                                            // If error in /image/save api response
+                                            if(!image) return;
+
+                                            // Remove file from form data
+                                            formData.delete('file');
+
+                                            // Add token and image-id to form data
+                                            formData.append('token','<?=$_COOKIE['token']?>');
+                                            formData.append('imageId', image.inserted_id);
+
+                                            // Fetch the api
+                                            var userImage = await fetch('<?=API_ENDPOINT?>'+'/user/add/image', { // POST endpoint
+                                                method: 'POST',
+                                                body: formData // FormData object
+                                            }).then( // On success
+                                                (response) => {return response.json()} // Return response json
+                                            ).catch( // On error
+                                                (error) => {return null} // Return null
+                                            );
+
+                                            // If error in /user/add/image api response
+                                            if(!userImage || !userImage.success) return;
+                                            
+                                            // Change user profile image element source to new value
+                                            userProfileImage.src = '<?=SERVER_NAME."/api/storage/"?>'+image.name;
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             <div class="col-100">
