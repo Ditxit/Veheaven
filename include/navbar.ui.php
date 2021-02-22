@@ -61,18 +61,36 @@
                             .then(response => response.json())
                             .then(data => {
                                 searchBoxSuggestion.innerText = "";
-                                if(data.length == 0) {
+                                if(!data || !data.success || !data.content) {
                                     searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>No result found</p>"));
                                 }else{
-                                    for(var i = 0; i<data.length; i++){
+                                    // Work on returned content
+                                    vehicles = data.content.vehicles;
+                                    users = data.content.users;
+
+                                    // For vehicles
+                                    for(var i = 0; i<vehicles.length; i++){
                                         searchBoxSuggestion.appendChild(
                                             textToNode(
-                                                "<a data-active='0' data-keyword='"+data[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+data[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
-                                                    data[i].name +
+                                                "<a data-active='0' data-keyword='"+vehicles[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+vehicles[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
+                                                    vehicles[i].name +
                                                 "</a>"
                                             )
                                         );
-                                    } // For loop
+                                    } // For vehicles
+
+                                    // For users
+                                    for(var i = 0; i<users.length; i++){
+                                        var id = users[i].id;
+                                        var name = users[i].firstName+' '+users[i].lastName;
+                                        searchBoxSuggestion.appendChild(
+                                            textToNode(
+                                                "<a data-active='0' data-keyword='"+name+"' href='<?=SERVER_NAME;?>/profile/?id="+id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
+                                                    name +
+                                                "</a>"
+                                            )
+                                        );
+                                    } // For users
                                 }
                                 
                             });

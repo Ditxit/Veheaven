@@ -507,11 +507,15 @@
 
             await fetch('<?=API_ENDPOINT.'/search';?>'+'/5/'+slugify(keyword)) // url
             .then(response => response.json())
-            .then(vehicles => {
+            .then(data => {
                 searchResult.innerText = "";
-                if(vehicles.length == 0) {
+                if(!data || !data.success || !data.content) {
                     searchResultTitle.innerText = "No result found";
                 }else{
+                    // Work on returned content
+                    vehicles = data.content.vehicles;
+                    //users = data.content.users;
+
                     searchResultTitle.innerText = "Found " + vehicles.length + " vehicles";
                     for(var i = 0; i<vehicles.length; i++){
                         searchResult.appendChild(
