@@ -89,6 +89,26 @@
         } else { /* ignore */ }
     }
 
+    // Function to get single user details from passed id
+    function get_user_details($userId){
+        $sql = "SELECT
+                    id AS id,
+                    first_name As firstName,
+                    last_name AS lastName,
+                    email AS email,
+                    phone AS phone,
+                    type AS type
+                FROM user
+                WHERE status = ? AND id = ?; 
+        ";
+
+        $user = Database::query($sql, "verified", $userId);
+
+        $user = $user ? $user[0] : [];
+
+        return $user;
+    }
+
     // Function to get single vehicle details from passed id
     function get_vehicle_details($vehicle_id){
         $sql = "SELECT 
@@ -951,11 +971,74 @@
         $sorted_vehicle_datas = array_slice($sorted_vehicle_datas, 0, $limit); //array, from_index, to_index
 
         // Preparing return data
-        $data = [];
+        $vehicles = [];
         foreach($sorted_vehicle_datas as $vehicle_data){
-            $data[] = get_vehicle_details($vehicle_data['id']);
+            $vehicles[] = get_vehicle_details($vehicle_data['id']);
         }
-        Api::send($data);
+
+        // For Searching Users
+        $sql = "SELECT
+                    user.id AS id,
+                    CONCAT(
+                        user.id,' ',
+                        user.first_name,' ',
+                        user.last_name,' ',
+                        user.email,' ',
+                        user.phone
+                    ) AS full_text
+                FROM user
+                WHERE user.status=? AND (
+                ";
+        
+        foreach($keywords as $index => $keyword){
+            $sql .= "CONCAT(
+                        user.id,' ',
+                        user.first_name,' ',
+                        user.last_name,' ',
+                        user.email,' ',
+                        user.phone
+                    ) 
+                    LIKE '%".$keyword."%'";
+
+            $sql .= ($index != count($keywords) - 1) ? " OR " : ")";
+        }
+
+        $sql .= " LIMIT ?;";
+
+        $user_datas = Database::query($sql, "verified", $limit*5);
+
+        // Order user data result by similarity percentage
+        $sorted_user_datas = [];
+        foreach($user_datas as $user_data){
+            similar_text(
+                strtolower($user_data['full_text']),
+                str_replace("-", " ", $search_term),
+                $score
+            );
+            $sorted_user_datas[] = ['id'=>$user_data['id'], 'score'=>$score];
+        }
+
+        usort($sorted_user_datas, function ($one, $two) {
+            return $two['score'] <=> $one['score'];
+        });
+
+        // Only selecting the first {$limit} ids
+        $sorted_user_datas = array_slice($sorted_user_datas, 0, $limit); //array, from_index, to_index
+
+        // Preparing return data
+        $users = [];
+        foreach($sorted_user_datas as $user_data){
+            $users[] = get_user_details($user_data['id']);
+        }
+
+        $content = [];
+        $content['vehicles'] = $vehicles;
+        $content['users'] = $users;
+
+        Api::send([
+            "success" => TRUE,
+            "content" => $content
+        ]);
     });
 
     /*
