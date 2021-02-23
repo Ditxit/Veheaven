@@ -44,57 +44,83 @@
                     const searchBoxSuggestion = searchForm.querySelector('#search-suggestion');
 
                     let keyword = "";
+                    let previousSearches = new Map(); // using map as dictionary in JS
+
+                    // Search API fetch function
+                    function getSearchResult(count, keyword){
+                        return fetch('<?=API_ENDPOINT.'/search'?>' + '/' + count + '/' + keyword) // url
+                        .then( // On success
+                            (response) => {return response.json()} // Return response json
+                        ).catch( // On error
+                            (error) => {return null} // Return null
+                        ); // fetch complete
+                    }
 
                     // Event to suggest the vehicle name
                     searchBox.oninput = async function(event){
                         keyword = searchBox.value;
-                        searchBoxSuggestion.innerText = "";
+                        let sluggifiedKeyword = slugify(keyword); 
 
-                        if(keyword.length < 1){
-                            //searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>Type to search...</p>"));
+                        searchBoxSuggestion.innerText = ""; // clear the search recommendation element
+
+                        if(sluggifiedKeyword.length < 1){ // if no interesting text inputted
                             searchBoxSuggestion.style.display = 'none';
                             return;
-                        }else{
-                            searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>Searching ...</p>"));
-                            searchBoxSuggestion.style.display = 'block';
-                            await fetch('<?=API_ENDPOINT.'/search';?>'+'/7/'+slugify(keyword)) // url
-                            .then(response => response.json())
-                            .then(data => {
-                                searchBoxSuggestion.innerText = "";
-                                if(!data || !data.success || !data.content) {
-                                    searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>No result found</p>"));
-                                }else{
-                                    // Work on returned content
-                                    vehicles = data.content.vehicles;
-                                    users = data.content.users;
-
-                                    // For vehicles
-                                    for(var i = 0; i<vehicles.length; i++){
-                                        searchBoxSuggestion.appendChild(
-                                            textToNode(
-                                                "<a data-active='0' data-keyword='"+vehicles[i].name+"' href='<?=SERVER_NAME;?>/vehicle/?id="+vehicles[i].id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
-                                                    vehicles[i].name +
-                                                "</a>"
-                                            )
-                                        );
-                                    } // For vehicles
-
-                                    // For users
-                                    for(var i = 0; i<users.length; i++){
-                                        var id = users[i].id;
-                                        var name = users[i].firstName+' '+users[i].lastName;
-                                        searchBoxSuggestion.appendChild(
-                                            textToNode(
-                                                "<a data-active='0' data-keyword='"+name+"' href='<?=SERVER_NAME;?>/profile/?id="+id+"' class='width-100 padding-y-10 padding-x-15 custom-border-bottom'>" +
-                                                    name +
-                                                "</a>"
-                                            )
-                                        );
-                                    } // For users
-                                }
-                                
-                            });
                         }
+
+                        searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>Searching ...</p>"));
+                        searchBoxSuggestion.style.display = 'block';
+
+                        let response = previousSearches.has(sluggifiedKeyword) 
+                                        ? previousSearches.get(sluggifiedKeyword) 
+                                        : await getSearchResult(7, sluggifiedKeyword)
+
+                        previousSearches.set(sluggifiedKeyword, response);
+
+                        searchBoxSuggestion.innerText = "";
+                        if(!response.success || (response.content.vehicles.length < 1 && response.content.users.length < 1)) {
+                            searchBoxSuggestion.appendChild(textToNode("<p class='padding-15 text-center'>No result found</p>"));
+                            return;
+                        }
+                        
+                        // Work on returned content
+                        let vehicles = response.content.vehicles;
+                        let users = response.content.users;
+
+                        // For vehicles
+                        for(let i = 0; i < vehicles.length; i++){
+
+                            let id = vehicles[i].id;
+                            let name = vehicles[i].name;
+                            let type = vehicles[i].type.type;
+                            let link = '<?=SERVER_NAME;?>/vehicle/?id=' + id;
+                            let classes = i == 0 ? 'width-100 padding-y-10 padding-x-15' : 'width-100 padding-y-10 padding-x-15 custom-border-top';
+
+                            searchBoxSuggestion.appendChild(
+                                textToNode(
+                                    "<a data-active='0' data-keyword='" + name + "' href='" + link + "' class='" + classes + "'>" +
+                                        "<span class='float-left text-left width-80'>" + name + "</span>" +
+                                        "<span class='float-right small custom-text-blue text-right width-20 padding-0' style='margin-top: 2px;'>" + type + "</span>" +
+                                    "</a>"
+                                )
+                            );
+                        } // For vehicles
+
+                        // For users
+                        for(let i = 0; i < users.length; i++){
+                            let id = users[i].id;
+                            let name = users[i].firstName+' '+users[i].lastName;
+                            let link = '<?=SERVER_NAME;?>/profile/?id=' + id;
+
+                            searchBoxSuggestion.appendChild(
+                                textToNode(
+                                    "<a data-active='0' data-keyword='" + name + "' href='" + link + "' class='width-100 padding-y-10 padding-x-15 custom-border-top'>" +
+                                        "<span class='float-left text-left width-80'>" + name + "</span>" +
+                                        "<span class='float-right small custom-text-blue text-right width-20 padding-0' style='margin-top: 2px;'> User </span>" +
+                                    "</a>"
+                                )
+                            );
+                        } // For users
                     }
 
                     searchBox.onfocus = () => {
