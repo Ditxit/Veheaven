@@ -384,7 +384,7 @@
                         <div class="custom-border radius-15 is-white"> 
 
                             <div class="row padding-20 custom-border-bottom">
-                                <div class="col-100 h5 text-deep-purple">
+                                <div class="col-100 h5 custom-text-red">
                                     <span>NPR </span>
                                     <span><?=$vehicle['price']?></span>
                                 </div>

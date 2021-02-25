@@ -184,7 +184,7 @@
                                 }else{
 
                                     echo '
-                                        <div class="row padding-20 custom-border-bottom has-gap-20">
+                                        <div class="row padding-20 has-gap-20">
                                             <div class="col-60">
                                                 <div class="row is-white-95 custom-border radius-10">
                                                     <div class="col" title="search user vehicle">
@@ -208,7 +208,7 @@
                                     foreach($vehicles as $vehicle){
                                         echo '
                                             <!-- Single vehicle row -- start -->
-                                            <div class="row custom-border-bottom padding-20" data-user-vehicle-row="'.$vehicle['name'].'">
+                                            <div class="row custom-border-top padding-20" data-user-vehicle-row="'.$vehicle['name'].'">
                                                 <div class="col-25 is-white-90">
                                                     <img style="object-fit: cover;" class="width-100 radius-5" src="'.API_ENDPOINT.'/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
                                                 </div>
@@ -296,7 +296,7 @@
                             <div class="modal" id="add_vehicle_modal">
                                 <div class="outer-container">
                                     <div class="inner-container">
-                                        <div class="card float-center width-60 is-white radius-20 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-20 radius-0">
+                                        <div class="card float-center width-60 is-white radius-15 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-15 radius-0">
                                             <!-- Card Header -- start -->
                                             <div id="card-header" class="shadow-10 sticky top">
                                                 <div class="row padding-x-10 padding-y-10">

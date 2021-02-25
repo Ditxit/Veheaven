@@ -159,7 +159,7 @@
                     <!-- Recently Added Bike Section -- start -->
                     <section class="margin-y-30 is-white custom-border radius-15">
                         <!-- Recently added bike label and show-more button -->
-                        <div class="row padding-20 custom-border-bottom">
+                        <div class="row padding-20">
                             <div class="col">
                                 <p class="h5">Recently Added Bikes</p>
                             </div>
@@ -177,7 +177,7 @@
                                         <!-- Single vehicle row -- start -->
                                         <div class="col-100">
 
-                                            <div class="row custom-border-bottom padding-20" data-user-vehicle-row="'.$bike['name'].'">
+                                            <div class="row custom-border-top padding-20" data-user-vehicle-row="'.$bike['name'].'">
                                                 <div class="col-25 is-white-90">
                                                     <img style="object-fit: cover;" class="width-100 radius-5" src="'.API_ENDPOINT.'/storage/'.$bike['images'][0]['name'].'" alt="vehicle image">
                                                 </div>
@@ -274,7 +274,7 @@
                     <!-- Recently Added Car Section -- start -->
                     <section class="margin-y-30 is-white custom-border radius-15">
                         <!-- Recently added car label and show-more button -->
-                        <div class="row padding-20 custom-border-bottom">
+                        <div class="row padding-20">
                             <div class="col">
                                 <p class="h5">Recently Added Cars</p>
                             </div>
@@ -292,7 +292,7 @@
                                         <!-- Single vehicle row -- start -->
                                         <div class="col-100">           
 
-                                            <div class="row custom-border-bottom padding-20" data-user-vehicle-row="'.$bike['name'].'">
+                                            <div class="row custom-border-top padding-20" data-user-vehicle-row="'.$bike['name'].'">
                                                 <div class="col-25 is-white-90">
                                                     <img style="object-fit: cover;" class="width-100 radius-5" src="'.API_ENDPOINT.'/storage/'.$bike['images'][0]['name'].'" alt="vehicle image">
                                                 </div>
