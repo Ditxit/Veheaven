@@ -384,7 +384,7 @@
                         <div class="custom-border radius-15 is-white"> 
 
                             <div class="row padding-20 custom-border-bottom">
-                                <div class="col-100 h5 custom-text-red">
+                                <div class="col-100 h5 custom-text-blue">
                                     <span>NPR </span>
                                     <span><?=$vehicle['price']?></span>
                                 </div>
@@ -392,7 +392,7 @@
 
                             <div class="row padding-20 has-gap-10">
                                 <div class="col-100">
-                                    <a href="../profile/" on-hover="text-blue">
+                                    <a href="../profile/?id=<?=$vehicle['seller']['id']?>" on-hover="text-blue">
                                         <img class="float-left radius-circle" style="height:44px; width:44px;" src="../assets/avatars/default.jpg" alt="seller image">
                                         <p class="float-left padding-left-15 padding-y-15"><?=$vehicle['seller']['first_name'].' '.$vehicle['seller']['last_name']?></p>
                                     </a>
