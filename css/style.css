@@ -1271,7 +1271,6 @@ img{
 	top: 0;
 	left:0;
 	z-index: 1000;
-	background-color: rgba(153, 129, 129, 0.97);
 	background-color: rgba(54, 79, 107, 0.95);
 	overflow: auto;
 	transition: fade-in;
