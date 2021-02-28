@@ -1,14 +1,70 @@
 <?php 
-    /*
-    *   This includes must be kept at top
-    *   If not, this might introduce a security risk
-    */
 
-    include_once '../include/verification.php';
+    /*
+    *   Including, Global Constants
+    */
+    include_once '../include/config.php';
+
+    // Targeted user is the user whose details need to be
+    // showned in this instance of page.
+    // Currently logged user is the user who is currently
+    // logged in to the site.
+    $targetedUserId = null;
+    $targetedUserIsCurrentlyLoggedUser = false;
+
+    // First priority - user id in url
+    if(isset($_GET['id']) && $_GET['id'] > 0) $targetedUserId = $_GET['id'];
+    
+    // Second priority - user id in token
+    if(isset($_COOKIE['token'])){
+
+        // First: do the complte verification of the token 
+        include_once '../include/verification.php';
+
+        // Since token exists in cookie and is valid, 
+        // fetch the payload to determine user's id and type
+        $currentlyLoggedUser = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
+        $currentlyLoggedUser = json_decode($currentlyLoggedUser, TRUE);
+        $currentlyLoggedUser = $currentlyLoggedUser['payload'];
+
+        // unset currently logged user's data if user's id in url
+        // is different than the id of currently logged-in user
+        if($targetedUserId && $targetedUserId != $currentlyLoggedUser['id']) {
+            //unset($currentlyLoggedUser);
+        }else{
+            $targetedUserIsCurrentlyLoggedUser = true;
+            $targetedUserId = $currentlyLoggedUser['id'];
+        }
+
+    }
+    
+    // Un-aurthorized: No user id could be detected
+    if(!$targetedUserId) {
+
+        setcookie('toast_message', "No user detected", time()+60*60, "/");
+        header('Location: ../explore/');
+        exit;
+
+    }
+
+    // Get the info of targeted user
+    $user = file_get_contents(API_ENDPOINT.'/user/'.$targetedUserId.'/info');
+    $user = json_decode($user, TRUE);
+    $user = $user['content'];
+
+    // Prepare the profile image link of targated user
+    $userProfileImage = file_get_contents(API_ENDPOINT.'/user/'.$targetedUserId.'/image');
+    $userProfileImage = json_decode($userProfileImage, TRUE);
+    $userProfileImage = $userProfileImage['content'];
+    $userProfileImage = $userProfileImage ? SERVER_NAME.'/api/storage/'.$userProfileImage['name'] : SERVER_NAME.'/assets/avatars/default.jpg';
+
+    // Get vehicles providing the user's id
+    $vehicles = file_get_contents(API_ENDPOINT.'/'.$targetedUserId.'/vehicles');
+    $vehicles = json_decode($vehicles, TRUE);
 
     /*
     *   Setting the page name
-    *   It is good practice setting PAGE_NAME before doing other things in the page
+    *   It might come helpful for some operations
     */
     $PAGE_NAME = "Profile";
 
@@ -23,49 +79,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head> <?php include_once '../include/header.ui.php';?> </head>
-<body class="custom-bg-gray" style="overflow-y:scroll;">  
+<body class="custom-bg-gray" style="overflow-y:scroll; z-index: 0;">  
 
     <?php
         // Including navbar
         include_once '../include/navbar.ui.php';
     ?>
-
-    <?php
-        /*
-        *   Including, Global Constants
-        */
-        include_once '../include/config.php';
-
-        /*
-        *   Since, verification.php is already included,
-        *   we can call the api without worrying.
-        */
-        $payload = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
-        $payload = json_decode($payload,TRUE);
-        $payload = $payload['payload'];
-
-        $vehicles = file_get_contents(API_ENDPOINT.'/'.$payload['id'].'/vehicles');
-        $vehicles = json_decode($vehicles,TRUE);
-    ?>
     
     <div class="outer-container">
         <div class="width-80 float-center margin-y-30">
             <div class="row">
+
+                <!-- User details showing left-side container -- start -->
                 <div class="col-30">
                     <section class="sticky top" style="top: 84px; z-index: 0;">
+
                         <div class="row margin-right-30 radius-15 is-white custom-border">
                             <div class="col-100 custom-border-bottom">
                                 <div class="padding-20">
-                                    <?php
-
-                                        $userImage = file_get_contents(API_ENDPOINT.'/'.$payload['id'].'/image');
-                                        $userImage = json_decode($userImage,TRUE);
-                                        $userImage = $userImage['content'];
-
-                                        $userProfileImage = $userImage 
-                                                                ? SERVER_NAME.'/api/storage/'.$userImage['name']
-                                                                : SERVER_NAME.'/assets/avatars/default.jpg';
-                                    ?> 
                                     <div class="custom-image-input">
                                         <input id="userImageFile" type="file" name="userImage" accept=".png, .jpg, .jpeg"/>
                                         <label for="userImageFile">
@@ -128,147 +159,193 @@
                             </div>
                             <div class="col-100">
                                 <div class="h5 padding-x-20 margin-top-20">
-                                    <?=$payload['first_name']." ".$payload['last_name']?>
+                                    <?=$user['fullName']?>
                                 </div>
                             </div>
                             <div class="col-100 padding-x-20">
                                 <div class="small margin-top-5">
-                                    <?=$payload['email']?>
+                                    <?=$user['email']?>
                                 </div>
                             </div>
-                            <div class="col-100 padding-x-20">
-                                <div class="small margin-top-5 margin-bottom-20">
-                                    <?php if(isset($payload['phone'])) echo $payload['phone'];?>
+
+                            <?php if(isset($user['phone']) && $user['phone']) { ?>
+                                <div class="col-100 padding-x-20">
+                                    <div class="small margin-top-5 margin-bottom-20">
+                                        <?=$user['phone']?>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            <?php } ?>
+
+                            <?php if($targetedUserIsCurrentlyLoggedUser || $currentlyLoggedUser['user_type'] == 'admin') { ?>
+
+                                <div class="col-100 custom-border-top">
+                                    <button onclick="showModal('userAccountSettingsModal')" class="width-100 padding-20 custom-text-blue bold text-center" on-hover="is-white-95">Account Settings</button>
+                                </div>
+
+                            <?php } ?>
+
+                        </div> <!-- row -->
                         
-                        <!-- Add Vehicle and Logout Buttons Containing Row -->
-                        <div class="row margin-top-30 margin-right-30 radius-15 is-white custom-border">
-                            <?php
-                                if(count($vehicles) > 0){
-                                    echo '
-                                        <div class="col-100 custom-border-bottom">
-                                            <a onclick="showModal(\'add_vehicle_modal\')" class="width-100 padding-20" on-hover="text-green">Add vehicle</a>
-                                        </div>
-                                    ';
-                                }
-                            ?>
-                            <div class="col-100">
-                                <a href="../controller/logout.php" class="width-100 padding-20" on-hover="text-red">Logout</a>
+                        <?php if($targetedUserIsCurrentlyLoggedUser) { ?>  
+                            <!-- Logout Buttons Containing Row -->
+                            <div class="row margin-top-30 margin-right-30 radius-15 is-white custom-border">
+
+                                <div class="col-100">
+                                    <a href="../controller/logout.php" class="width-100 padding-20" on-hover="text-red">Logout</a>
+                                </div>
+
                             </div>
-                        </div>
+                        <?php } ?>
+
                     </section>
                 </div>
+                <!-- User details showing left-side container -- end -->
+
                 <div class="col-70">
+                    
+                    <?php if($currentlyLoggedUser['user_type'] == 'admin') { ?>
+                        
+                        <!-- User Enquiry Section -- start -->
+                        <section class="margin-bottom-30 is-white custom-border radius-15">
+
+                            <!-- User Feedbacks Label & See-more Button -->
+                            <div class="row padding-20">
+                                <div class="col">
+                                    <p class="h5">User Enquires</p>
+                                </div>
+                                <div class="col">
+                                    <div class="dropdown float-right custom-text-blue">
+                                        <div class="dropdown-button clickable cursor-pointer padding-x-40">More</div>
+                                        <div class="dropdown-content">
+                                            <div class="is-white radius-10 shadow-20 margin-top-10">hello</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- User Enquiry Content Rows -- start -->
+                            <?php 
+                                $userEnquiries = json_decode(file_get_contents(API_ENDPOINT.'/enquiry/page/1/items/5'), TRUE); 
+                                $userEnquiries = $userEnquiries['content'];
+                            ?>
+                            <div class="accordian">
+                                <?php foreach($userEnquiries as $userEnquirie) { ?>
+                                    <div class="item width-100 custom-border-top">
+                                        <div class="row padding-x-20 padding-y-10">
+                                            <div class="col-70"><?=$userEnquirie['email']?></div>
+                                            <div class="col-30">
+                                                <div class="float-right">
+                                                    <button class="title margin-x-10 text-blue">Read Message</button>
+                                                    <button class="text-red">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <p class="custom-bg-gray padding-x-20 padding-y-10"><?=$userEnquirie['enquiry']?></p>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>  
+                            <!-- User Enquiry Content Rows -- end -->
+
+                        </section>
+                        <!-- User Enquiry Section -- end -->
+                    <?php } ?>
+
                     <div class="row is-white radius-15 custom-border">
                         <div class="col-100">
-                            <?php
-                                if(count($vehicles) == 0){
-                                    echo '
-                                        <div class="row">
-                                            <div class="col-40">
-                                                <div class="padding-50">
-                                                    <img src="../assets/backgrounds/not-found.svg" alt="Vehicles not found">
-                                                </div>
-                                            </div>
-                                            <div class="col-60">
-                                                <div class="padding-50">
-                                                    <p class="h4">Looks like you are yet to add your first vehicle</p>
-                                                    <p class="small">Click on the button to fill the vehicle detail form</p>
-                                                    <a onclick="showModal(\'add_vehicle_modal\')" class="button is-deep-purple-50 radius-10 padding-10 margin-y-25 display-block width-60" on-hover="is-deep-purple-60">Add a Vehicle</a>
-                                                </div>
+                            <?php if(count($vehicles) == 0){ ?>
+                                <div class="row">
+                                    <div class="col-40">
+                                        <div class="padding-50">
+                                            <img src="../assets/backgrounds/not-found.svg" alt="Vehicles not found">
+                                        </div>
+                                    </div>
+                                    <div class="col-60">
+                                        <div class="padding-50">
+                                            <?php if($targetedUserIsCurrentlyLoggedUser) { ?>
+                                                <p class="h4">Looks like you are yet to add your first vehicle</p>
+                                                <p class="small">Click on the button to fill the vehicle detail form</p>
+                                                <a onclick="showModal('add_vehicle_modal')" class="button custom-bg-red radius-10 padding-10 margin-y-25 display-block width-60">Add a Vehicle</a>
+                                            <?php } else { ?>
+                                                <p class="h4 padding-y-80">Looks like the user is yet to add their first vehicle</p>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <!-- Local vehicle filters/searching -->
+                                <div class="row has-gap-15 padding-20">
+                                    <div class="col">
+                                        <div class="row is-white-95 custom-border radius-10">
+                                            <div class="col" title="search user vehicle">
+                                                <input id="user-vehicle-search" type="search" inputmode="text" placeholder="Search among <?=count($vehicles)?> vehicles" class="is-transparent custom-border-none" autocomplete="off">
                                             </div>
                                         </div>
-                                    ';
-                                }else{
+                                    </div>
+                                    <div class="col-auto">
+                                        <button onclick="showModal('add_vehicle_modal')" class="padding-y-10 padding-x-30 radius-10 text-center custom-bg-red">Add Vehicle</button>
+                                    </div>
+                                </div>
 
-                                    echo '
-                                        <div class="row padding-20 has-gap-20">
-                                            <div class="col-60">
-                                                <div class="row is-white-95 custom-border radius-10">
-                                                    <div class="col" title="search user vehicle">
-                                                        <input id="user-vehicle-search" type="search" inputmode="text" placeholder="Search among '.count($vehicles).' vehicles" class="is-transparent custom-border-none">
-                                                    </div>
+                                <?php foreach($vehicles as $vehicle){ ?>
+                                    <!-- Single vehicle row -- start -->
+                                    <div class="row custom-border-top padding-20" data-user-vehicle-row="<?=$vehicle['name']?>">
+                                        <div class="col-25 is-white-90">
+                                            <img style="object-fit: cover;" class="width-100 radius-5" src="<?=API_ENDPOINT?>/storage/<?=$vehicle['images'][0]['name']?>" alt="vehicle image">
+                                        </div>
+                                        <div class="col-45 padding-x-20">
+                                            <div class="row">
+                                                <div class="col-100">
+                                                    <p class="h5 text-ellipsis" title="<?=$vehicle['name']?>"><?=$vehicle['name']?></p>
                                                 </div>
-                                            </div>
-                                            <div class="col-40">
-                                                <div class="row is-white-95 custom-border radius-10">
-                                                    <div class="col-auto is-white custom-border-right" title="search vehicle"><span style="width: 65px;" class="padding-x-10 padding-y-10 h6 text-center">Sort</span></div>
-                                                    <div class="col" title="search term">
-                                                        <select id="user-vehicle-sort-by" class="is-transparent custom-border-none">
-                                                            <option>Date Ascending</option>
-                                                            <option>Date Descending</option>
-                                                        </select>
-                                                    </div>
+                                                <div class="col-100">
+                                                    <p class="small">
+                                                        <span><output class="custom-text-blue bold"><?=$vehicle['price']?></output></span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Seller: </span>
+                                                    <span class="small"><?=$vehicle['seller']['first_name'].' '.$vehicle['seller']['last_name']?></span>
+                                                </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Added Date: </span>
+                                                    <span class="small"><?=date("F jS, Y", strtotime($vehicle['added_date']))?></span>
+                                                </div>
+                                                <div class="col-100">
+                                                    <a class="custom-bg-blue button width-50 padding-y-5 margin-top-15 radius-10" href="../vehicle/?id=<?=$vehicle['id']?>" class="button">View More</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    ';
-                                    foreach($vehicles as $vehicle){
-                                        echo '
-                                            <!-- Single vehicle row -- start -->
-                                            <div class="row custom-border-top padding-20" data-user-vehicle-row="'.$vehicle['name'].'">
-                                                <div class="col-25 is-white-90">
-                                                    <img style="object-fit: cover;" class="width-100 radius-5" src="'.API_ENDPOINT.'/storage/'.$vehicle['images'][0]['name'].'" alt="vehicle image">
+                                        <div class="col-30">
+                                            <div class="row padding-15 radius-10 is-light-blue-5">
+                                                <div class="col-100">
+                                                    <span class="small bold">Model: </span>
+                                                    <span class="small"><?=$vehicle['model']['brand'].' '.$vehicle['model']['model']?></span>
                                                 </div>
-                                                <div class="col-45 padding-x-20">
-                                                    <div class="row">
-                                                        <div class="col-100">
-                                                            <p class="h5 text-ellipsis" title="'.$vehicle['name'].'">'.$vehicle['name'].'</p>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <p class="small">
-                                                                <span><output class="custom-text-blue bold">'.$vehicle['price'].'</output></span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Seller: </span>
-                                                            <span class="small">'.$vehicle['seller']['first_name'].' '.$vehicle['seller']['last_name'].'</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Added Date: </span>
-                                                            <span class="small">'.date("F jS, Y", strtotime($vehicle['added_date'])).'</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <a class="custom-bg-blue button width-50 padding-y-5 margin-top-15 radius-10" href="../vehicle/?id='.$vehicle['id'].'" class="button">View More</a>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Body: </span>
+                                                    <span class="small"><?=$vehicle['body']['body']?></span>
                                                 </div>
-                                                <div class="col-30">
-                                                    <div class="row padding-15 radius-10 is-light-blue-5">
-                                                        <div class="col-100">
-                                                            <span class="small bold">Model: </span>
-                                                            <span class="small">'.$vehicle['model']['brand'].' '.$vehicle['model']['model'].'</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Body: </span>
-                                                            <span class="small">'.$vehicle['body']['body'].'</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Engine: </span>
-                                                            <span class="small">'.$vehicle['engine'].'&nbsp;CC</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Mileage: </span>
-                                                            <span class="small">'.$vehicle['mileage'].'&nbsp;Km/ltr</span>
-                                                        </div>
-                                                        <div class="col-100">
-                                                            <span class="small bold">Type: </span>
-                                                            <span class="small">'.$vehicle['condition']['condition'].' '.$vehicle['type']['type'].'</span>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Engine: </span>
+                                                    <span class="small"><?=$vehicle['engine']?> CC</span>
+                                                </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Mileage: </span>
+                                                    <span class="small"><?=$vehicle['mileage']?> Km/ltr</span>
+                                                </div>
+                                                <div class="col-100">
+                                                    <span class="small bold">Type: </span>
+                                                    <span class="small"><?=$vehicle['condition']['condition'].' '.$vehicle['type']['type']?></span>
                                                 </div>
                                             </div>
-                                            <!-- Single vehicle row -- end -->
-                                        ';
-                                    }
-                                    // echo "<pre>";
-                                    //     var_dump($vehicles);
-                                    //     var_dump($payload);
-                                    // echo "</pre>";
-                                }
-                            ?>
+                                        </div>
+                                    </div>
+                                    <!-- Single vehicle row -- end -->
+                                <?php } ?> 
+                            <?php } ?>
+
                             <script>
                                 // User vehicle searching javascript
                                 const searchUserVehicleSearch = document.getElementById("user-vehicle-search");
@@ -293,34 +370,78 @@
                                 }
                             </script>
 
-                            <div class="modal" id="add_vehicle_modal">
-                                <div class="outer-container">
+                            <!-- User Account Settings Modal -- start -->
+                            <div class="modal fixed top" id="userAccountSettingsModal" style="z-index:2000;">
+                                <div class="outer-container fixed top">
                                     <div class="inner-container">
-                                        <div class="card float-center width-60 is-white radius-15 margin-y-100 shadow-100" on-hover="-shadow-100 shadow-70" phone="width-100 -margin-y-100 -radius-15 radius-0">
+                                        <div class="card float-center width-60 is-white radius-15 margin-y-100 custom-border" phone="width-100 -margin-y-100 -radius-15 radius-0">
+
                                             <!-- Card Header -- start -->
-                                            <div id="card-header" class="shadow-10 sticky top">
+                                            <div id="card-header" class="custom-bg-gray custom-border-bottom sticky top">
+
                                                 <div class="row padding-x-10 padding-y-10">
-                                                    <div class="col-25">
-                                                        <div class="float-left" style="display:none;">
-                                                        <a class="button text-deep-purple radius-10" on-hover="is-white-95">Save Draft</a>
-                                                        </div>
+
+                                                    <div class="col-20"></div>
+
+                                                    <div class="col-60">
+                                                        <p class="h6 text-center padding-10">Account Settings</p>
                                                     </div>
-                                                    <div class="col-50">
-                                                        <p id="card-title" class="h6 text-center padding-10">Bike or Car</p>
-                                                    </div>
-                                                    <div class="col-25">
+
+                                                    <div class="col-20">
                                                         <div class="float-right">
-                                                            <a class="is-white-95 padding-5 radius-circle close">
+                                                            <a class="padding-5 radius-circle close" style="margin-top:2px;">
                                                                 <img src="../assets/icons/close.svg" alt="close">
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-100" id="card-error-panel">
-                                                        <!-- content will be added in javascript -->
+
+                                                </div> <!-- row -- end --> 
+
+                                            </div>
+                                            <!-- Card Header -- end -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- User Account Settings Modal -- end -->
+
+                            <div class="modal" id="add_vehicle_modal">
+                                <div class="outer-container">
+                                    <div class="inner-container">
+                                        <div class="card float-center width-60 is-white radius-15 margin-y-100 custom-border" phone="width-100 -margin-y-100 -radius-15 radius-0">
+
+                                            <!-- Card Header -- start -->
+                                            <div id="card-header" class="custom-bg-gray custom-border-bottom sticky top">
+
+                                                <div class="row padding-x-10 padding-y-10">
+
+                                                    <div class="col-20">
+                                                        <div class="float-left" style="display:none;">
+                                                        <a class="button text-deep-purple radius-10" on-hover="is-white-95">Save Draft</a>
+                                                        </div>
                                                     </div>
-                                                </div>
+
+                                                    <div class="col-60">
+                                                        <p id="card-title" class="h6 text-center padding-10">Bike or Car</p>
+                                                    </div>
+
+                                                    <div class="col-20">
+                                                        <div class="float-right">
+                                                            <a class="padding-5 radius-circle close" style="margin-top:2px;">
+                                                                <img src="../assets/icons/close.svg" alt="close">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-100">
+                                                        <p class="small text-red text-center" id="card-error-panel" style="display:none;">
+                                                            <!-- content will be added in javascript -->
+                                                        </p>
+                                                    </div>
+
+                                                </div> <!-- row -- end --> 
+
                                             </div>
                                             <!-- Card Header -- end -->
 
@@ -360,7 +481,7 @@
 
                                                         <!-- Vehicle Condition Content -- start -->
                                                         <?php 
-                                                        if($payload['user_type'] == 'admin'){
+                                                        if($currentlyLoggedUser['user_type'] == 'admin'){
                                                             echo '
                                                             <div id="condition-tab" class="tab" title="New or Used" data-tab-index="1" style="display:none;">
                                                                 <div class="row">
@@ -409,11 +530,11 @@
                                                             <div class="row has-gap-20"> <!-- Second Row -- start -->
                                                                 <div class="col-50 padding-y-10" phone="col-100">
                                                                     <p class="h6">Enter selling price of vehicle</p>
-                                                                    <p class="small">Price should be in Nepalese Rupee (NRs.)</p>
+                                                                    <p class="small">Price should be in Nepalese Rupee (NPR)</p>
                                                                 </div>
                                                                 <div class="col-50" phone="col-100">
                                                                     <div class="row is-white-95 custom-border radius-20">
-                                                                        <div class="col-auto is-white custom-border-right" title="Nepalese rupee"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">NRs.</span></div>
+                                                                        <div class="col-auto is-white custom-border-right" title="Nepalese rupee"><span style="width: 65px;" class="padding-x-10 padding-top-20 h6 text-center">NPR</span></div>
                                                                         <div class="col" title="vehicle price">
                                                                             <input id="vehicle-price" name="vehicle-price" type="text" inputmode="decimal" placeholder="Eg: 350000" class="padding-20 is-transparent custom-border-none">
                                                                         </div>
@@ -1096,22 +1217,22 @@
                                             <!-- Card Body -- end -->
 
                                             <!-- Card Footer -- start -->
-                                            <div class="row card-footer padding-x-10 padding-y-10 shadow-20">
-                                                <div class="col-30">
-                                                    <div class="float-left">
-                                                        <a id="card-previous-button" class="button text-deep-purple radius-10" on-hover="is-white-95">Prev</a>
+                                            <div class="row card-footer custom-bg-gray">
+
+                                                <div class="col-100">
+                                                    <div id="card-progress-bar-container" class="row is-white">
+                                                        <div id="card-progress-bar" class=" is-green display-block padding-top-5"></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-40 padding-10" style="margin-top:6px;">
-                                                    <div id="card-progress-bar-container" class="row radius-10 is-white-70">
-                                                        <div id="card-progress-bar" class="is-deep-purple display-block padding-y-5 radius-10"></div>
-                                                    </div>
+
+                                                <div class="col-50 custom-border-top custom-border-right">
+                                                    <a id="card-previous-button" class="button width-100 custom-text-blue padding-y-10" on-hover="is-white-95">Previous</a>
                                                 </div>
-                                                <div class="col-30">
-                                                    <div class="float-right">
-                                                        <a  id="card-next-button" class="button text-deep-purple radius-10" on-hover="is-white-95">Next</a>
-                                                    </div>
+
+                                                <div class="col-50 custom-border-top">
+                                                    <a id="card-next-button" class="button width-100 custom-text-blue padding-y-10" on-hover="is-white-95">Next</a>
                                                 </div>
+
                                             </div>
                                             <!-- Card Footer -- end -->
                                         </div>
@@ -1153,7 +1274,7 @@
         var radioVehicleType = document.getElementsByName('vehicle-type');
         
         <?php
-            if($payload['user_type'] == 'admin'){
+            if($currentlyLoggedUser['user_type'] == 'admin'){
                 echo "var radioVehicleCondition = document.getElementsByName('vehicle-condition');";
             }
         ?>
@@ -1227,7 +1348,7 @@
             var value = getSelectedRadioValueOf(radioVehicleCondition);
 
             <?php
-                if($payload['user_type'] == 'admin'){
+                if($currentlyLoggedUser['user_type'] == 'admin'){
                     echo '
                         var ownerDetailTab = document.getElementById("owner-detail-tab");
                         if(value == "1") {
@@ -1616,10 +1737,12 @@
         }
 
         function setErrorMessage(text=null){
-            if(text==null){
+            if(text == null){
                 cardErrorPanel.innerText = '';
+                cardErrorPanel.style.display = 'none';
             }else{
-                cardErrorPanel.innerHTML = '<div id="error-text" class="is-red-40 padding-10 width-100">'+text+'</div>';
+                cardErrorPanel.innerText = text;
+                cardErrorPanel.style.display = null;
             }
         }
 
