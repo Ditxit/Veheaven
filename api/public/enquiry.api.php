@@ -80,3 +80,43 @@
             "content" => $enquiries,
         ]);
     });
+
+    /*
+    *   Api to delete enquiry
+    */
+    Api::post('/enquiry/delete', function(){
+
+        // verify if $_POST has token
+        if(!isset($_POST['token'])) Api::send([
+            "success" => FALSE,
+            "message" => "Token is required",
+        ]);
+
+        // verify the validity of token
+        verifyToken($_POST['token']);
+
+        // verify if the user type of token is 'admin'
+        $user = Token::getPayload($_POST['token']);
+
+        // if not admin return with error message
+        if(!isset($user['user_type']) || $user['user_type'] != "admin") Api::send([
+            "success" => FALSE,
+            "message" => "Delete action is restricted in this token"
+        ]);
+
+        // Finally, delete form the database
+        $sql = "DELETE FROM user_enquiry WHERE id = ?;";
+        $data = Database::query($sql, $_POST['enquiryId']);
+        
+        // validate success of SQL query execution
+        if(!$data) Api::send([
+            "success" => FALSE,
+            "message" => "Unable to delete enquiry",
+        ]);
+
+        // return data with success true
+        Api::send([
+            "success" => TRUE,
+            "content" => $data,
+        ]);
+    });

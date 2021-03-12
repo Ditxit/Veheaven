@@ -4,7 +4,7 @@
     include_once '../include/redirection.php';
 
     // Bug
-    include_once '../include/header.ui.php'; 
+    //include_once '../include/header.ui.php'; 
 
     // Including toast
     include_once '../include/toast.php';
@@ -14,7 +14,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head> <?php include_once '../include/header.ui.php';?> </head>
+<head> 
+    <?php include_once '../include/header.ui.php';?> 
+</head>
 
 <body class="custom-bg-gray" style="overflow-y: scroll;">  
 

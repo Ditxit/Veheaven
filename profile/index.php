@@ -9,8 +9,10 @@
     // showned in this instance of page.
     // Currently logged user is the user who is currently
     // logged in to the site.
-    $targetedUserId = null;
+    $userIsLoggedIn = false;
     $targetedUserIsCurrentlyLoggedUser = false;
+    $currentlyLoggedUserIsAdmin = false;
+    $targetedUserId = null;
 
     // First priority - user id in url
     if(isset($_GET['id']) && $_GET['id'] > 0) $targetedUserId = $_GET['id'];
@@ -24,8 +26,11 @@
         // Since token exists in cookie and is valid, 
         // fetch the payload to determine user's id and type
         $currentlyLoggedUser = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
-        $currentlyLoggedUser = json_decode($currentlyLoggedUser, TRUE);
+        $currentlyLoggedUser = json_decode($currentlyLoggedUser, true);
         $currentlyLoggedUser = $currentlyLoggedUser['payload'];
+
+        // Since user is logged in set $userIsLoggedIn to true
+        $userIsLoggedIn = true;
 
         // unset currently logged user's data if user's id in url
         // is different than the id of currently logged-in user
@@ -35,6 +40,9 @@
             $targetedUserIsCurrentlyLoggedUser = true;
             $targetedUserId = $currentlyLoggedUser['id'];
         }
+
+        // verify if the currently logged user is admin
+        if($currentlyLoggedUser['user_type'] == 'admin') $currentlyLoggedUserIsAdmin = true;
 
     }
     
@@ -92,7 +100,7 @@
 
                 <!-- User details showing left-side container -- start -->
                 <div class="col-30">
-                    <section class="sticky top" style="top: 84px; z-index: 0;">
+                    <section class="sticky top" style="top: 86px; z-index: 0;">
 
                         <div class="row margin-right-30 radius-15 is-white custom-border">
                             <div class="col-100 custom-border-bottom">
@@ -176,7 +184,7 @@
                                 </div>
                             <?php } ?>
 
-                            <?php if($targetedUserIsCurrentlyLoggedUser || $currentlyLoggedUser['user_type'] == 'admin') { ?>
+                            <?php if($targetedUserIsCurrentlyLoggedUser || $currentlyLoggedUserIsAdmin) { ?>
 
                                 <div class="col-100 custom-border-top">
                                     <button onclick="showModal('userAccountSettingsModal')" class="width-100 padding-20 custom-text-blue bold text-center" on-hover="is-white-95">Account Settings</button>
@@ -203,53 +211,78 @@
 
                 <div class="col-70">
                     
-                    <?php if($currentlyLoggedUser['user_type'] == 'admin') { ?>
+                    <?php if($currentlyLoggedUserIsAdmin && $targetedUserIsCurrentlyLoggedUser) { ?>
+
+                        <?php 
+                            $userEnquiries = file_get_contents(API_ENDPOINT.'/enquiry/page/1/items/5');
+                            $userEnquiries = isset($userEnquiries) ? json_decode($userEnquiries, TRUE) : []; 
+                            $userEnquiries = $userEnquiries['success'] ? $userEnquiries['content'] : [];
+                        ?>
+
+                        <?php if (count($userEnquiries) > 0) { ?>
                         
-                        <!-- User Enquiry Section -- start -->
-                        <section class="margin-bottom-30 is-white custom-border radius-15">
+                            <!-- User Enquiry Section -- start -->
+                            <section class="margin-bottom-30 is-white custom-border radius-15">
 
-                            <!-- User Feedbacks Label & See-more Button -->
-                            <div class="row padding-20">
-                                <div class="col">
-                                    <p class="h5">User Enquires</p>
-                                </div>
-                                <div class="col">
-                                    <div class="dropdown float-right custom-text-blue">
-                                        <div class="dropdown-button clickable cursor-pointer padding-x-40">More</div>
-                                        <div class="dropdown-content">
-                                            <div class="is-white radius-10 shadow-20 margin-top-10">hello</div>
-                                        </div>
+                                <!-- User Feedbacks Label & See-more Button -->
+                                <div class="row padding-20">
+                                    <div class="col">
+                                        <div class="h5 custom-text-blue">Showing <?=count($userEnquiries)?> user enquires</div>
                                     </div>
+                                    <div class="col"></div>
                                 </div>
-                            </div>
 
-                            <!-- User Enquiry Content Rows -- start -->
-                            <?php 
-                                $userEnquiries = json_decode(file_get_contents(API_ENDPOINT.'/enquiry/page/1/items/5'), TRUE); 
-                                $userEnquiries = $userEnquiries['content'];
-                            ?>
-                            <div class="accordian">
-                                <?php foreach($userEnquiries as $userEnquirie) { ?>
-                                    <div class="item width-100 custom-border-top">
-                                        <div class="row padding-x-20 padding-y-10">
-                                            <div class="col-70"><?=$userEnquirie['email']?></div>
-                                            <div class="col-30">
-                                                <div class="float-right">
-                                                    <button class="title margin-x-10 text-blue">Read Message</button>
-                                                    <button class="text-red">Delete</a>
+                                <!-- User Enquiry Content Rows -- start -->
+                                <div class="accordian">
+                                    <?php foreach($userEnquiries as $userEnquiry) { ?>
+                                        <div class="item width-100 custom-border-top">
+                                            <div class="row padding-x-20 padding-y-10">
+                                                <div class="col-80">
+                                                    <p class="padding-y-10"><?=$userEnquiry['email']?></p>
+                                                </div>
+                                                <div class="col-20">
+
+                                                    <!-- Actions --start -->
+                                                    <div class="row custom-border radius-10">
+                                                        <div class="col-33 custom-border-right">
+                                                            <button class="title padding-10" on-hover="is-blue-5" title="Read">
+                                                                <img src="<?=SERVER_NAME?>/assets/icons/essential/plus.svg" width="16" height="16" alt="Read Message">
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-33 custom-border-right">
+                                                            <a href="mailto:<?=$userEnquiry['email']?>" class="padding-10" on-hover="is-green-5" title="Reply">
+                                                                <img src="<?=SERVER_NAME?>/assets/icons/essential/speech-bubble.svg" width="16" height="16" alt="Reply in Mail">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-33">
+                                                            <form action="<?=SERVER_NAME?>/controller/enquiry.php" method="POST">
+                                                                <input type="hidden" name="enquiryId" value="<?=$userEnquiry['id']?>">
+                                                                <input type="hidden" name="token" value="<?=$_COOKIE['token']?>">
+                                                                <button type="submit" name="deleteEnquiry" class="padding-10" on-hover="is-red-5" title="Delete">
+                                                                    <img src="<?=SERVER_NAME?>/assets/icons/essential/garbage.svg" width="16" height="16" alt="Delete">
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Actions -- end -->
+
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <div class="custom-bg-gray padding-x-20 padding-y-10">
+                                                    <p><?=$userEnquiry['enquiry']?></p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="content">
-                                            <p class="custom-bg-gray padding-x-20 padding-y-10"><?=$userEnquirie['enquiry']?></p>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </div>  
-                            <!-- User Enquiry Content Rows -- end -->
+                                    <?php } ?>
+                                </div>  
+                                <!-- User Enquiry Content Rows -- end -->
 
-                        </section>
-                        <!-- User Enquiry Section -- end -->
+                            </section>
+                            <!-- User Enquiry Section -- end -->
+                        
+                        <?php } ?>
+
                     <?php } ?>
 
                     <div class="row is-white radius-15 custom-border">
@@ -480,9 +513,7 @@
                                                         <!-- Vehicle Type Content -- end -->
 
                                                         <!-- Vehicle Condition Content -- start -->
-                                                        <?php 
-                                                        if($currentlyLoggedUser['user_type'] == 'admin'){
-                                                            echo '
+                                                        <?php if($currentlyLoggedUserIsAdmin){ ?>
                                                             <div id="condition-tab" class="tab" title="New or Used" data-tab-index="1" style="display:none;">
                                                                 <div class="row">
                                                                     <div class="col-60 padding-y-10" phone="col-100">
@@ -507,9 +538,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            ';
-                                                        }
-                                                        ?>
+                                                        <?php } ?>
                                                         <!-- Vehicle Condition Content -- end -->
 
                                                         <!-- General Tab Content -- start -->
@@ -1063,31 +1092,30 @@
                                                         <!-- Color Tab Content -- start -->
                                                         <div id="color-tab" class="tab" title="Colors" data-tab-index="13" style="display:none;">
                                                             <div class="row">
-                                                            <?php 
-                                                                $colors = file_get_contents(API_ENDPOINT.'/colors');
-                                                                $colors = json_decode($colors,TRUE);
+                                                                <?php 
+                                                                    $colors = file_get_contents(API_ENDPOINT.'/colors');
+                                                                    $colors = json_decode($colors, true);
+                                                                ?>
 
-                                                                foreach ($colors as $color){
-                                                                    echo '
-                                                                        <div class="col-auto">
-                                                                            <div class="custom-checkbox margin-5" title="'.$color['color'].'">
-                                                                                <input id="'.$color['color'].'-'.$color['id'].'" type="checkbox" name="vehicle-color[]" value="'.$color['id'].'">
-                                                                                <label for="'.$color['color'].'-'.$color['id'].'" class="padding-5 radius-100 cursor-pointer is-white-95">
-                                                                                    <div class="row">
-                                                                                        <div class="col-auto">
-                                                                                            <span class="radius-circle padding-20 custom-border" style="background-color:'.$color['hexcode'].';"></span>
-                                                                                        </div>
-                                                                                        <div class="col">
-                                                                                            <span class="padding-y-5 padding-x-10" style="margin-top: 2px;">'.$color['color'].'</span>
-                                                                                        </div>
+                                                                <?php foreach ($colors as $color) { ?>
+                                                                    <div class="col-auto">
+                                                                        <div class="custom-checkbox margin-5" title="<?=$color['color']?>">
+                                                                            <input id="<?=$color['color'] . '-' . $color['id']?>" type="checkbox" name="vehicle-color[]" value="<?=$color['id']?>">
+                                                                            <label for="<?=$color['color'] . '-' . $color['id']?>" class="padding-5 radius-100 cursor-pointer is-white-95">
+                                                                                <div class="row">
+                                                                                    <div class="col-auto">
+                                                                                        <span class="radius-circle padding-20 custom-border" style="background-color:<?=$color['hexcode'] . ';' ?>"></span>
                                                                                     </div>
-                                                                                </label>
-                                                                            </div>
+                                                                                    <div class="col">
+                                                                                        <span class="padding-y-5 padding-x-10" style="margin-top: 2px;"><?=$color['color']?></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </label>
                                                                         </div>
-                                                                    ';
-                                                                }
-                                                            ?>
-                                                            </div>
+                                                                    </div>
+                                                                <?php } ?>
+
+                                                            </div> <!-- row -->
                                                         </div>
                                                         <!-- Color Tab Content -- end -->
 
@@ -1200,7 +1228,7 @@
                                                                                 <p class="small">We have gathered all the information that are necessary for creating vehicle sale avertisement</p>
                                                                             </div>
                                                                             <div class="col-100">
-                                                                                <input type="hidden" name="token" value="<?=$_COOKIE['token'];?>">
+                                                                                <input type="hidden" name="token" value="<?=$_COOKIE['token']?>">
                                                                                 <input id="vehicle-add" name="vehicle-add" type="submit" value="Publish" class="is-deep-purple-50 radius-10 padding-15 margin-y-25 width-50" on-hover="is-deep-purple-60">
                                                                             </div>
                                                                         </div>
@@ -1274,7 +1302,7 @@
         var radioVehicleType = document.getElementsByName('vehicle-type');
         
         <?php
-            if($currentlyLoggedUser['user_type'] == 'admin'){
+            if($currentlyLoggedUserIsAdmin){
                 echo "var radioVehicleCondition = document.getElementsByName('vehicle-condition');";
             }
         ?>
@@ -1348,7 +1376,7 @@
             var value = getSelectedRadioValueOf(radioVehicleCondition);
 
             <?php
-                if($currentlyLoggedUser['user_type'] == 'admin'){
+                if($currentlyLoggedUserIsAdmin){
                     echo '
                         var ownerDetailTab = document.getElementById("owner-detail-tab");
                         if(value == "1") {

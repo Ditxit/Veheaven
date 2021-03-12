@@ -385,7 +385,7 @@
                                         <p class="small">You can compare vehicles side-by-side.</p>
                                     </div>
                                     <div class="card-footer">
-                                        <a href="" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Compare</a>
+                                        <a href="<?=SERVER_NAME?>/compare/" class="button custom-text-blue bold padding-10 width-100" on-hover="is-white-95">Compare</a>
                                     </div>
                                 </div>
                             </div>

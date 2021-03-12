@@ -3,25 +3,45 @@
     // Including global constants
     include_once 'config.php';
 
+    // Checking user exist or not
+    $USER = [];
+    if (isset($_COOKIE['token'])) {
+        $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
+        $token = json_decode($token,TRUE);
+
+        if(isset($token) && $token['success']){
+            $payload = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
+            $payload = json_decode($payload,TRUE);
+
+            if(isset($payload) && $payload['success']){   
+                $USER = $payload['payload'];
+            }
+            unset($payload);
+        }
+        unset($token);
+    }
+
+    $PAGE_NAME = isset($PAGE_NAME) ? $PAGE_NAME : "";
+
 ?>
 
 <div class="outer-container is-white sticky top custom-border-bottom">
-    <div class="width-80 float-center">
+    <div class="width-80 float-center" phone="width-100">
         <div class="row">
 
             <!-- Logo Container -->
-            <div class="col-30">
-                <a href="" class="float-left">
+            <div class="col-30" phone="col-100">
+                <a href="" class="float-left" phone="-float-left width-100 text-center">
                     <!--<img src="" alt="LOGO" class="padding-15"/>-->
                     <p class="h3 bold padding-15">Veheaven</p>
                 </a>
             </div>
 
             <!-- Search Box Container -->
-            <div class="col-40 padding-top-15">
+            <div class="col-40 padding-top-15" phone="col-100 padding-0 padding-x-15">
                 <form id="search-form" autocomplete="off" novalidate onsubmit="return false;">
                     <input id="search-box" class="radius-5 is-white-95 custom-border" type="search" name="search" placeholder="Search" inputmode="text">
-                    <div id="search-suggestion" class="is-white width-100 shadow-20 radius-5" style="display:none; position:absolute; top:40;">
+                    <div id="search-suggestion" class="is-white width-100 shadow-20 radius-5" style="display:none; position:absolute; top:40; z-index:2;">
                         <!-- List items will be add in JS -->
                     </div>
                 </form>
@@ -166,60 +186,49 @@
                 </script>
             </div>
 
-            <!-- Navbar Buttons Container -->
-            <div class="col-30">
-                <div class="float-right">
-                    <?php
-                        // Checking user exist or not
-                        $USER = [];
-                        if (isset($_COOKIE['token'])) {
-                            $token = file_get_contents(API_ENDPOINT.'/user-token/verify/'.$_COOKIE['token']);
-                            $token = json_decode($token,TRUE);
+            <!-- Navbar Buttons Container -- start -->
+            <div class="col-30" phone="col-100">
+                <div class="float-right" phone="-float-right display-block float-center">
 
-                            if(isset($token) && $token['success']){
-                                $payload = file_get_contents(API_ENDPOINT.'/token/payload/'.$_COOKIE['token']);
-                                $payload = json_decode($payload,TRUE);
+                    <!-- For explore page -->
+                    <?php if ($PAGE_NAME == "Explore") { ?>
+                        <a class="button padding-15 custom-text-blue bold">Explore</a>
+                    <?php } else { ?>
+                        <a href="../explore" class="button padding-15" on-hover="custom-text-blue">Explore</a>
+                    <?php } ?>
 
-                                if(isset($payload) && $payload['success']){   
-                                    $USER = $payload['payload'];
-                                }
-                                unset($payload);
-                            }
-                            unset($token);
-                        }
+                    
+                    <?php if (!$USER) { ?>
+                        
+                        <!-- For user login -->
+                        <?php if ($PAGE_NAME == "Login") { ?>
+                            <a class="button padding-15 custom-text-blue bold">Login</a>
+                        <?php } else { ?>
+                            <a href="../login" class="button padding-15" on-hover="custom-text-blue">Login</a>
+                        <?php } ?>
+                        
+                        <!-- For user registration -->
+                        <?php if ($PAGE_NAME == "Register") { ?>
+                            <a class="button padding-15 custom-text-blue bold">Register</a>
+                        <?php }else{ ?>
+                            <a href="../register" class="button padding-15" on-hover="custom-text-blue">Register</a>
+                        <?php } ?>
 
-                        $PAGE_NAME = isset($PAGE_NAME) ? $PAGE_NAME : "";
+                    <?php } else { ?>
 
-                        if($PAGE_NAME == "Explore"){
-                            echo '<a class="button padding-15 custom-text-blue bold">Explore</a>';
-                        }else{
-                            echo '<a href="../explore" class="button padding-15" on-hover="custom-text-blue">Explore</a>';
-                        }
+                        <!-- For user profile link -->
+                        <?php if ($PAGE_NAME == "Profile") { ?>
+                                <a href="../profile" class="button padding-15 custom-text-blue bold"><?=$USER['first_name']?></a>
+                        <?php } else { ?>
+                                <a href="../profile" class="button padding-15" on-hover="custom-text-blue"><?=$USER['first_name']?></a>
+                        <?php } ?>
 
-                        if(!$USER){
-                            if($PAGE_NAME == "Login"){
-                                echo '<a class="button padding-15 custom-text-blue bold">Login</a>';
-                            }else{
-                                echo '<a href="../login" class="button padding-15" on-hover="custom-text-blue">Login</a>';
-                            }
+                    <?php } ?>  
 
-                            if($PAGE_NAME == "Register"){
-                                echo '<a class="button padding-15 custom-text-blue bold">Register</a>';
-                            }else{
-                                echo '<a href="../register" class="button padding-15" on-hover="custom-text-blue">Register</a>';
-                            }
-
-                        }else{
-                            if($PAGE_NAME == "Profile"){
-                                echo '<a href="../profile" class="button padding-15 custom-text-blue bold">'.$USER['first_name'].'</a>';
-                            }else{
-                                echo '<a href="../profile" class="button padding-15" on-hover="custom-text-blue">'.$USER['first_name'].'</a>';
-                            }
-                        }   
-                    ?>
                 </div>
             </div>
-
+            <!-- Navbar Buttons Container -- end -->
+            
         </div>
     </div>
 </div>

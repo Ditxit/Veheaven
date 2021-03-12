@@ -822,6 +822,7 @@ small,.small { font-size: 80%; padding: 1% 0; }
 
 
 /* DISPLAY TYPE CSS -- BEGINS */
+.display-none { display: none; }
 .display-block { display: block; }
 .display-inline { display: inline; }
 .display-inline-block { display: inline-block; }
