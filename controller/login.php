@@ -38,7 +38,7 @@
 
     }else{
         
-        setcookie('toast_message', "Some went wrong", time()+60*60, "/");
+        setcookie('toast_message', "Something went wrong", time()+60*60, "/");
         header('Location: ../login/');
         exit;
 
