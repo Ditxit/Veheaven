@@ -27,9 +27,30 @@
                 <div class="row" id="vehiclesCardContainer">
 
                     <div class="col">
-                        <select name="vehicleOne" id="vehicleOne">
+                        <select id="vehicleOneSelector">
                             <!-- Data will be populated from JS -->
                         </select>
+
+                        <div id="vehicleOneDetails" class="custom-border-right">
+                            <img class="image" src="">
+                            <p class="price padding-10 custom-border-bottom"></p>
+                            <p class="conditionAndType padding-10 custom-border-bottom"></p>
+                            <p class="makeAndModel padding-10 custom-border-bottom"></p>
+                            <p class="body padding-10 custom-border-bottom"></p>
+                            <p class="mileage padding-10 custom-border-bottom"></p>
+                            <p class="engine padding-10 custom-border-bottom"></p>
+                            <p class="bhp padding-10 custom-border-bottom"></p>
+                            <p class="turnRadius padding-10 custom-border-bottom"></p>
+                            <p class="topSpeed padding-10 custom-border-bottom"></p>
+                            <p class="color padding-10 custom-border-bottom"></p>
+                            <p class="fuel padding-10 custom-border-bottom"></p>
+                            <p class="transmission padding-10 custom-border-bottom"></p>
+                            <p class="seatCapacity padding-10 custom-border-bottom"></p>
+                            <p class="tyres padding-10 custom-border-bottom"></p>
+                            <p class="brakes padding-10 custom-border-bottom"></p>
+                            <p class="suspensions padding-10"></p>
+                        </div>
+
                     </div>
 
                     <div class="col-auto">
@@ -37,9 +58,29 @@
                     </div>
 
                     <div class="col">
-                        <select name="vehicleTwo" id="vehicleTwo">
+                        <select id="vehicleTwoSelector">
                             <!-- Data will be populated from JS -->
                         </select>
+
+                        <div id="vehicleTwoDetails" class="custom-border-left">
+                            <img class="image" src="">
+                            <p class="price padding-10 custom-border-bottom"></p>
+                            <p class="conditionAndType padding-10 custom-border-bottom"></p>
+                            <p class="makeAndModel padding-10 custom-border-bottom"></p>
+                            <p class="body padding-10 custom-border-bottom"></p>
+                            <p class="mileage padding-10 custom-border-bottom"></p>
+                            <p class="engine padding-10 custom-border-bottom"></p>
+                            <p class="bhp padding-10 custom-border-bottom"></p>
+                            <p class="turnRadius padding-10 custom-border-bottom"></p>
+                            <p class="topSpeed padding-10 custom-border-bottom"></p>
+                            <p class="color padding-10 custom-border-bottom"></p>
+                            <p class="fuel padding-10 custom-border-bottom"></p>
+                            <p class="transmission padding-10 custom-border-bottom"></p>
+                            <p class="seatCapacity padding-10 custom-border-bottom"></p>
+                            <p class="tyres padding-10 custom-border-bottom"></p>
+                            <p class="brakes padding-10 custom-border-bottom"></p>
+                            <p class="suspensions padding-10"></p>
+                        </div>
                     </div>
 
                 </div>
@@ -58,46 +99,81 @@
             return template.content.firstChild;
         }
 
-        var seenVehicleContents = [];
+        async function applyChangeToVehicleDetails(elementId, vehicle) {
+            console.log(vehicle)
+            let targetedElement = document.getElementById(elementId); 
 
-        async function fetchSeenVehicles() {
+            targetedElement.querySelector('.image').src = '<?=API_ENDPOINT . '/storage/'?>' + vehicle.images[0].name;
+            targetedElement.querySelector('.price').innerText = "Price: NPR " + vehicle.price;
+            targetedElement.querySelector('.conditionAndType').innerText = "Condition & Type: " + vehicle.condition.condition + ' ' + vehicle.type.type;
+            targetedElement.querySelector('.makeAndModel').innerText = "Make & Model: " + vehicle.model.brand + ' ' + vehicle.model.model + ' (' + vehicle.model.year + ')';
+            targetedElement.querySelector('.body').innerText = "Body: " + vehicle.body.body;
+            targetedElement.querySelector('.mileage').innerText = "Mileage: " + vehicle.mileage + ' Km/ltr';
+            targetedElement.querySelector('.engine').innerText = "Engine: " + vehicle.engine + ' cc';
+            targetedElement.querySelector('.bhp').innerText = "BHP: " + vehicle.bhp + ' bhp';
+            targetedElement.querySelector('.turnRadius').innerText = "Turn Radius: " + vehicle.turn_radius + ' meter';
+            targetedElement.querySelector('.topSpeed').innerText = "Top Speed: " + vehicle.top_speed + ' Km/hr';
 
-            let vehicleIds = LocalStorage.get('seenVehicleHistory');
+            colors = [];
+            for(color of vehicle.colors) { colors.push(color.color); }
+            colors = colors.join(',');
+            targetedElement.querySelector('.color').innerText = "Colors: " + colors;
 
-            let vehicleOneSelector = document.getElementById("vehicleOne");
-            let vehicleTwoSelector = document.getElementById("vehicleTwo");
-            
-            for (vehicleId of vehicleIds) {
+            targetedElement.querySelector('.fuel').innerText = "Fuel: " + vehicle.fuel.fuel;
+            targetedElement.querySelector('.transmission').innerText = "Transmision: " + vehicle.transmission.transmission;
+            targetedElement.querySelector('.seatCapacity').innerText = "Seats: " + vehicle.seat;
+            targetedElement.querySelector('.tyres').innerText = "Front Tyre: " + vehicle.front_tyre.tyre + ", Rear Tyre: " + vehicle.rear_tyre.tyre;
+            targetedElement.querySelector('.brakes').innerText = "Front Brake: " + vehicle.front_break.break + ", Rear Brake: " + vehicle.rear_break.break;
+            targetedElement.querySelector('.suspensions').innerText = "Front Suspension: " + vehicle.front_suspension.suspension + ", Rear Suspension: " + vehicle.rear_suspension.suspension;
 
-                let vehicleContent = await fetch('<?=API_ENDPOINT?>/vehicle/' + vehicleId)
-                                    .then(response => response.json())
-                                    .then(data => { return data; });
+        }
 
-                // vehiclesCardContainer.appendChild(
-                //     textToNode(
-                //         '<div class="col-33" >' +
-                //             '<div class="custom-checkbox margin-5">' + 
-                //                 '<input id="vehicle' + vehicleId + '" type="checkbox" name="vehicles" value="' + vehicleId + '">' +
-                //                 '<label for="vehicle' + vehicleId + '" class="is-white shadow-10 radius-15 padding-20">' + data.name + '</label>' +
-                //             '</div>' +
-                //         '</div>'
-                //     )
-                // );
-                
-                seenVehicleContents.push(vehicleContent);
+        async function fetchSeenVehicleDetails() {
+
+            const seenVehicleIds = LocalStorage.get('seenVehicleHistory');
+            const seenVehicleContents = new Map();
+
+            for (seenVehicleId of seenVehicleIds) {
+
+                let vehicleContent = await fetch('<?=API_ENDPOINT?>/vehicle/' + seenVehicleId)
+                                                .then(response => response.json())
+                                                .then(data => { return data; })
+                                                .catch(error => { console.log(error) });
+
+                seenVehicleContents.set(vehicleContent.id, vehicleContent);
 
             } // for
 
-            console.log(seenVehicleContents);
+            return seenVehicleContents;
+        }
 
-            for (vehicleContent of seenVehicleContents) {
+        fetchSeenVehicleDetails().then((seenVehicleContents) => {
+
+            const vehicleOneSelector = document.getElementById("vehicleOneSelector");
+            const vehicleTwoSelector = document.getElementById("vehicleTwoSelector");
+
+            const vehicleOneDetails = document.getElementById("vehicleOneDetails");
+            const vehicleTwoDetails = document.getElementById("vehicleTwoDetails");
+
+            for (const [_, vehicleContent] of seenVehicleContents.entries()) {
 
                 vehicleOneSelector.add(new Option(vehicleContent.name, vehicleContent.id)); // text, value
                 vehicleTwoSelector.add(new Option(vehicleContent.name, vehicleContent.id)); // text, value
 
-            }
+            } // for
 
-        } fetchSeenVehicles();
+            applyChangeToVehicleDetails("vehicleOneDetails", seenVehicleContents.get(Number(vehicleOneSelector.value)));
+            applyChangeToVehicleDetails("vehicleTwoDetails", seenVehicleContents.get(Number(vehicleTwoSelector.value)));
+
+            vehicleOneSelector.addEventListener('change', (event) => {
+                applyChangeToVehicleDetails("vehicleOneDetails", seenVehicleContents.get(Number(event.target.value)));
+            });
+
+            vehicleTwoSelector.addEventListener('change', (event) => {
+                applyChangeToVehicleDetails("vehicleTwoDetails", seenVehicleContents.get(Number(event.target.value)));
+            });
+
+        });
 
     </script>
 
