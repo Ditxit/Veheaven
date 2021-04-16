@@ -6,6 +6,11 @@
     */
     Api::post('/login',function(){
 
+        if (!isset($_POST['email']) || !isset($_POST['password'])) Api::send([
+            "success" => FALSE,
+            "message" => "Email and password required",
+        ]);
+
         $sql = "SELECT 
                 id, 
                 first_name, 
