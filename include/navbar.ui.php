@@ -33,7 +33,7 @@
             <div class="col-30" phone="col-100">
                 <a href="" class="float-left" phone="-float-left width-100 text-center">
                     <!--<img src="" alt="LOGO" class="padding-15"/>-->
-                    <p class="h3 bold padding-15">Veheaven</p>
+                    <p class="h3 bold padding-15"> <a href="<?=SERVER_NAME?>">Veheaven</a></p>
                 </a>
             </div>
 
