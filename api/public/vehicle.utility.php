@@ -35,7 +35,16 @@
             WHERE user_vehicle.vehicle_id=?;
         ";
 
-        $vehicle = Database::query($sql,$vehicleId)[0];
+        $vehicle = Database::query($sql, $vehicleId);
+
+        if(count($vehicle) < 1) {
+            Api::send([
+                "success" => FALSE,
+                "message" => "No vehicle found with id: " . $vehicleId,
+            ]);
+        }
+
+        $vehicle = $vehicle[0];
 
         // For seller data
         $sql = "SELECT
